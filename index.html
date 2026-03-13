@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Agents Demand Dashboard — UiPath</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --red:    #e53935;
+    --orange: #f57c00;
+    --green:  #2e7d32;
+    --blue:   #1565c0;
+    --teal:   #00695c;
+    --gray:   #546e7a;
+    --bg:     #f5f7fa;
+    --card:   #ffffff;
+    --border: #e0e4ea;
+    --text:   #1a2332;
+    --muted:  #64748b;
+    --accent: #FA4616;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── Header ── */
+  .header { background: #374151; color: #fff; padding: 18px 24px; flex-shrink: 0; }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+
+  /* ── App layout ── */
+  .app-body { display: flex; flex: 1; min-height: 0; }
+  .sidebar { width: 190px; background: var(--card); border-right: 1px solid var(--border); flex-shrink: 0; position: sticky; top: 0; height: calc(100vh - 58px); overflow-y: auto; }
+  .main { flex: 1; display: flex; flex-direction: column; overflow: auto; min-width: 0; }
+
+  /* ── Content toolbar (date + sources) ── */
+  .content-toolbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 10px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+  .period-select { font-size: 12px; color: var(--text); background: #f1f5f9; border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; cursor: pointer; font-weight: 500; outline: none; }
+  .period-select:focus { border-color: var(--accent); }
+  .sources-link { font-size: 12px; color: var(--muted); text-decoration: none; border-bottom: 1px dashed #cbd5e1; transition: color .15s; }
+  .sources-link:hover { color: var(--text); }
+
+  /* ── Nav (vertical sidebar) ── */
+  .nav { display: flex; flex-direction: column; padding: 12px 0; }
+  .nav button { background: none; border: none; border-right: 3px solid transparent; padding: 10px 18px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; text-align: left; transition: color .15s, background .15s, border-color .15s; white-space: nowrap; }
+  .nav button.active { color: var(--accent); border-right-color: var(--accent); background: #fff5f2; }
+  .nav button:hover:not(.active) { color: var(--text); background: #f8fafc; }
+
+  /* ── Page content ── */
+  .page { display: none; padding: 24px; }
+  .page.active { display: block; }
+
+  /* ── Stat cards ── */
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .stat-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .stat-card .value { font-size: 28px; font-weight: 700; margin-top: 4px; color: var(--text); }
+  .stat-card .sub   { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* ── Section headers ── */
+  .section-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .section-title span { font-size: 12px; font-weight: 500; color: var(--muted); }
+
+  /* ── Feature cards ── */
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .feature-card.priority-critical::before { background: var(--red); }
+  .feature-card.priority-high::before    { background: var(--orange); }
+  .feature-card.priority-moderate::before{ background: var(--blue); }
+  .feature-card.priority-low::before     { background: var(--gray); }
+
+  .fc-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .fc-id { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+  .fc-title { font-size: 14px; font-weight: 700; margin-top: 2px; line-height: 1.3; }
+  .fc-scores { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+  .score-pill { display: flex; align-items: center; gap: 5px; background: #f1f5f9; border-radius: 20px; padding: 3px 10px; }
+  .score-pill .s-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; }
+  .score-pill .s-value { font-size: 13px; font-weight: 800; }
+  .score-pill.demand .s-value  { color: var(--text); }
+  .score-pill.confidence .s-value { color: var(--teal); }
+
+  .fc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+  .tag-critical  { background: #fde8e8; color: var(--red); }
+  .tag-high      { background: #fff3e0; color: var(--orange); }
+  .tag-moderate  { background: #e3f2fd; color: var(--blue); }
+  .tag-low       { background: #f1f5f9; color: var(--gray); }
+  .tag-customer  { background: #e8f5e9; color: var(--green); }
+  .tag-field     { background: #e3f2fd; color: var(--blue); }
+  .tag-internal  { background: #f3e5f5; color: #6a1b9a; }
+  .tag-conf-high { background: #e0f2f1; color: var(--teal); }
+  .tag-conf-mod  { background: #fff8e1; color: #e65100; }
+  .tag-conf-low  { background: #fce4ec; color: #880e4f; }
+
+  .fc-quote { font-style: italic; font-size: 12px; color: var(--muted); border-left: 2px solid var(--border); padding-left: 10px; margin-bottom: 10px; line-height: 1.5; }
+  .fc-details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .fc-detail { text-align: center; background: #f8fafc; border-radius: 6px; padding: 6px 4px; }
+  .fc-detail .d-val { font-size: 16px; font-weight: 700; color: var(--text); }
+  .fc-detail .d-lbl { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+  .conf-bar-wrap { margin-top: 10px; }
+  .conf-bar-row  { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .conf-bar-label{ font-size: 11px; color: var(--muted); width: 64px; flex-shrink: 0; }
+  .conf-bar-bg   { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; }
+  .conf-bar-fill { height: 100%; border-radius: 3px; }
+  .conf-bar-val  { font-size: 11px; font-weight: 700; width: 28px; text-align: right; color: var(--text); }
+
+  /* ── Chart section ── */
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .chart-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .chart-card p  { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+  .chart-canvas-wrap { position: relative; height: 280px; }
+
+  /* ── Matrix quadrant legend ── */
+  .matrix-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+  .ml-item { border-radius: 6px; padding: 6px 10px; font-size: 11px; font-weight: 600; }
+  .ml-item.act   { background: #fde8e8; color: var(--red); }
+  .ml-item.invest{ background: #fff3e0; color: var(--orange); }
+  .ml-item.mon   { background: #e3f2fd; color: var(--blue); }
+  .ml-item.dep   { background: #f1f5f9; color: var(--gray); }
+
+  /* ── Backlog table ── */
+  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .table-toolbar { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .table-toolbar input, .table-toolbar select { font-size: 12px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc; color: var(--text); outline: none; }
+  .table-toolbar input:focus, .table-toolbar select:focus { border-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: #f8fafc; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 12px; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #f8fafc; }
+  .jira-key { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--blue); }
+  .status-pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .status-active   { background: #e8f5e9; color: var(--green); }
+  .status-analyzing{ background: #fff8e1; color: #f57f17; }
+  .status-pending  { background: #f3e5f5; color: #6a1b9a; }
+  .status-closed   { background: #f1f5f9; color: var(--gray); }
+  .status-exec     { background: #e3f2fd; color: var(--blue); }
+  .status-review   { background: #fce4ec; color: #c62828; }
+  .dl-high     { font-weight: 700; color: var(--red); }
+  .dl-moderate { font-weight: 700; color: var(--orange); }
+  .dl-low      { font-weight: 700; color: var(--gray); }
+  .dl-none     { font-weight: 700; color: #b0bec5; }
+  .dl-internal { font-weight: 700; color: #ab47bc; }
+  td.notes     { max-width: 260px; color: var(--muted); line-height: 1.4; }
+
+  /* ── Gaps section ── */
+  .gaps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .gap-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .gap-card.gap-urgent  { border-left: 4px solid var(--red); }
+  .gap-card.gap-high    { border-left: 4px solid var(--orange); }
+  .gap-card.gap-moderate{ border-left: 4px solid var(--blue); }
+  .gap-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .gap-title { font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .urgency-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .ub-urgent   { background: #fde8e8; color: var(--red); }
+  .ub-high     { background: #fff3e0; color: var(--orange); }
+  .ub-moderate { background: #e3f2fd; color: var(--blue); }
+  .gap-scores  { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .gap-evidence { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .gap-action { font-size: 11px; font-weight: 600; color: var(--red); background: #fde8e8; padding: 6px 10px; border-radius: 6px; line-height: 1.4; }
+
+  /* ── Exec summary ── */
+  .exec-section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+  .exec-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .top5-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .t5-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border); }
+  .t5-rank { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 1px; }
+  .rank-1 { background: #c62828; }
+  .rank-2 { background: var(--orange); }
+  .rank-3 { background: #f9a825; }
+  .rank-4 { background: var(--teal); }
+  .rank-5 { background: var(--blue); }
+  .t5-content { flex: 1; }
+  .t5-title  { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .t5-line   { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .t5-scores { display: flex; gap: 10px; margin-top: 6px; }
+  .t5-score  { font-size: 11px; font-weight: 600; }
+  .alert-list { display: flex; flex-direction: column; gap: 8px; }
+  .alert-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; font-size: 12px; line-height: 1.45; }
+  .alert-item.alert-red    { background: #fde8e8; color: #b71c1c; }
+  .alert-item.alert-orange { background: #fff3e0; color: #bf360c; }
+  .alert-item.alert-blue   { background: #e3f2fd; color: #0d47a1; }
+  .alert-item.alert-gray   { background: #f1f5f9; color: #37474f; }
+  .alert-icon { font-size: 14px; flex-shrink: 0; }
+  .iarr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .iarr-item { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .iarr-item .ii-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); margin-bottom: 6px; }
+  .iarr-item .ii-value { font-size: 16px; font-weight: 800; color: var(--red); }
+  .iarr-item .ii-detail { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+
+  /* ── Surprising signals ── */
+  .surprise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .surprise-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .surprise-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+  .surprise-card p  { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+  /* ── Slack thread links ── */
+  .links-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; align-items: center; }
+  .links-row-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); margin-right: 2px; }
+  .slack-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #4a154b; background: #f4ede4; border-radius: 4px; padding: 2px 8px; text-decoration: none; border: 1px solid #e8d5c4; transition: background .12s; white-space: nowrap; }
+  .slack-pill:hover { background: #ead5c0; }
+  .slack-pill::before { content: ''; display: inline-block; width: 12px; height: 12px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234A154B' d='M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z'/%3E%3C/svg%3E") no-repeat center/contain; flex-shrink: 0; }
+
+  /* ── Query page ── */
+  .query-wrap { max-width: 660px; margin: 52px auto; padding: 0 8px; }
+  .query-hint { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.65; }
+  .query-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+  .query-box .chat-response { padding: 16px 20px 0; }
+  .query-box .chat-bar { padding: 16px 20px; }
+  .query-box .chat-note { padding: 4px 20px 14px; }
+  .resp-link { color: var(--accent); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  .resp-link:hover { text-decoration: underline; }
+
+  /* ── Confidence methodology ── */
+  .methodology-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .method-item { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .method-item h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); margin-bottom: 6px; }
+  .method-row { display: flex; justify-content: space-between; font-size: 11px; padding: 2px 0; }
+  .method-row span:last-child { font-weight: 700; color: var(--teal); }
+
+  /* ── Chat (query page) ── */
+  .chat-response { display: none; padding: 16px 28px 0; }
+  .chat-response.visible { display: flex; align-items: flex-start; gap: 10px; }
+  .chat-response-text { flex: 1; font-size: 12px; color: var(--text); line-height: 1.55; padding: 10px 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; }
+  .chat-response-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px 6px; flex-shrink: 0; line-height: 1; }
+  .chat-response-close:hover { color: var(--text); }
+  .chat-bar { padding: 14px 28px; display: flex; align-items: flex-end; gap: 10px; }
+  .chat-input { flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: #f8fafc; color: var(--text); outline: none; resize: none; min-height: 40px; max-height: 120px; line-height: 1.4; overflow-y: auto; font-family: inherit; }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-send-btn { width: 36px; height: 36px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .12s; }
+  .chat-send-btn:hover { opacity: .85; }
+  .chat-note { padding: 4px 28px 14px; font-size: 11px; color: #94a3b8; }
+  .chat-note a { color: #94a3b8; text-decoration: underline; }
+  .chat-note a:hover { color: var(--muted); }
+
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .app-body       { flex-direction: column; }
+    .sidebar        { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+    .nav            { flex-direction: row; padding: 0; overflow-x: auto; }
+    .nav button     { white-space: nowrap; border-right: none; border-bottom: 3px solid transparent; padding: 12px 14px; }
+    .nav button.active { border-right-color: transparent; border-bottom-color: var(--accent); background: none; }
+    .stats          { grid-template-columns: repeat(3, 1fr); }
+    .features-grid  { grid-template-columns: 1fr; }
+    .chart-row      { grid-template-columns: 1fr; }
+    .gaps-grid      { grid-template-columns: 1fr; }
+    .surprise-grid  { grid-template-columns: 1fr; }
+    .iarr-grid      { grid-template-columns: 1fr 1fr; }
+    .methodology-grid { grid-template-columns: 1fr 1fr; }
+    .page           { padding: 16px; }
+    .chat-bar       { padding: 12px 16px; }
+    .chat-response  { padding: 12px 16px 0; }
+    .chat-note      { padding: 4px 16px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI Agents — Product Demand Dashboard</h1>
+</div>
+
+<div class="app-body">
+  <aside class="sidebar">
+    <nav class="nav">
+      <button class="active" onclick="showPage('overview')">Overview</button>
+      <button onclick="showPage('features')">Feature Requests</button>
+      <button onclick="showPage('matrix')">Priority Matrix</button>
+      <button onclick="showPage('backlog')">Backlog Validation</button>
+      <button onclick="showPage('gaps')">Feature Gaps</button>
+      <button onclick="showPage('exec')">Executive Summary</button>
+      <button onclick="showPage('methodology')">Methodology</button>
+      <button onclick="showPage('query')" style="margin-top:12px;border-top:1px solid var(--border);padding-top:14px;">Query the database</button>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="content-toolbar">
+      <select class="period-select" id="periodPicker" onchange="updatePeriod(this.value)">
+        <option value="30">Last 30 days</option>
+        <option value="60">Last 60 days</option>
+        <option value="90">Last 90 days</option>
+        <option value="180" selected>Last 180 days</option>
+        <option value="365">Last 365 days</option>
+      </select>
+      <span style="color:var(--border)">·</span>
+      <a class="sources-link" href="https://wiki.uipath.com/display/PROD/AI+Agents+Demand+Signal+Sources" target="_blank" rel="noopener">Sources: Slack · Confluence · Jira TIF/AE · docs.uipath.com ↗</a>
+    </div>
+
+<!-- ══════════════ OVERVIEW ══════════════ -->
+<div class="page active" id="page-overview">
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">Signals Analyzed</div>
+      <div class="value">87</div>
+      <div class="sub" id="periodLabel">180-day window</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Unique Customers</div>
+      <div class="value">28</div>
+      <div class="sub">Identified by name</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Feature Themes</div>
+      <div class="value">10</div>
+      <div class="sub">Clustered &amp; scored</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">ARR at Risk</div>
+      <div class="value" style="color:var(--red)">$2.1M+</div>
+      <div class="sub">Directly identified</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Backlog Gaps</div>
+      <div class="value" style="color:var(--orange)">4</div>
+      <div class="sub">High demand, no TIF</div>
+    </div>
+  </div>
+
+  <div class="section-title">Top Feature Requests — Demand vs. Confidence <span>Hover for details</span></div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>Demand Score by Feature Theme</h3>
+      <p>Higher score = stronger customer pull signal</p>
+      <div class="chart-canvas-wrap"><canvas id="demandBar"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Demand vs. Confidence (Priority Matrix)</h3>
+      <p>Top-right quadrant = highest priority to act on</p>
+      <div class="chart-canvas-wrap"><canvas id="matrixScatter"></canvas></div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- ══════════════ FEATURE REQUESTS ══════════════ -->
+<div class="page" id="page-features">
+  <div class="section-title">Top Feature Requests <span>10 themes · ranked by demand score</span></div>
+  <div class="features-grid" id="featureCardsContainer"></div>
+</div>
+
+<!-- ══════════════ PRIORITY MATRIX ══════════════ -->
+<div class="page" id="page-matrix">
+  <div class="section-title">Priority Matrix — Demand vs. Confidence</div>
+  <div class="chart-row" style="grid-template-columns: 2fr 1fr;">
+    <div class="chart-card">
+      <h3>Demand Score (x) vs. Confidence Score (y)</h3>
+      <p>Bubble size = unique customers. Top-right = Act Now. Bottom-left = Deprioritize.</p>
+      <div class="chart-canvas-wrap" style="height:360px;"><canvas id="matrixBig"></canvas></div>
+    </div>
+    <div class="chart-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <h3>Quadrant Guide</h3>
+        <p style="margin-bottom:14px;">How to read the matrix</p>
+        <div class="matrix-legend">
+          <div class="ml-item act">🔴 ACT NOW<br><span style="font-weight:400;font-size:10px;">High demand + High confidence</span></div>
+          <div class="ml-item invest">🟠 INVESTIGATE<br><span style="font-weight:400;font-size:10px;">High demand + Low confidence</span></div>
+          <div class="ml-item mon">🔵 MONITOR<br><span style="font-weight:400;font-size:10px;">Low demand + High confidence</span></div>
+          <div class="ml-item dep">⚪ DEPRIORITIZE<br><span style="font-weight:400;font-size:10px;">Low demand + Low confidence</span></div>
+        </div>
+      </div>
+      <div id="matrixFeatureList" style="margin-top:14px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ BACKLOG VALIDATION ══════════════ -->
+<div class="page" id="page-backlog">
+  <div class="section-title">Backlog Validation <span>35 Jira tickets mapped to feature themes</span></div>
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <input id="searchBacklog" placeholder="🔍  Search tickets…" style="width:200px;" oninput="filterBacklog()" />
+      <select id="filterDemand" onchange="filterBacklog()">
+        <option value="">All Demand Levels</option>
+        <option value="HIGH">HIGH</option>
+        <option value="MODERATE">MODERATE</option>
+        <option value="LOW">LOW</option>
+        <option value="NO_DEMAND">NO DEMAND</option>
+        <option value="INTERNAL">INTERNAL</option>
+      </select>
+      <select id="filterTheme" onchange="filterBacklog()">
+        <option value="">All Themes</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Jira Key</th>
+            <th>Summary</th>
+            <th>Status</th>
+            <th>Feature Theme</th>
+            <th>Demand</th>
+            <th>Confidence</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="backlogTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FEATURE GAPS ══════════════ -->
+<div class="page" id="page-gaps">
+  <div class="section-title">High-Demand Gaps — Not in Backlog <span>Signals with no TIF ticket</span></div>
+  <div class="gaps-grid" id="gapsContainer"></div>
+
+  <div class="section-title" style="margin-top:8px;">Low-Demand Backlog Items <span>Candidates to deprioritize or close</span></div>
+  <div class="table-wrap">
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr><th>Jira Key</th><th>Summary</th><th>Demand Score</th><th>Recommendation</th><th>Rationale</th></tr>
+        </thead>
+        <tbody id="lowDemandTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:24px;">Misaligned Backlog Items <span>Closed tickets with active underlying demand</span></div>
+  <div class="table-wrap">
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr><th>Jira Key</th><th>Summary</th><th>Status</th><th>Concern</th><th>Recommendation</th></tr>
+        </thead>
+        <tbody id="misalignTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ EXEC SUMMARY ══════════════ -->
+<div class="page" id="page-exec">
+  <div class="exec-section">
+    <h2>Top 5 Feature Requests</h2>
+    <div class="top5-list" id="top5Container"></div>
+  </div>
+
+  <div class="exec-section">
+    <h2>⚠️ Major Gaps &amp; Alerts</h2>
+    <div class="alert-list" id="alertContainer"></div>
+  </div>
+
+  <div class="exec-section">
+    <h2>💡 Surprising Demand Signals</h2>
+    <div class="surprise-grid" id="surpriseContainer"></div>
+  </div>
+
+  <div class="exec-section">
+    <h2>💰 iARR Impact Estimate</h2>
+    <div class="iarr-grid" id="iarrContainer"></div>
+  </div>
+
+  <div class="exec-section">
+    <h2>✅ Recommended Immediate Actions</h2>
+    <div class="alert-list" id="actionsContainer"></div>
+  </div>
+</div>
+
+<!-- ══════════════ METHODOLOGY ══════════════ -->
+<div class="page" id="page-methodology">
+  <div class="exec-section">
+    <h2>Demand Scoring Formula</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">
+      Score = <strong>(unique_customers × 5)</strong> + <strong>(total_mentions × 1)</strong> + <strong>(enterprise_signals × 5)</strong> + <strong>(escalation_signals × 5)</strong> + <strong>(renewal_risk_signals × 10)</strong>
+    </p>
+    <div class="methodology-grid">
+      <div class="method-item"><h4>Signal Type Base (Confidence)</h4>
+        <div class="method-row"><span>CUSTOMER_VALIDATED</span><span>+40</span></div>
+        <div class="method-row"><span>FIELD_OBSERVATION</span><span>+25</span></div>
+        <div class="method-row"><span>AUTOMATED_SIGNAL</span><span>+15</span></div>
+        <div class="method-row"><span>INTERNAL_DISCUSSION</span><span>+10</span></div>
+      </div>
+      <div class="method-item"><h4>Source Diversity (Confidence)</h4>
+        <div class="method-row"><span>3+ independent sources</span><span>+15</span></div>
+        <div class="method-row"><span>2 sources</span><span>+10</span></div>
+        <div class="method-row"><span>1 source</span><span>+5</span></div>
+      </div>
+      <div class="method-item"><h4>Channel Quality (Confidence)</h4>
+        <div class="method-row"><span>HIGH priority channel</span><span>+15</span></div>
+        <div class="method-row"><span>MEDIUM priority channel</span><span>+10</span></div>
+        <div class="method-row"><span>LOW priority channel</span><span>+5</span></div>
+      </div>
+      <div class="method-item"><h4>Named Customer Validation</h4>
+        <div class="method-row"><span>3+ named customers</span><span>+10</span></div>
+        <div class="method-row"><span>1–2 named customers</span><span>+7</span></div>
+        <div class="method-row"><span>Unnamed only</span><span>+0</span></div>
+      </div>
+      <div class="method-item"><h4>Escalation Confirmation</h4>
+        <div class="method-row"><span>At least 1 escalation</span><span>+10</span></div>
+        <div class="method-row"><span>None</span><span>+0</span></div>
+      </div>
+      <div class="method-item"><h4>Backlog Alignment</h4>
+        <div class="method-row"><span>IN_BACKLOG</span><span>+10</span></div>
+        <div class="method-row"><span>IN_PLANNING</span><span>+5</span></div>
+        <div class="method-row"><span>NO_TICKET</span><span>+0</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="section-title">Confidence Levels</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div class="tag tag-conf-high" style="padding:6px 14px;font-size:12px;">HIGH ≥ 80</div>
+        <div class="tag tag-conf-mod"  style="padding:6px 14px;font-size:12px;">MODERATE 50–79</div>
+        <div class="tag tag-conf-low"  style="padding:6px 14px;font-size:12px;">LOW &lt; 50</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;">
+        Confidence is intentionally independent of the demand score. A feature with high demand but low confidence means the signal is strong in volume but comes from few or unverified sources. A feature with low demand but high confidence means the signal is weak in volume but very well-validated. Both dimensions are needed to correctly prioritize investments.
+      </p>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="section-title">Channel Priority Weights</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="method-item">
+          <h4>HIGH Priority</h4>
+          <div style="font-size:11px;color:var(--muted);line-height:1.7;">help-tif-voc<br>product-support-escalations<br>platform-customer-engagement<br>medical-record-summarization</div>
+        </div>
+        <div class="method-item">
+          <h4>MEDIUM Priority</h4>
+          <div style="font-size:11px;color:var(--muted);line-height:1.7;">help-agent-builder<br>help-orchestrator<br>help-cloud-robots<br>help-automation-suite</div>
+        </div>
+        <div class="method-item">
+          <h4>LOW Priority</h4>
+          <div style="font-size:11px;color:var(--muted);line-height:1.7;">All other channels</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ QUERY THE DATABASE ══════════════ -->
+<div class="page" id="page-query">
+  <div class="query-wrap">
+    <p class="query-hint">Ask about features to build or cut, gaps in your backlog, ARR at risk, or what to deprioritize. Responses are based on the signal data in this dashboard.</p>
+    <div class="query-box">
+      <div class="chat-response" id="chatResponse">
+        <div class="chat-response-text" id="chatResponseText"></div>
+        <button class="chat-response-close" onclick="dismissResponse()" title="Dismiss">✕</button>
+      </div>
+      <div class="chat-bar">
+        <textarea class="chat-input" id="chatInput" rows="1" placeholder="Which features should you build or cut?" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this)"></textarea>
+        <button class="chat-send-btn" onclick="chatExplore()">↑</button>
+      </div>
+      <div class="chat-note">Claude is AI and can make mistakes. Please double-check responses. <a href="#">Give us feedback</a></div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /.main -->
+</div><!-- /.app-body -->
+
+<script>
+const RESPONSES = {
+  matrix:  "Based on signal data, your top priorities are <strong>On-Premises Deployment</strong> (demand 110, confidence 95) and <strong>Observability &amp; Safety</strong> (demand 72, confidence 97). Both sit in the ACT NOW quadrant. <a class='resp-link' href='#' onclick='goToTab(\"matrix\");return false;'>→ Priority Matrix</a>",
+  gaps:    "4 high-demand features have no TIF ticket: <strong>Async Callback API</strong> (URGENT — Japan Life Insurance production blocker), <strong>IVR/Genesys Voice</strong>, <strong>Agent Memory bugs</strong>, and <strong>Common Agent Templates</strong>. File tickets for the first two immediately. <a class='resp-link' href='#' onclick='goToTab(\"gaps\");return false;'>→ Feature Gaps</a>",
+  backlog: "Candidates to cut or deprioritize: <strong>TIF-9833</strong> (Task Mining — misrouted, not an AI Agents ticket), <strong>TIF-9791</strong> (subprocess identity — platform infra, no agent demand). Check the Backlog Validation tab for the full demand breakdown. <a class='resp-link' href='#' onclick='goToTab(\"backlog\");return false;'>→ Backlog Validation</a>",
+  exec:    "Top risk: <strong>$2.1M+ ARR</strong> at risk across on-prem, licensing, and observability gaps. 4 features have zero TIF coverage despite active customer escalations. <a class='resp-link' href='#' onclick='goToTab(\"exec\");return false;'>→ Executive Summary</a>",
+  features:"10 feature themes ranked by demand. <strong>FT-001 On-Premises</strong> leads at demand 110 with 9 named enterprise accounts. <strong>FT-002 Observability</strong> has the highest confidence score (97). <a class='resp-link' href='#' onclick='goToTab(\"features\");return false;'>→ Feature Requests</a>",
+  default: "I can help you navigate this dashboard. Try asking about features to build, gaps in your backlog, or which tickets to cut."
+};
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function dismissResponse() {
+  const r = document.getElementById('chatResponse');
+  if (r) r.classList.remove('visible');
+}
+
+function goToTab(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => {
+    b.classList.remove('active');
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
+  });
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  if (id === 'backlog' && !window._backlogBuilt) buildBacklog();
+  if (id === 'gaps'    && !window._gapsBuilt)    buildGaps();
+  if (id === 'exec'    && !window._execBuilt)    buildExec();
+  if (id === 'features'&& !window._featuresBuilt)buildFeatureCards();
+  if (id === 'matrix'  && !window._matrixBuilt)  buildMatrix();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function chatExplore() {
+  const input = document.getElementById('chatInput');
+  const val = (input ? input.value.trim().toLowerCase() : '');
+  let target;
+  if (val.includes('gap') || val.includes('miss') || val.includes('file') || val.includes('ticket')) target = 'gaps';
+  else if (val.includes('cut') || val.includes('deprio') || val.includes('low') || val.includes('backlog')) target = 'backlog';
+  else if (val.includes('exec') || val.includes('summary') || val.includes('risk') || val.includes('arr')) target = 'exec';
+  else if (val.includes('feature') || val.includes('request')) target = 'features';
+  else target = 'matrix';
+  const responseText = document.getElementById('chatResponseText');
+  const responsePanel = document.getElementById('chatResponse');
+  if (responseText && responsePanel) {
+    responseText.innerHTML = RESPONSES[target] || RESPONSES.default;
+    responsePanel.classList.add('visible');
+  }
+  if (input) { input.value = ''; input.style.height = 'auto'; }
+  responsePanel && responsePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ══ DATA ══
+const DATA = {
+  features: [
+    { id:"FT-001", rank:1, theme:"Agent On-Premises Deployment",        demand:110, confidence:95, confLevel:"HIGH",     priority:"critical", signalType:"CUSTOMER_VALIDATED",  customers:9,  mentions:15, escalations:2, renewal:2, jira:["TIF-10032","TIF-10033","TIF-9884","TIF-9863","TIF-9868"], slack:[{label:"#help-automation-suite · Flight Centre",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#product-support-escalations · On-prem blocker",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Customer is evaluating competitor solutions because Agent Builder is only available on cloud. Flight Centre ARR ~$1M at risk.", confRationale:"9 named enterprise accounts corroborated across Slack #help-automation-suite, Confluence FY27 Planning, and 5 Jira TIF tickets. Two active escalations confirm urgency.", backlog:"IN_BACKLOG", priorityText:"CRITICAL" },
+    { id:"FT-002", rank:2, theme:"Agent Observability & Safety",         demand:72,  confidence:97, confLevel:"HIGH",     priority:"critical", signalType:"CUSTOMER_VALIDATED",  customers:6,  mentions:12, escalations:2, renewal:1, jira:["TIF-9892","TIF-9862","TIF-9996"], slack:[{label:"#product-support-escalations · Emory Healthcare",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#platform-customer-engagement · Cisco observability",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Emory Healthcare cannot go to production without observability and safety controls in place. This is blocking their Gold account deployment.", confRationale:"Highest-confidence signal. Two active escalations from Gold and Diamond/Ruby accounts in a HIGH-priority channel, corroborated by Confluence FY27 Planning and 3 active Jira tickets.", backlog:"IN_BACKLOG", priorityText:"CRITICAL" },
+    { id:"FT-003", rank:3, theme:"Agent Licensing & Consumption Dashboards", demand:61, confidence:84, confLevel:"HIGH",  priority:"high",     signalType:"CUSTOMER_VALIDATED",  customers:4,  mentions:6,  escalations:1, renewal:2, jira:["TIF-9934","TIF-9789","TIF-9766","TIF-9871","TIF-10009"], slack:[{label:"#help-tif-voc · Continental Resources / Cursor risk",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#help-tif-voc · Bayshore Healthcare renewal risk",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Continental Resources is evaluating Cursor as an alternative due to lack of consumption visibility and unclear ROI dashboards.", confRationale:"Two named customers with independent Slack and Jira signals plus renewal risk corroboration. No Confluence planning alignment slightly reduces confidence.", backlog:"IN_BACKLOG", priorityText:"HIGH" },
+    { id:"FT-004", rank:4, theme:"Conversational Agents — Async & Voice", demand:60,  confidence:88, confLevel:"HIGH",    priority:"high",     signalType:"CUSTOMER_VALIDATED",  customers:5,  mentions:10, escalations:2, renewal:0, jira:["TIF-10034","TIF-9996"], slack:[{label:"#product-support-escalations · Japan Life Insurance async",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#medical-record-summarization · Voice channel inquiry",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Japan Life Insurance has an URGENT request for async callback API — this is blocking their production deployment.", confRationale:"URGENT signal from Japan Life Insurance in HIGH-priority channel. Three named customers across Japan, US, UK. Reduced because async callback has no TIF ticket.", backlog:"PARTIAL", priorityText:"HIGH" },
+    { id:"FT-005", rank:5, theme:"Agent Memory — Episodic & Cross-Agent", demand:53,  confidence:72, confLevel:"MODERATE",priority:"high",     signalType:"CUSTOMER_VALIDATED",  customers:5,  mentions:8,  escalations:2, renewal:0, jira:[], slack:[{label:"#help-agent-builder · Memory bug report",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#platform-customer-engagement · Cross-session memory ask",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Customers are requesting short and long-term memory enhancements — agents should remember context across sessions.", confRationale:"Escalation signals and Confluence FY27 Planning corroboration. Reduced by zero named customers and no TIF tickets. Active production bugs are untracked.", backlog:"IN_PLANNING", priorityText:"HIGH" },
+    { id:"FT-006", rank:6, theme:"Agent Evaluation — Export & Deterministic", demand:50, confidence:91, confLevel:"HIGH", priority:"moderate", signalType:"CUSTOMER_VALIDATED",  customers:5,  mentions:10, escalations:1, renewal:0, jira:["AE-1087","TIF-9883","TIF-9070","AE-528","FPD-12","TIF-9279"], slack:[{label:"#help-agent-builder · Clorox eval export (Zeth Baker)",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#help-agent-builder · Deterministic eval discussion",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Clorox Company needs to bulk export evaluation set run results to run through their own LLM pipeline for prompt optimization.", confRationale:"Named customer (Clorox, contact: Zeth Baker) with active Jira ticket AE-1087 in Review/In Progress. Corroborated across Slack, multiple AE Jira tickets, and Confluence FY27 Planning.", backlog:"IN_BACKLOG", priorityText:"MODERATE" },
+    { id:"FT-007", rank:7, theme:"Agent Debugging & Developer Tools",    demand:43,  confidence:63, confLevel:"MODERATE",priority:"moderate", signalType:"FIELD_OBSERVATION",   customers:4,  mentions:8,  escalations:1, renewal:0, jira:["TIF-10078","TIF-10042"], slack:[{label:"#help-agent-builder · Debugging tools discussion",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Support teams cannot effectively debug agent failures without LLM reasoning explanations and step-by-step trace inspection.", confRationale:"Jira TIF corroboration (TIF-10078 filed 2026-03-12). Reduced by no named customers and FIELD_OBSERVATION signal type.", backlog:"IN_BACKLOG", priorityText:"MODERATE" },
+    { id:"FT-008", rank:8, theme:"Common Agent Patterns & Templates",    demand:43,  confidence:50, confLevel:"MODERATE",priority:"moderate", signalType:"FIELD_OBSERVATION",   customers:5,  mentions:8,  escalations:0, renewal:0, jira:[], slack:[{label:"#help-orchestrator · FDE patterns discussion",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"FDEs are rebuilding Data Validation, Deep Research, RAG Q&A patterns from scratch for every customer engagement.", confRationale:"Top RICE score 17.33 in Confluence FY27 Planning but no named customers, no TIF tickets, and demand inferred from FDE field patterns — not direct customer requests.", backlog:"IN_PLANNING", priorityText:"MODERATE" },
+    { id:"FT-009", rank:9, theme:"Guardrails & Governance Controls",     demand:38,  confidence:63, confLevel:"MODERATE",priority:"moderate", signalType:"CUSTOMER_VALIDATED",  customers:4,  mentions:8,  escalations:0, renewal:0, jira:["TIF-9927","TIF-9952","TIF-9965","TIF-9892"], slack:[{label:"#help-tif-voc · Max iteration governance ask",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"},{label:"#help-cloud-robots · RBAC feedback controls",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Enterprise customers need governance policies to control max agent iterations and prevent runaway cost accumulation.", confRationale:"Multiple TIF tickets provide backlog corroboration but no named customers or escalation signals yet.", backlog:"IN_BACKLOG", priorityText:"MODERATE" },
+    { id:"FT-010", rank:10, theme:"Agent Registry & External Integration",demand:19, confidence:30, confLevel:"LOW",     priority:"low",      signalType:"INTERNAL_DISCUSSION", customers:2,  mentions:4,  escalations:0, renewal:0, jira:["TIF-9837","TIF-9794"], slack:[{label:"#help-cloud-robots · LangChain/AutoGen registry ask",url:"https://uipath.slack.com/archives/REPLACE_CHANNEL_ID/pREPLACE_THREAD_TS"}], quote:"Customers building agents with LangChain/AutoGen want to register them in UiPath's Agent Registry to access orchestration and governance.", confRationale:"Primarily internal field team discussion. LOW-priority channels only. No named customers, no escalations, no Confluence alignment.", backlog:"IN_BACKLOG", priorityText:"LOW" },
+  ],
+  backlog: [
+    { key:"TIF-10032", summary:"Customer cant use agent capability if not in Automation Suite", status:"Execution/Implementation", theme:"Agent On-Premises Deployment", demand:"HIGH", confScore:95, notes:"Multiple customer signals confirm critical production blocker." },
+    { key:"TIF-10033", summary:"CLONE - Customer cant use agent capability (AS)", status:"Closed", theme:"Agent On-Premises Deployment", demand:"HIGH", confScore:95, notes:"Clone of TIF-10032 — demand remains unresolved." },
+    { key:"TIF-9884",  summary:"On-prem fallback for business critical implementations", status:"Analyzing", theme:"Agent On-Premises Deployment", demand:"HIGH", confScore:95, notes:"Strong demand from defense, BFSI, regulated verticals." },
+    { key:"TIF-9863",  summary:"Agentic features in Automation Suite (Etisa)", status:"Closed", theme:"Agent On-Premises Deployment", demand:"HIGH", confScore:95, notes:"ALERT: Closed but TIF-10032 filed 2 weeks later with same demand." },
+    { key:"TIF-9868",  summary:"IXP capabilities not available on On-Prem", status:"Closed", theme:"Agent On-Premises Deployment", demand:"HIGH", confScore:95, notes:"IXP gap is component of broader AS parity." },
+    { key:"TIF-9892",  summary:"AI Safety & Observability", status:"Active Scoping", theme:"Agent Observability & Safety", demand:"HIGH", confScore:97, notes:"Highest-priority observability. Gold + Diamond/Ruby active escalations." },
+    { key:"TIF-9862",  summary:"External agent observability", status:"Active Scoping", theme:"Agent Observability & Safety", demand:"HIGH", confScore:97, notes:"Enterprise customers need OTEL trace export (Datadog, Splunk)." },
+    { key:"TIF-9996",  summary:"Observability Improvements for Conversational Agents", status:"Closed", theme:"Agent Observability & Safety", demand:"HIGH", confScore:97, notes:"ALERT: Closed but Emory + Cisco escalations show demand persists." },
+    { key:"TIF-9934",  summary:"Display Agent/Robot Unit Consumption", status:"Analyzing", theme:"Agent Licensing & Consumption", demand:"HIGH", confScore:84, notes:"Continental Resources competitive risk (Cursor)." },
+    { key:"TIF-9789",  summary:"CLONE - Agent Unit consumption dashboards", status:"Active Scoping", theme:"Agent Licensing & Consumption", demand:"HIGH", confScore:84, notes:"Bayshore Healthcare renewal risk (~$100K)." },
+    { key:"TIF-9766",  summary:"Process-level reporting for Agentic consumption", status:"Analyzing", theme:"Agent Licensing & Consumption", demand:"HIGH", confScore:84, notes:"Required for cost center attribution and ROI." },
+    { key:"TIF-9871",  summary:"Agentic licensing model not scalable", status:"Closed", theme:"Agent Licensing & Consumption", demand:"HIGH", confScore:84, notes:"ALERT: Closed without systemic resolution." },
+    { key:"TIF-10009", summary:"Limit AI Unit and Agent Unit Overconsumption", status:"Closed", theme:"Agent Licensing & Consumption", demand:"HIGH", confScore:84, notes:"Cost guardrail control — recently closed." },
+    { key:"TIF-10034", summary:"Ability To Hide Tool Run Details From Users", status:"Active Scoping", theme:"Conversational Agents", demand:"MODERATE", confScore:88, notes:"Privacy/UX for enterprise customer-facing deployments." },
+    { key:"AE-1087",   summary:"Agent Builder Evaluations — Clorox bulk export", status:"Review - In Progress", theme:"Agent Evaluation", demand:"MODERATE", confScore:91, notes:"Named customer (Clorox). In Review — good momentum." },
+    { key:"TIF-9883",  summary:"DU Evaluation sets not available in Modern", status:"Active Scoping", theme:"Agent Evaluation", demand:"MODERATE", confScore:91, notes:"Blocks migration from Classic to Modern Agent Builder." },
+    { key:"TIF-9070",  summary:"Export evaluation set run results", status:"Unknown", theme:"Agent Evaluation", demand:"MODERATE", confScore:91, notes:"Core requirement for eval-driven development." },
+    { key:"AE-528",    summary:"Deterministic evals", status:"Unknown", theme:"Agent Evaluation", demand:"MODERATE", confScore:91, notes:"Rule-based evaluators needed alongside LLM-as-judge." },
+    { key:"FPD-12",    summary:"Evaluate flow", status:"Unknown", theme:"Agent Evaluation", demand:"MODERATE", confScore:91, notes:"End-to-end flow evaluation for multi-step agents." },
+    { key:"TIF-9279",  summary:"HAECO - edit name in evaluation set", status:"Unknown", theme:"Agent Evaluation", demand:"LOW", confScore:91, notes:"Single customer (HAECO). Low-effort quick win." },
+    { key:"TIF-10078", summary:"Available Support and debugging tools", status:"Analyzing", theme:"Agent Debugging", demand:"MODERATE", confScore:63, notes:"Filed 2026-03-12. Signals converging." },
+    { key:"TIF-10042", summary:"Agent failed tool call faults entire job", status:"Active Scoping", theme:"Agent Debugging", demand:"MODERATE", confScore:63, notes:"Runtime reliability — tool failure cascades to full job." },
+    { key:"TIF-9927",  summary:"Governance policy to limit max agent iterations", status:"Active Scoping", theme:"Guardrails & Governance", demand:"MODERATE", confScore:63, notes:"Core enterprise cost control requirement." },
+    { key:"TIF-9965",  summary:"Granular Access to Agent Feedback", status:"Pending info", theme:"Guardrails & Governance", demand:"MODERATE", confScore:63, notes:"RBAC for agent feedback — security requirement." },
+    { key:"TIF-9952",  summary:"Prevent modification of Healing Agent", status:"Analyzing", theme:"Guardrails & Governance", demand:"LOW", confScore:63, notes:"Healing Agent-specific — limited broader scope." },
+    { key:"TIF-9837",  summary:"Agent Registry", status:"Active Scoping", theme:"Agent Registry", demand:"LOW", confScore:30, notes:"Emerging field signal. Not yet customer-validated." },
+    { key:"TIF-9794",  summary:"DOCS - Import externally built agents", status:"Active Scoping", theme:"Agent Registry", demand:"LOW", confScore:30, notes:"Documentation gap. Quick win for ecosystem." },
+    { key:"TIF-9977",  summary:"SDK/API to programmatically update Validation Station", status:"Active Scoping", theme:"Agent Evaluation", demand:"LOW", confScore:63, notes:"Single customer signal. High opportunity cost." },
+    { key:"TIF-9881",  summary:"Code Execution tool not supported by Coded Agents", status:"Active Scoping", theme:"Agent Tools", demand:"LOW", confScore:30, notes:"Specific Gemini model compatibility gap." },
+    { key:"TIF-10019", summary:"Deploy coded agents to subfolders", status:"Pending info", theme:"Agent Deployment", demand:"LOW", confScore:30, notes:"Single customer organizational requirement." },
+    { key:"TIF-10018", summary:"Advanced Agents Private Preview Enablement", status:"Analyzing", theme:"Internal Enablement", demand:"INTERNAL", confScore:0, notes:"Internal team enablement — not customer demand." },
+    { key:"TIF-9870",  summary:"Agentic solution requires UiPath platform knowledge", status:"Closed", theme:"Documentation & Onboarding", demand:"MODERATE", confScore:50, notes:"Onboarding complexity — relates to Templates demand." },
+    { key:"TIF-9867",  summary:"ScreenPlay agent in Automated testcase", status:"Pending info", theme:"Testing Integration", demand:"LOW", confScore:30, notes:"Single customer niche use case." },
+    { key:"TIF-9833",  summary:"CLONE - Task Mining improvements", status:"Pending info", theme:"Task Mining (Non-Agent)", demand:"NO_DEMAND", confScore:0, notes:"MISROUTED — not an AI Agents ticket. Move to Task Mining backlog." },
+    { key:"TIF-9791",  summary:"Ensure subprocesses inherit parent identity", status:"Closed", theme:"Platform Infrastructure", demand:"NO_DEMAND", confScore:0, notes:"Platform infra item. No AI Agents demand." },
+  ],
+  gaps: [
+    { feature:"Async Callback API for Conversational Agents", urgency:"URGENT", demand:55, confidence:78, confLevel:"HIGH", evidence:"Japan Life Insurance URGENT signal in #product-support-escalations (HIGH channel) blocking production deployment. NO TIF ticket despite active escalation.", action:"FILE TIF TICKET IMMEDIATELY — Production blocker for named enterprise customer (Japan Life Insurance)" },
+    { feature:"IVR/Genesys Voice Channel Integration", urgency:"HIGH",   demand:35, confidence:55, confLevel:"MODERATE", evidence:"Multiple customers inquiring via HIGH-priority channel. Test Cloud team investigating. No TIF filed.", action:"FILE TIF TICKET — Growing voice channel demand, competitive differentiation gap" },
+    { feature:"Agent Memory — Production Bug Tracking", urgency:"HIGH",   demand:53, confidence:70, confLevel:"MODERATE", evidence:"Escalation memory temporarily disabled due to bugs. Customers notified and confused. NO TIF ticket tracking customer-impacting bugs.", action:"FILE TIF TICKET immediately — Active regression with current customer impact, untracked" },
+    { feature:"Common Agent Pattern Templates Library", urgency:"MODERATE", demand:43, confidence:48, confLevel:"LOW", evidence:"Top RICE initiative (17.33) in FY27 Planning. FDEs rebuilding same patterns per engagement. No customer-facing TIF tickets.", action:"FILE TIF TICKET to formalize customer demand signal and FDE impact metrics" },
+  ],
+  lowDemand: [
+    { key:"TIF-9833", summary:"CLONE - Task Mining improvements",  score:0, rec:"CLOSE or REROUTE", rationale:"Misrouted. Not related to AI Agents. Move to Task Mining backlog." },
+    { key:"TIF-9791", summary:"Subprocesses inherit parent identity", score:0, rec:"CLOSE",  rationale:"Platform infra. No customer demand. Already closed." },
+    { key:"TIF-9977", summary:"SDK/API for Validation Station",   score:15, rec:"DEPRIORITIZE", rationale:"Single customer. High opportunity cost vs. higher-demand evaluation items." },
+    { key:"TIF-9867", summary:"ScreenPlay agent in test case",    score:8,  rec:"MONITOR",  rationale:"Single customer niche use case. Insufficient demand for current cycle." },
+    { key:"TIF-9279", summary:"HAECO - edit name in eval set",    score:15, rec:"QUICK WIN", rationale:"Low-effort UI fix. Bundle with AE-1087 evaluation work." },
+  ],
+  misalign: [
+    { key:"TIF-9871", summary:"Agentic licensing model not scalable", status:"Closed", concern:"Closed without resolution. Continental Resources + Bayshore Healthcare signals indicate core licensing model issue persists.", rec:"REOPEN or CREATE — Address licensing model scalability systemically, not just dashboards." },
+    { key:"TIF-9863", summary:"Agentic features in Automation Suite", status:"Closed", concern:"Closed, but TIF-10032 was filed 2 weeks later with same demand from new customers. AS customers remain blocked.", rec:"Ensure TIF-10032 captures full scope. Do not close until AS parity is delivered and confirmed." },
+    { key:"TIF-9996", summary:"Observability Improvements for Conversational Agents", status:"Closed", concern:"Recently closed (2026-03-05) but Emory + Cisco escalations show observability gaps persist.", rec:"Verify TIF-9892 explicitly covers conversational agent observability before marking demand addressed." },
+  ],
+};
+
+// ══ UTILS ══
+const confColor = l => ({ HIGH:"var(--teal)", MODERATE:"#f57c00", LOW:"#e53935" }[l] || "#999");
+const confTag   = l => ({ HIGH:"tag-conf-high", MODERATE:"tag-conf-mod", LOW:"tag-conf-low" }[l] || "");
+const demandLevelClass = d => ({ HIGH:"dl-high", MODERATE:"dl-moderate", LOW:"dl-low", NO_DEMAND:"dl-none", INTERNAL:"dl-internal" }[d] || "");
+const statusClass = s => {
+  if (!s) return "status-closed";
+  const sl = s.toLowerCase();
+  if (sl.includes("active")) return "status-active";
+  if (sl.includes("analyz")) return "status-analyzing";
+  if (sl.includes("pending")) return "status-pending";
+  if (sl.includes("closed")) return "status-closed";
+  if (sl.includes("exec") || sl.includes("implementation")) return "status-exec";
+  if (sl.includes("review")) return "status-review";
+  return "status-analyzing";
+};
+
+// ══ PERIOD PICKER ══
+function updatePeriod(days) {
+  const label = document.getElementById('periodLabel');
+  if (label) label.textContent = days + '-day window';
+}
+
+// ══ NAV ══
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'backlog' && !window._backlogBuilt) buildBacklog();
+  if (id === 'gaps'    && !window._gapsBuilt)    buildGaps();
+  if (id === 'exec'    && !window._execBuilt)    buildExec();
+  if (id === 'features'&& !window._featuresBuilt)buildFeatureCards();
+  if (id === 'matrix'  && !window._matrixBuilt)  buildMatrix();
+}
+
+// ══ OVERVIEW CHARTS ══
+window.addEventListener('load', () => {
+  // Demand bar
+  new Chart(document.getElementById('demandBar'), {
+    type: 'bar',
+    data: {
+      labels: DATA.features.map(f => f.theme.length > 28 ? f.theme.slice(0,26)+'…' : f.theme),
+      datasets: [{
+        label: 'Demand Score',
+        data: DATA.features.map(f => f.demand),
+        backgroundColor: DATA.features.map(f => f.priority === 'critical' ? '#ef5350' : f.priority === 'high' ? '#ff9800' : f.priority === 'moderate' ? '#42a5f5' : '#90a4ae'),
+        borderRadius: 4,
+      }]
+    },
+    options: { indexAxis:'y', plugins:{legend:{display:false}}, scales:{ x:{grid:{color:'#f1f5f9'}}, y:{grid:{display:false}, ticks:{font:{size:11}}} }, maintainAspectRatio:false }
+  });
+
+  // Matrix scatter (overview)
+  new Chart(document.getElementById('matrixScatter'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Features',
+        data: DATA.features.map(f => ({ x: f.demand, y: f.confidence, label: f.id })),
+        backgroundColor: DATA.features.map(f => f.priority === 'critical' ? '#ef5350cc' : f.priority === 'high' ? '#ff9800cc' : f.priority === 'moderate' ? '#42a5f5cc' : '#90a4aecc'),
+        pointRadius: DATA.features.map(f => Math.max(6, f.customers * 1.8)),
+        pointHoverRadius: DATA.features.map(f => Math.max(8, f.customers * 2.2)),
+      }]
+    },
+    options: {
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => DATA.features[ctx.dataIndex].theme + ` (D:${ctx.raw.x} C:${ctx.raw.y})` } } },
+      scales: {
+        x: { min:0, max:120, title:{display:true, text:'Demand Score', font:{size:11}}, grid:{color:'#f1f5f9'} },
+        y: { min:0, max:100, title:{display:true, text:'Confidence Score', font:{size:11}}, grid:{color:'#f1f5f9'} }
+      },
+      maintainAspectRatio: false
+    }
+  });
+});
+
+// ══ FEATURE CARDS ══
+function buildFeatureCards() {
+  window._featuresBuilt = true;
+  const c = document.getElementById('featureCardsContainer');
+  c.innerHTML = DATA.features.map(f => `
+    <div class="feature-card priority-${f.priority}">
+      <div class="fc-header">
+        <div>
+          <div class="fc-id">${f.id} · Rank #${f.rank}</div>
+          <div class="fc-title">${f.theme}</div>
+        </div>
+        <div class="fc-scores">
+          <div class="score-pill demand"><span class="s-value">${f.demand}</span></div>
+          <div class="score-pill confidence"><span class="s-value" style="color:${confColor(f.confLevel)}">${f.confidence}</span></div>
+        </div>
+      </div>
+      <div class="fc-quote">"${f.quote}"</div>
+      <div class="fc-details" style="grid-template-columns:repeat(3,1fr);">
+        <div class="fc-detail"><div class="d-val">${f.customers}</div><div class="d-lbl">Customers</div></div>
+        <div class="fc-detail"><div class="d-val">${f.escalations}</div><div class="d-lbl">Escalations</div></div>
+        <div class="fc-detail"><div class="d-val">${f.renewal}</div><div class="d-lbl">Renewal Risk</div></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.45;">${f.confRationale}</div>
+      <div style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px;">
+        ${f.jira.length
+          ? `<div class="links-row"><span class="links-row-label">Jira</span>${f.jira.map(k=>`<span class="jira-key">${k}</span>`).join('')}</div>`
+          : '<div style="font-size:11px;color:var(--red);margin-bottom:4px;">⚠ No TIF ticket</div>'
+        }
+        ${f.slack && f.slack.length
+          ? `<div class="links-row" style="margin-top:5px;"><span class="links-row-label">Slack</span>${f.slack.map(s=>`<a class="slack-pill" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join('')}</div>`
+          : ''
+        }
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══ MATRIX ══
+function buildMatrix() {
+  window._matrixBuilt = true;
+  const canvas = document.getElementById('matrixBig');
+  new Chart(canvas, {
+    type: 'bubble',
+    data: {
+      datasets: DATA.features.map(f => ({
+        label: f.id,
+        data: [{ x: f.demand, y: f.confidence, r: Math.max(8, f.customers * 2.5) }],
+        backgroundColor: (f.priority==='critical'?'#ef5350':f.priority==='high'?'#ff9800':f.priority==='moderate'?'#42a5f5':'#90a4ae') + 'bb',
+        borderColor: f.priority==='critical'?'#c62828':f.priority==='high'?'#e65100':f.priority==='moderate'?'#1565c0':'#607d8b',
+        borderWidth: 2,
+      }))
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => { const f = DATA.features[ctx.datasetIndex]; return [`${f.id}: ${f.theme}`, `Demand: ${f.demand}  Confidence: ${f.confidence}`, `${f.customers} customers · ${f.escalations} escalations`]; } } }
+      },
+      scales: {
+        x: { min:0, max:125, title:{display:true, text:'Demand Score →', font:{size:12, weight:'600'}}, grid:{color:'#f1f5f9'} },
+        y: { min:0, max:105, title:{display:true, text:'Confidence Score →', font:{size:12, weight:'600'}}, grid:{color:'#f1f5f9'} }
+      },
+      maintainAspectRatio: false,
+    },
+    plugins: [{
+      id: 'quadrant-lines',
+      beforeDraw: chart => {
+        const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+        ctx.save();
+        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]);
+        const mx = x.getPixelForValue(60);
+        const my = y.getPixelForValue(70);
+        ctx.beginPath(); ctx.moveTo(mx, top); ctx.lineTo(mx, bottom); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(left, my); ctx.lineTo(right, my); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = '10px -apple-system, sans-serif'; ctx.fillStyle = '#94a3b8';
+        ctx.fillText('ACT NOW',       mx+8,  top+16);
+        ctx.fillText('INVESTIGATE',   left+8, top+16);
+        ctx.fillText('MONITOR',       mx+8,  bottom-8);
+        ctx.fillText('DEPRIORITIZE',  left+8, bottom-8);
+        ctx.restore();
+      }
+    }, {
+      id: 'feat-labels',
+      afterDatasetsDraw: chart => {
+        const { ctx, scales: { x, y } } = chart;
+        ctx.save();
+        ctx.font = '10px -apple-system, sans-serif';
+        DATA.features.forEach((f, i) => {
+          const px = x.getPixelForValue(f.demand);
+          const py = y.getPixelForValue(f.confidence);
+          ctx.fillStyle = '#1a2332';
+          ctx.fillText(f.id, px + 10, py + 4);
+        });
+        ctx.restore();
+      }
+    }]
+  });
+
+  const list = document.getElementById('matrixFeatureList');
+  list.innerHTML = DATA.features.map(f => `
+    <div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:11px;font-weight:700;color:${f.priority==='critical'?'#c62828':f.priority==='high'?'#e65100':f.priority==='moderate'?'#1565c0':'#607d8b'};width:44px;">${f.id}</span>
+      <span style="font-size:11px;flex:1;color:var(--muted);">${f.theme.length>28?f.theme.slice(0,26)+'…':f.theme}</span>
+    </div>
+  `).join('');
+}
+
+// ══ BACKLOG ══
+function buildBacklog() {
+  window._backlogBuilt = true;
+  const themes = [...new Set(DATA.backlog.map(r => r.theme))].sort();
+  const sel = document.getElementById('filterTheme');
+  themes.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o); });
+  renderBacklog(DATA.backlog);
+}
+function renderBacklog(rows) {
+  document.getElementById('backlogTbody').innerHTML = rows.map(r => `
+    <tr>
+      <td><span class="jira-key">${r.key}</span></td>
+      <td>${r.summary}</td>
+      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
+      <td style="white-space:nowrap;font-size:11px;">${r.theme}</td>
+      <td><span class="${demandLevelClass(r.demand)}">${r.demand}</span></td>
+      <td><span style="font-size:12px;font-weight:700;color:${r.confScore>=80?'var(--teal)':r.confScore>=50?'#f57c00':'#e53935'}">${r.confScore || '—'}</span></td>
+      <td class="notes">${r.notes}</td>
+    </tr>
+  `).join('');
+}
+function filterBacklog() {
+  const q = document.getElementById('searchBacklog').value.toLowerCase();
+  const d = document.getElementById('filterDemand').value;
+  const t = document.getElementById('filterTheme').value;
+  renderBacklog(DATA.backlog.filter(r =>
+    (!q || r.key.toLowerCase().includes(q) || r.summary.toLowerCase().includes(q) || r.theme.toLowerCase().includes(q)) &&
+    (!d || r.demand === d) &&
+    (!t || r.theme === t)
+  ));
+}
+
+// ══ GAPS ══
+function buildGaps() {
+  window._gapsBuilt = true;
+  document.getElementById('gapsContainer').innerHTML = DATA.gaps.map(g => `
+    <div class="gap-card gap-${g.urgency.toLowerCase()}">
+      <div class="gap-header">
+        <div class="gap-title">${g.feature}</div>
+        <div class="urgency-badge ub-${g.urgency.toLowerCase()}">${g.urgency}</div>
+      </div>
+      <div class="gap-scores">
+        <span class="tag tag-${g.urgency==='URGENT'?'critical':g.urgency==='HIGH'?'high':'moderate'}">Demand ~${g.demand}</span>
+        <span class="tag ${confTag(g.confLevel)}">Confidence ${g.confidence} · ${g.confLevel}</span>
+      </div>
+      <div class="gap-evidence">${g.evidence}</div>
+      <div class="gap-action">→ ${g.action}</div>
+    </div>
+  `).join('');
+  document.getElementById('lowDemandTbody').innerHTML = DATA.lowDemand.map(r => `
+    <tr>
+      <td><span class="jira-key">${r.key}</span></td>
+      <td>${r.summary}</td>
+      <td style="font-weight:700;color:var(--muted);">${r.score}</td>
+      <td style="font-weight:700;color:var(--orange);white-space:nowrap;">${r.rec}</td>
+      <td class="notes">${r.rationale}</td>
+    </tr>
+  `).join('');
+  document.getElementById('misalignTbody').innerHTML = DATA.misalign.map(r => `
+    <tr>
+      <td><span class="jira-key">${r.key}</span></td>
+      <td>${r.summary}</td>
+      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
+      <td class="notes">${r.concern}</td>
+      <td class="notes" style="color:var(--red);font-weight:500;">${r.rec}</td>
+    </tr>
+  `).join('');
+}
+
+// ══ EXEC SUMMARY ══
+function buildExec() {
+  window._execBuilt = true;
+  const rankColors = ['rank-1','rank-2','rank-3','rank-4','rank-5'];
+  const top5 = DATA.features.slice(0,5);
+  const headlines = [
+    "9+ enterprise accounts blocked, $2M+ ARR at risk. 89% of paying AS customers cannot use Act 2 agent capabilities.",
+    "Active escalations from Emory Healthcare (Gold) and Cisco (Diamond/Ruby) blocking production. Only 18/198 customers in production.",
+    "Continental Resources evaluating Cursor (120 licenses). Bayshore Healthcare ~$100K renewal at risk. Preventable with dashboards.",
+    "Japan Life Insurance URGENT escalation for async callback API has NO TIF ticket. Process failure in escalation-to-backlog conversion.",
+    "Escalation memory disabled with active bugs and NO TIF tracking. Top FY27 investment pillar with zero customer-facing backlog items."
+  ];
+  document.getElementById('top5Container').innerHTML = top5.map((f,i) => `
+    <div class="t5-item">
+      <div class="t5-rank ${rankColors[i]}">${i+1}</div>
+      <div class="t5-content">
+        <div class="t5-title">${f.theme}</div>
+        <div class="t5-line">${headlines[i]}</div>
+        <div class="t5-scores">
+          <span class="t5-score" style="color:var(--text);">Demand: ${f.demand}</span>
+          <span style="color:var(--border)">|</span>
+          <span class="t5-score" style="color:${confColor(f.confLevel)};">Confidence: ${f.confidence} (${f.confLevel})</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const alerts = [
+    { cls:"alert-red",    icon:"🚨", text:"CRITICAL: Async Callback API for Conversational Agents — Japan Life Insurance URGENT escalation in a HIGH-priority channel has ZERO TIF tickets. File immediately." },
+    { cls:"alert-red",    icon:"🚨", text:"CRITICAL: Agent Memory production bugs (escalation memory disabled) are impacting customers with NO TIF tracking. Process failure." },
+    { cls:"alert-orange", icon:"⚠️",  text:"ALERT: 3 Closed tickets (TIF-9871, TIF-9863, TIF-9996) have underlying demand still active — risk of re-escalation without systematic resolution." },
+    { cls:"alert-orange", icon:"⚠️",  text:"ALERT: 2 misrouted tickets (TIF-9833 Task Mining, TIF-9791 subprocess identity) in AI Agents TIF backlog with ZERO agent demand." },
+    { cls:"alert-blue",   icon:"ℹ️",  text:"IVR/Genesys Voice Channel demand growing across multiple customers with no formal backlog tracking. File TIF before it escalates." },
+    { cls:"alert-gray",   icon:"📊",  text:"18/198 customers in production (9%) vs. 400 FY goal. On-Premises + Observability are the cited gating blockers for the remaining 180+." },
+  ];
+  document.getElementById('alertContainer').innerHTML = alerts.map(a => `
+    <div class="alert-item ${a.cls}"><div class="alert-icon">${a.icon}</div><div>${a.text}</div></div>
+  `).join('');
+
+  const surprises = [
+    { title:"On-premises demand is dramatically underweighted vs. backlog priority", text:"89% of paying AS customers on embedded Linux + 9 named enterprise accounts blocked. Score 110 — highest in dataset — yet 3 of 5 related TIF tickets are Closed or stalled." },
+    { title:"Cursor is the competitive threat appearing in churn signals — not Microsoft Copilot", text:"Continental Resources is evaluating Cursor specifically due to consumption transparency gaps — not core agent capability gaps. Preventable with dashboards." },
+    { title:"Japan Life Insurance gap = process failure, not just a feature gap", text:"An URGENT escalation from a named enterprise customer in a HIGH-priority channel has no TIF ticket. If this happened once, similar gaps likely exist for other escalations." },
+    { title:"9% production rate vs. 400 FY goal — blockers are systemic", text:"Addressing On-Premises (score 110) + Observability (score 72) has disproportionate impact on iARR target. Every week of delay directly hurts the 400-customer production goal." },
+  ];
+  document.getElementById('surpriseContainer').innerHTML = surprises.map(s => `
+    <div class="surprise-card"><h4>${s.title}</h4><p>${s.text}</p></div>
+  `).join('');
+
+  const iarr = [
+    { label:"On-Premises at Risk",    value:">$2M",     detail:"Flight Centre ~$1M confirmed + ZUS, KAI defense, Infineon, India BFSI, Fai Mok" },
+    { label:"Observability at Risk",  value:"Unquantified", detail:"Emory Healthcare (Gold) + Cisco (Diamond/Ruby) — account ARR not disclosed" },
+    { label:"Licensing/Churn at Risk", value:"~$100K+", detail:"Bayshore Healthcare confirmed + Continental Resources competitive threat (unquantified)" },
+  ];
+  document.getElementById('iarrContainer').innerHTML = iarr.map(i => `
+    <div class="iarr-item">
+      <div class="ii-label">${i.label}</div>
+      <div class="ii-value">${i.value}</div>
+      <div class="ii-detail">${i.detail}</div>
+    </div>
+  `).join('');
+
+  const actions = [
+    { cls:"alert-red",    icon:"1️⃣", text:"FILE TIF TICKET TODAY: Async Callback API for Conversational Agents (Japan Life Insurance, URGENT, production blocker)" },
+    { cls:"alert-red",    icon:"2️⃣", text:"FILE TIF TICKET TODAY: Agent Memory production bugs (escalation memory disabled, customers impacted, no tracking)" },
+    { cls:"alert-orange", icon:"3️⃣", text:"ESCALATE TIF-9892 (AI Safety & Observability) to executive visibility — Gold + Diamond/Ruby accounts blocked from production" },
+    { cls:"alert-orange", icon:"4️⃣", text:"ACCELERATE TIF-10032 (Agent On-Premises) — highest demand score in entire backlog (110), still at Execution/Implementation" },
+    { cls:"alert-blue",   icon:"5️⃣", text:"CLOSE or REROUTE TIF-9833 (Task Mining) and TIF-9791 (subprocess identity) — zero AI Agents demand, consuming backlog capacity" },
+    { cls:"alert-blue",   icon:"6️⃣", text:"FILE TIF TICKET THIS WEEK: IVR/Genesys Voice Channel Integration — growing multi-customer demand with zero formal tracking" },
+  ];
+  document.getElementById('actionsContainer').innerHTML = actions.map(a => `
+    <div class="alert-item ${a.cls}"><div class="alert-icon">${a.icon}</div><div>${a.text}</div></div>
+  `).join('');
+}
+</script>
+</body>
+</html>
