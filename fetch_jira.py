@@ -27,17 +27,17 @@ def fetch_jira_issues() -> list[dict]:
     start_at = 0
 
     while True:
-        resp = requests.get(
-            f"{JIRA_BASE_URL}/rest/api/3/search",
+        resp = requests.post(
+            f"{JIRA_BASE_URL}/rest/api/3/search/jql",
             auth=auth,
-            params={
+            json={
                 "jql": JQL,
                 "startAt": start_at,
                 "maxResults": _PAGE_SIZE,
-                "fields": (
-                    "summary,status,labels,components,"
-                    "created,updated,priority,reporter,assignee,comment,votes"
-                ),
+                "fields": [
+                    "summary", "status", "labels", "components",
+                    "created", "updated", "priority", "reporter", "assignee", "comment", "votes"
+                ],
             },
             timeout=30,
         )
