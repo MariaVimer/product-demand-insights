@@ -245,7 +245,7 @@
   .typing-indicator span:nth-child(3) { animation-delay: .4s; }
   @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
   .chat-bar { display: flex; align-items: flex-end; gap: 10px; padding: 12px 0 4px; border-top: 1px solid var(--border); }
-  .chat-input { flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: #f8fafc; color: var(--text); outline: none; resize: none; min-height: 42px; max-height: 140px; line-height: 1.4; overflow-y: auto; font-family: inherit; }
+  .chat-input { flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: #f8fafc; color: var(--text); outline: none; resize: none; min-height: 42px; max-height: 320px; line-height: 1.4; overflow-y: auto; font-family: inherit; }
   .chat-input:focus { border-color: var(--accent); }
   .chat-send-btn { width: 38px; height: 38px; background: var(--accent); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .12s; }
   .chat-send-btn:hover { opacity: .85; }
@@ -557,7 +557,7 @@
   <div class="chat-outer">
     <div class="chat-messages" id="chatMessages"></div>
     <div class="chat-bar">
-      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask about features to build, gaps in your backlog, ARR at risk…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this)"></textarea>
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask about features, or paste a wiki page / backlog to check if the features are the right ones to build…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this)"></textarea>
       <button class="chat-send-btn" id="chatSendBtn" onclick="chatExplore()">↑</button>
     </div>
     <div class="chat-note">Claude can make mistakes. Please double-check responses.</div>
@@ -571,7 +571,7 @@
 
 function autoGrow(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  el.style.height = Math.min(el.scrollHeight, 320) + 'px';
 }
 
 // ══ CHAT HISTORY ══
