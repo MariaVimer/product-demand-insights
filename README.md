@@ -38,7 +38,7 @@ Each feature gets a demand score based on:
 - `fetch_slack.py` — pulls Slack messages via the Slack SDK
 - `score.py` — applies the demand scoring formula
 - `build.py` — orchestrates everything and injects the results into `index.html`
-- `.github/workflows/refresh.yml` — runs the whole pipeline every Monday at 8am UTC
+- `.github/workflows/refresh.yml` — runs the whole pipeline every Monday at 8am UTC (4am EST / 3am EDT)
 
 The dashboard is a single `index.html` file hosted on GitHub Pages. The workflow commits updated data directly to the repo, so there's no separate backend.
 
