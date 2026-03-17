@@ -251,6 +251,8 @@
   .chat-send-btn:hover { opacity: .85; }
   .chat-send-btn:disabled { opacity: .4; cursor: default; }
   .chat-note { font-size: 11px; color: #94a3b8; padding: 6px 0 0; text-align: center; }
+  .confluence-hint { display: none; margin: 0 0 6px; padding: 10px 14px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; font-size: 12px; color: #1e40af; line-height: 1.5; }
+  .confluence-hint strong { display: block; margin-bottom: 2px; }
 
   /* ── Responsive ── */
   @media (max-width: 960px) {
@@ -556,8 +558,12 @@
 <div class="page" id="page-query">
   <div class="chat-outer">
     <div class="chat-messages" id="chatMessages"></div>
+    <div class="confluence-hint" id="confluenceHint">
+      <strong>Confluence link detected</strong>
+      Open the page → select all text (Ctrl+A / Cmd+A) → copy (Ctrl+C / Cmd+C) → paste here instead of the URL.
+    </div>
     <div class="chat-bar">
-      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask about features, or paste a wiki page / backlog to check if the features are the right ones to build…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this)"></textarea>
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask about features, or paste a wiki page / backlog to check if the features are the right ones to build…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this);checkConfluenceHint(this)"></textarea>
       <button class="chat-send-btn" id="chatSendBtn" onclick="chatExplore()">↑</button>
     </div>
     <div class="chat-note">Claude can make mistakes. Please double-check responses.</div>
@@ -572,6 +578,12 @@
 function autoGrow(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 320) + 'px';
+}
+
+function checkConfluenceHint(el) {
+  const hint = document.getElementById('confluenceHint');
+  const isUrl = /https?:\/\/[^\s]+atlassian\.net\/wiki[^\s]*/i.test(el.value.trim());
+  hint.style.display = isUrl ? 'block' : 'none';
 }
 
 // ══ CHAT HISTORY ══
