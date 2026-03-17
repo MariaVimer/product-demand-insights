@@ -35,6 +35,7 @@ async function fetchConfluencePage(url, email, token) {
 
 // Replace any Confluence URLs in the last user message with fetched page content.
 async function resolveConfluenceUrls(messages) {
+  console.log('[confluence] JIRA_EMAIL set:', !!process.env.JIRA_EMAIL, '| JIRA_TOKEN set:', !!process.env.JIRA_TOKEN);
   if (!process.env.JIRA_EMAIL || !process.env.JIRA_TOKEN) return messages;
 
   const out = [...messages];
@@ -43,6 +44,7 @@ async function resolveConfluenceUrls(messages) {
 
   const urlRe = /https:\/\/[^\s]+\.atlassian\.net\/wiki\/[^\s)">]*/g;
   const urls = last.content.match(urlRe);
+  console.log('[confluence] URLs found in message:', urls);
   if (!urls) return out;
 
   let content = last.content;
