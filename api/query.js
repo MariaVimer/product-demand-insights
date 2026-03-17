@@ -22,6 +22,7 @@ async function fetchConfluencePage(url, email, token) {
     `https://uipath.atlassian.net/wiki/rest/api/content/${pageId}?expand=body.storage,title`,
     { headers }
   );
+  console.log('[confluence] API status:', resp.status, 'pageId:', pageId);
   if (!resp.ok) return null;
 
   const data = await resp.json();
@@ -42,7 +43,8 @@ async function resolveConfluenceUrls(messages) {
   const last = out[out.length - 1];
   if (!last || last.role !== 'user') return out;
 
-  const urlRe = /https:\/\/[^\s]+\.atlassian\.net\/wiki\/[^\s)">]*/g;
+  console.log('[confluence] message preview:', last.content.slice(0, 200));
+  const urlRe = /https?:\/\/[^\s<>"]+atlassian[^\s<>"]+/gi;
   const urls = last.content.match(urlRe);
   console.log('[confluence] URLs found in message:', urls);
   if (!urls) return out;
