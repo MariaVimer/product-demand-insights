@@ -41,6 +41,8 @@ def fetch_jira_issues() -> list[dict]:
             },
             timeout=30,
         )
+        if not resp.ok:
+            print(f"[jira] HTTP {resp.status_code}: {resp.text}")
         resp.raise_for_status()
         body = resp.json()
 
