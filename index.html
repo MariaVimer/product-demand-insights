@@ -294,8 +294,8 @@
 
   <div class="stats">
     <div class="stat-card">
-      <div class="label">Signals Analyzed</div>
-      <div class="value">87</div>
+      <div class="label">Feedback Analyzed</div>
+      <div class="value" id="feedbackCount">–</div>
       <div class="sub" id="periodLabel">180-day window</div>
     </div>
     <div class="stat-card">
@@ -2214,6 +2214,11 @@ window._period = '180';
 function updatePeriod(days) {
   window._period = String(days);
   DATA.features = (DATA.periods && DATA.periods[window._period]) || DATA.features;
+  const count = DATA.period_counts && DATA.period_counts[window._period];
+  const el = document.getElementById('feedbackCount');
+  if (el) el.textContent = count != null ? count.toLocaleString() : '–';
+  const lbl = document.getElementById('periodLabel');
+  if (lbl) lbl.textContent = days + '-day window';
   // Rebuild overview charts
   Object.values(window._charts || {}).forEach(c => { try { c.destroy(); } catch(e){} });
   window._charts = {};
@@ -2296,7 +2301,10 @@ function buildOverviewCharts() {
     }
   });
 }
-window.addEventListener('load', buildOverviewCharts);
+window.addEventListener('load', () => {
+  buildOverviewCharts();
+  updatePeriod(180);
+});
 
 // ══ FEATURE CARDS ══
 function buildFeatureCards() {

@@ -77,9 +77,11 @@ def main() -> None:
     from score import score_features
     now = datetime.now(timezone.utc)
     periods: dict[str, list] = {}
+    period_counts: dict[str, int] = {}
     for days in PERIODS:
         fj, fs = _filter_by_days(jira_issues, slack_messages, days, now)
         periods[str(days)] = score_features(fj, fs)
+        period_counts[str(days)] = len(fj) + len(fs)
         print(f"[build]   {days}d window: {len(fj)} Jira, {len(fs)} Slack")
     print(f"[build] {len(periods['180'])} features scored and ranked")
 
@@ -88,6 +90,7 @@ def main() -> None:
         "last_updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "features": periods["180"],
         "periods": periods,
+        "period_counts": period_counts,
     }
 
     # --- Inject into index.html ---
