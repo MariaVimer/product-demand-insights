@@ -47,12 +47,15 @@ async function resolveConfluenceUrls(messages) {
 
   let content = last.content;
   for (const url of urls) {
-    const page = await fetchConfluencePage(url, process.env.JIRA_EMAIL, process.env.JIRA_TOKEN);
-    if (page) {
-      content = content.replace(
-        url,
-        `[Confluence page: "${page.title}"]\n\n${page.content}`
-      );
+    try {
+      const page = await fetchConfluencePage(url, process.env.JIRA_EMAIL, process.env.JIRA_TOKEN);
+      if (page) {
+        content = content.replace(url, `[Confluence page: "${page.title}"]\n\n${page.content}`);
+      } else {
+        content = content.replace(url, `[Failed to fetch Confluence page — null response. URL: ${url}]`);
+      }
+    } catch (e) {
+      content = content.replace(url, `[Failed to fetch Confluence page — error: ${e.message}. URL: ${url}]`);
     }
   }
   out[out.length - 1] = { ...last, content };
