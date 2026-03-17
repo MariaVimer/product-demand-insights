@@ -8,14 +8,14 @@ Every Monday morning it pulls data from:
 - **Jira** (projects TIF and AE) — issues tagged with `ai-agents` or the `AI Agents` component
 - **Slack** — messages from customer-facing channels like `#help-tif-voc` and `#help-agent-builder`
 
-It classifies everything into 10 feature themes (things like "Multi-Agent Orchestration", "Enterprise Auth", "On-Prem Deployment"), scores each one based on how much noise is coming in, and updates the dashboard with a ranked list.
+It classifies everything into 10 feature themes (things like "Multi-Agent Orchestration", "Enterprise Auth", "On-Prem Deployment"), scores each one based on how much activity is coming in, and updates the dashboard with a ranked list.
 
 ## The scoring
 
 Each feature gets a demand score based on:
 - How many Jira issues mention it
 - How many Slack messages mention it
-- Whether the signal comes from enterprise customers, escalations, or renewal risk conversations (those count more)
+- Whether the activity comes from enterprise customers, escalations, or renewal risk conversations (those count more)
 
 ## Feature themes tracked
 
