@@ -24,21 +24,24 @@ def fetch_jira_issues() -> list[dict]:
     """Return all matching Jira issues, each annotated with matched theme IDs."""
     auth = HTTPBasicAuth(os.environ["JIRA_EMAIL"], os.environ["JIRA_TOKEN"])
     issues: list[dict] = []
-    start_at = 0
+    next_page_token: str | None = None
 
     while True:
+        payload: dict = {
+            "jql": JQL,
+            "maxResults": _PAGE_SIZE,
+            "fields": [
+                "summary", "status", "labels", "components",
+                "created", "updated", "priority", "reporter", "assignee", "comment", "votes"
+            ],
+        }
+        if next_page_token:
+            payload["nextPageToken"] = next_page_token
+
         resp = requests.post(
             f"{JIRA_BASE_URL}/rest/api/3/search/jql",
             auth=auth,
-            json={
-                "jql": JQL,
-                "startAt": start_at,
-                "maxResults": _PAGE_SIZE,
-                "fields": [
-                    "summary", "status", "labels", "components",
-                    "created", "updated", "priority", "reporter", "assignee", "comment", "votes"
-                ],
-            },
+            json=payload,
             timeout=30,
         )
         if not resp.ok:
@@ -65,9 +68,8 @@ def fetch_jira_issues() -> list[dict]:
                 "themes": _classify_issue(f),
             })
 
-        total = body.get("total", 0)
-        start_at += len(batch)
-        if not batch or start_at >= total:
+        next_page_token = body.get("nextPageToken")
+        if not batch or not next_page_token:
             break
 
     return issues
