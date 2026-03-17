@@ -557,14 +557,6 @@
 </div><!-- /.app-body -->
 
 <script>
-const RESPONSES = {
-  matrix:  "Based on signal data, your top priorities are <strong>On-Premises Deployment</strong> (demand 110, confidence 95) and <strong>Observability &amp; Safety</strong> (demand 72, confidence 97). Both sit in the ACT NOW quadrant. <a class='resp-link' href='#' onclick='goToTab(\"matrix\");return false;'>→ Priority Matrix</a>",
-  gaps:    "4 high-demand features have no TIF ticket: <strong>Async Callback API</strong> (URGENT — Japan Life Insurance production blocker), <strong>IVR/Genesys Voice</strong>, <strong>Agent Memory bugs</strong>, and <strong>Common Agent Templates</strong>. File tickets for the first two immediately. <a class='resp-link' href='#' onclick='goToTab(\"gaps\");return false;'>→ Feature Gaps</a>",
-  backlog: "Candidates to cut or deprioritize: <strong>TIF-9833</strong> (Task Mining — misrouted, not an AI Agents ticket), <strong>TIF-9791</strong> (subprocess identity — platform infra, no agent demand). Check the Backlog Validation tab for the full demand breakdown. <a class='resp-link' href='#' onclick='goToTab(\"backlog\");return false;'>→ Backlog Validation</a>",
-  exec:    "Top risk: <strong>$2.1M+ ARR</strong> at risk across on-prem, licensing, and observability gaps. 4 features have zero TIF coverage despite active customer escalations. <a class='resp-link' href='#' onclick='goToTab(\"exec\");return false;'>→ Executive Summary</a>",
-  features:"10 feature themes ranked by demand. <strong>FT-001 On-Premises</strong> leads at demand 110 with 9 named enterprise accounts. <strong>FT-002 Observability</strong> has the highest confidence score (97). <a class='resp-link' href='#' onclick='goToTab(\"features\");return false;'>→ Feature Requests</a>",
-  default: "I can help you navigate this dashboard. Try asking about features to build, gaps in your backlog, or which tickets to cut."
-};
 
 function autoGrow(el) {
   el.style.height = 'auto';
@@ -592,23 +584,32 @@ function goToTab(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function chatExplore() {
+async function chatExplore() {
   const input = document.getElementById('chatInput');
-  const val = (input ? input.value.trim().toLowerCase() : '');
-  let target;
-  if (val.includes('gap') || val.includes('miss') || val.includes('file') || val.includes('ticket')) target = 'gaps';
-  else if (val.includes('cut') || val.includes('deprio') || val.includes('low') || val.includes('backlog')) target = 'backlog';
-  else if (val.includes('exec') || val.includes('summary') || val.includes('risk') || val.includes('arr')) target = 'exec';
-  else if (val.includes('feature') || val.includes('request')) target = 'features';
-  else target = 'matrix';
+  const question = input ? input.value.trim() : '';
+  if (!question) return;
+
   const responseText = document.getElementById('chatResponseText');
   const responsePanel = document.getElementById('chatResponse');
+
   if (responseText && responsePanel) {
-    responseText.innerHTML = RESPONSES[target] || RESPONSES.default;
+    responseText.innerHTML = '<em>Thinking…</em>';
     responsePanel.classList.add('visible');
   }
   if (input) { input.value = ''; input.style.height = 'auto'; }
   responsePanel && responsePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  try {
+    const res = await fetch('/api/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, data: { features: DATA.features, last_updated: DATA.last_updated } }),
+    });
+    const json = await res.json();
+    if (responseText) responseText.innerHTML = json.answer || json.error || 'No response.';
+  } catch (err) {
+    if (responseText) responseText.innerHTML = 'Error contacting API. Please try again.';
+  }
 }
 
 // ══ DATA ══
