@@ -558,10 +558,7 @@
 <div class="page" id="page-query">
   <div class="chat-outer">
     <div class="chat-messages" id="chatMessages"></div>
-    <div class="confluence-hint" id="confluenceHint">
-      <strong>Confluence link detected</strong>
-      Open the page → select all text (Ctrl+A / Cmd+A) → copy (Ctrl+C / Cmd+C) → paste here instead of the URL.
-    </div>
+    <div class="confluence-hint" id="confluenceHint"></div>
     <div class="chat-bar">
       <textarea class="chat-input" id="chatInput" rows="1" placeholder="Ask about features, or paste a wiki page / backlog to check if the features are the right ones to build…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatExplore();}" oninput="autoGrow(this);checkConfluenceHint(this)"></textarea>
       <button class="chat-send-btn" id="chatSendBtn" onclick="chatExplore()">↑</button>
@@ -582,8 +579,61 @@ function autoGrow(el) {
 
 function checkConfluenceHint(el) {
   const hint = document.getElementById('confluenceHint');
-  const isUrl = /https?:\/\/[^\s]+atlassian\.net\/wiki[^\s]*/i.test(el.value.trim());
-  hint.style.display = isUrl ? 'block' : 'none';
+  const val = el.value.trim();
+  const isWiki = /https?:\/\/[^\s]+atlassian\.net\/wiki\/[^\s]*/i.test(val);
+  const isJira = !isWiki && /https?:\/\/[^\s]+atlassian\.net\/jira\/[^\s]*/i.test(val);
+
+  if (!isWiki && !isJira) { hint.style.display = 'none'; return; }
+  hint.style.display = 'block';
+
+  if (isJira) {
+    hint.innerHTML = '<strong>Jira board link detected</strong> Board views can\'t be auto-fetched. To analyze your backlog: Backlog view → select all issues → copy & paste here.';
+    return;
+  }
+
+  const email = localStorage.getItem('atlassian_email');
+  const token = localStorage.getItem('atlassian_token');
+  if (email && token) {
+    hint.innerHTML = '<strong>Confluence link detected</strong> Page will be auto-fetched when you send. <a href="#" onclick="clearConfluenceCreds();return false;" style="color:#3b82f6;text-decoration:underline;margin-left:8px;font-size:11px">Change credentials</a>';
+  } else {
+    hint.innerHTML = `<strong>Confluence link detected — one-time setup</strong>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <input id="confEmail" placeholder="your@uipath.com" style="flex:1;min-width:160px;padding:5px 9px;border:1px solid #93c5fd;border-radius:6px;font-size:12px;color:#1e3a8a;background:#fff">
+        <input id="confToken" placeholder="Atlassian API token" type="password" style="flex:2;min-width:180px;padding:5px 9px;border:1px solid #93c5fd;border-radius:6px;font-size:12px;color:#1e3a8a;background:#fff">
+        <button onclick="saveConfluenceCreds()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:12px;white-space:nowrap">Save & fetch</button>
+      </div>
+      <div style="margin-top:5px;font-size:11px;color:#3b82f6">Stored in your browser only — never sent to any server except Confluence.</div>`;
+  }
+}
+
+function saveConfluenceCreds() {
+  const email = document.getElementById('confEmail')?.value.trim();
+  const token = document.getElementById('confToken')?.value.trim();
+  if (!email || !token) return;
+  localStorage.setItem('atlassian_email', email);
+  localStorage.setItem('atlassian_token', token);
+  chatExplore();
+}
+
+function clearConfluenceCreds() {
+  localStorage.removeItem('atlassian_email');
+  localStorage.removeItem('atlassian_token');
+  checkConfluenceHint(document.getElementById('chatInput'));
+}
+
+async function browserFetchConfluence(url, email, token) {
+  const m = url.match(/pages\/(\d+)/);
+  if (!m) return null;
+  try {
+    const resp = await fetch(
+      `https://uipath.atlassian.net/wiki/rest/api/content/${m[1]}?expand=body.storage,title`,
+      { headers: { 'Authorization': 'Basic ' + btoa(unescape(encodeURIComponent(email + ':' + token))), 'Accept': 'application/json' } }
+    );
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    const raw = (data.body?.storage?.value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    return { title: data.title, content: raw.slice(0, 15000) };
+  } catch (e) { return null; }
 }
 
 // ══ CHAT HISTORY ══
@@ -641,11 +691,31 @@ function goToTab(id) {
 async function chatExplore() {
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
-  const question = input ? input.value.trim() : '';
-  if (!question) return;
+  const displayText = input ? input.value.trim() : '';
+  if (!displayText) return;
 
-  addMessage('user', question.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
-  window._chatHistory.push({ role: 'user', content: question });
+  // Auto-fetch Confluence page from browser (bypasses Vercel IP restriction)
+  let apiContent = displayText;
+  const confUrl = displayText.match(/https?:\/\/[^\s]+atlassian\.net\/wiki\/[^\s]*/i);
+  if (confUrl) {
+    const email = localStorage.getItem('atlassian_email');
+    const token = localStorage.getItem('atlassian_token');
+    if (!email || !token) {
+      // Need credentials — just show the setup form, don't submit yet
+      checkConfluenceHint(input);
+      return;
+    }
+    const page = await browserFetchConfluence(confUrl[0], email, token);
+    if (page) {
+      apiContent = displayText.replace(confUrl[0], `[Confluence: "${page.title}"]\n\n${page.content}`);
+    }
+  }
+
+  const hint = document.getElementById('confluenceHint');
+  if (hint) hint.style.display = 'none';
+
+  addMessage('user', displayText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+  window._chatHistory.push({ role: 'user', content: apiContent });
 
   if (input) { input.value = ''; input.style.height = 'auto'; }
   if (sendBtn) sendBtn.disabled = true;
