@@ -584,10 +584,23 @@ function checkConfluenceHint(el) {
   if (!isAtlassian) { hint.style.display = 'none'; return; }
 
   hint.style.display = 'block';
-  hint.innerHTML = `<strong>Atlassian link detected</strong> — UiPath's instance blocks external access.<div style="margin-top:8px;display:flex;flex-direction:column;gap:6px"><div>① <strong>Bookmarklet:</strong> drag <span id="_bmSpan"></span> to your bookmarks bar, then click it on any Confluence page.</div><div>② <strong>Manual:</strong> open the page → Ctrl+A → Ctrl+C → paste here.</div></div>`;
+  hint.innerHTML = `<strong>Atlassian link detected</strong> — UiPath's instance blocks external access.<div style="margin-top:8px;display:flex;flex-direction:column;gap:6px"><div>① <strong>Bookmarklet (works for Confluence pages and Jira backlogs):</strong> drag <span id="_bmSpan"></span> to your bookmarks bar once, then click it on any Confluence or Jira page.</div><div>② <strong>Manual:</strong> open the page → Ctrl+A → Ctrl+C → paste here.</div></div>`;
 
-  // Build the bookmarklet link programmatically to avoid HTML-encoding issues with quotes
-  const bmCode = `javascript:(function(){var el=document.querySelector('[data-testid=content-body],#main-content,.wiki-content,article')||document.body;var c=el.innerText.replace(/\\s+/g,' ').trim().slice(0,6000);var t=document.title.replace(/\\s*[-|].*$/,'').trim();window.open('https://product-demand-insights.vercel.app/?msg='+encodeURIComponent('[Page: '+JSON.stringify(t)+']\\n\\n'+c),'_blank');})()`;
+  // Single bookmarklet that auto-detects Confluence vs Jira and extracts accordingly
+  const bmCode = `javascript:(function(){
+var t=document.title.replace(/\\s*[-|].*$/,'').trim();
+var c='';
+if(/\\/jira\\//.test(location.href)){
+  var cards=document.querySelectorAll('[data-testid*=issue],[data-testid*=card],[class*=issueRow],[class*=issue-row],.ghx-issue');
+  if(cards.length){c='Jira issues:\\n'+Array.from(cards).slice(0,150).map(function(n){return n.innerText.replace(/\\s+/g,' ').trim();}).filter(function(s){return s.length>3;}).join('\\n');}
+  else{var m=document.querySelector('[role=main],#ghx-work,#ghx-backlog,main')||document.body;c=m.innerText.replace(/\\s+/g,' ').trim();}
+}else{
+  var el=document.querySelector('[data-testid=content-body],#main-content,.wiki-content,article')||document.body;
+  c=el.innerText.replace(/\\s+/g,' ').trim();
+}
+window.open('https://product-demand-insights.vercel.app/?msg='+encodeURIComponent('[Page: '+JSON.stringify(t)+']\\n\\n'+c.slice(0,8000)),'_blank');
+})()`.replace(/\n/g,'');
+
   const a = document.createElement('a');
   a.href = bmCode;
   a.textContent = '📋 Analyze in Dashboard';
