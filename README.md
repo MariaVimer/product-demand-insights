@@ -1,12 +1,12 @@
 # Product Demand Insights
 
-A dashboard that shows which AI Agents features customers are asking for the most — ranked by real signal from Jira and Slack.
+A tool to help P&E teams work on features users actually want. It contains a dashboard that shows which AI Agents features customers are asking for the most — ranked by feedback logged in Jira and Slack. You can also prompt it to see if your roadmap covers the features in demand and what's missing.
 
 ## What it does
 
 Every Monday morning it pulls data from:
 - **Jira** (projects TIF and AE) — issues tagged with `ai-agents` or the `AI Agents` component
-- **Slack** — messages from customer-facing channels like `#help-tif-voc` and `#help-agent-builder`
+- **Slack** — messages from customer-facing channels (see full list below)
 
 It classifies everything into 10 feature themes (things like "Multi-Agent Orchestration", "Enterprise Auth", "On-Prem Deployment"), scores each one based on how much activity is coming in, and updates the dashboard with a ranked list.
 
@@ -16,21 +16,6 @@ Each feature gets a demand score based on:
 - How many Jira issues mention it
 - How many Slack messages mention it
 - Whether the activity comes from enterprise customers, escalations, or renewal risk conversations (those count more)
-
-## Feature themes tracked
-
-| ID | Theme |
-|----|-------|
-| FT-001 | On-Premises / Air-Gap Deployment |
-| FT-002 | Observability, Logging & Safety Controls |
-| FT-003 | Licensing & Metering Flexibility |
-| FT-004 | Multi-Agent Orchestration & Context Passing |
-| FT-005 | Long-Running / Async Agent Execution |
-| FT-006 | IVR & Voice Channel Integration |
-| FT-007 | Enhanced Agent Memory & State Management |
-| FT-008 | Common Agent Templates & Accelerators |
-| FT-009 | Advanced Testing & Simulation Framework |
-| FT-010 | Enterprise Auth & RBAC for Agents |
 
 ## How it's built
 
@@ -50,3 +35,13 @@ cp .env.example .env
 pip install -r requirements.txt
 python build.py
 ```
+
+## Slack channels monitored
+
+| Channel | Priority |
+|---------|----------|
+| `#help-tif-voc` | High |
+| `#product-support-escalations` | High |
+| `#platform-customer-engagement` | High |
+| `#help-agent-builder` | Medium |
+| `#help-orchestrator` | Medium |
