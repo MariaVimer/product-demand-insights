@@ -2267,12 +2267,47 @@ function updatePeriod(days) {
   }
 }
 
+// ══ PERIOD STATE ══
+window._period = '180';
+
+function updatePeriod(days) {
+  window._period = String(days);
+  DATA.features = (DATA.periods && DATA.periods[window._period]) || DATA.features;
+  // Rebuild overview charts
+  Object.values(window._charts || {}).forEach(c => { try { c.destroy(); } catch(e){} });
+  window._charts = {};
+  document.getElementById('demandBar').replaceWith(document.getElementById('demandBar').cloneNode());
+  document.getElementById('matrixScatter').replaceWith(document.getElementById('matrixScatter').cloneNode());
+  buildOverviewCharts();
+  // Re-render active page
+  renderActivePage(document.querySelector('.page.active')?.id?.replace('page-',''));
+}
+
+function renderActivePage(id) {
+  if (!id || id === 'overview' || id === 'methodology' || id === 'query') return;
+  if (id === 'features') {
+    document.getElementById('featureCardsContainer').innerHTML = '';
+    buildFeatureCards();
+  }
+  if (id === 'matrix') {
+    if (window._charts && window._charts.matrixBig) { try { window._charts.matrixBig.destroy(); } catch(e){} }
+    document.getElementById('matrixBig').replaceWith(document.getElementById('matrixBig').cloneNode());
+    window._matrixBuilt = false;
+    buildMatrix();
+  }
+  if (id === 'backlog') { document.getElementById('backlogTableBody').innerHTML = ''; window._backlogBuilt = false; buildBacklog(); }
+  if (id === 'gaps')    { window._gapsBuilt = false;  buildGaps(); }
+  if (id === 'exec')    { window._execBuilt = false;  buildExec(); }
+}
+
 // ══ NAV ══
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   event.target.classList.add('active');
+  // Always sync to current period before rendering
+  DATA.features = (DATA.periods && DATA.periods[window._period]) || DATA.features;
   if (id === 'backlog' && !window._backlogBuilt) buildBacklog();
   if (id === 'gaps'    && !window._gapsBuilt)    buildGaps();
   if (id === 'exec'    && !window._execBuilt)    buildExec();

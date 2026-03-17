@@ -35,7 +35,7 @@ def _filter_by_days(
     cutoff_str = (now - timedelta(days=days)).strftime("%Y-%m-%d")
     cutoff_ts = (now - timedelta(days=days)).timestamp()
     return (
-        [i for i in jira_issues if i.get("updated", "")[:10] >= cutoff_str],
+        [i for i in jira_issues if i.get("created", "")[:10] >= cutoff_str],
         [m for m in slack_messages if float(m.get("ts", 0)) >= cutoff_ts],
     )
 
