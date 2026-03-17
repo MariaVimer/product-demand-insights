@@ -36,7 +36,7 @@ def score_features(
         issues = [i for i in jira_issues if theme_id in i.get("themes", [])]
         msgs = [m for m in slack_messages if theme_id in m.get("themes", [])]
 
-        demand, demand_components = _demand_score(msgs)
+        demand, demand_components = _demand_score(issues, msgs)
         confidence, conf_rationale = _confidence_score(issues, msgs, demand_components)
 
         unique_customers = demand_components["unique_customers"]
@@ -73,24 +73,30 @@ def score_features(
 # Demand scoring
 # ---------------------------------------------------------------------------
 
-def _demand_score(msgs: list[dict]) -> tuple[int, dict]:
+def _demand_score(issues: list[dict], msgs: list[dict]) -> tuple[int, dict]:
     named = {m["customer_name"] for m in msgs if m.get("customer_name")}
     unique_customers = len(named)
-    total_mentions = len(msgs)
+    jira_mentions = len(issues)
+    slack_mentions = len(msgs)
     enterprise_signals = sum(1 for m in msgs if m.get("has_enterprise"))
-    escalation_signals = sum(1 for m in msgs if m.get("has_escalation"))
+    escalation_signals = (
+        sum(1 for m in msgs if m.get("has_escalation"))
+        + sum(1 for i in issues if (i.get("priority") or "").lower() in ("critical", "blocker", "highest"))
+    )
     renewal_risk_signals = sum(1 for m in msgs if m.get("has_renewal"))
 
     score = (
         unique_customers * 5
-        + total_mentions * 1
+        + jira_mentions * 1
+        + slack_mentions * 2
         + enterprise_signals * 5
         + escalation_signals * 5
         + renewal_risk_signals * 10
     )
     components = {
         "unique_customers": unique_customers,
-        "total_mentions": total_mentions,
+        "jira_mentions": jira_mentions,
+        "slack_mentions": slack_mentions,
         "enterprise_signals": enterprise_signals,
         "escalation_signals": escalation_signals,
         "renewal_risk_signals": renewal_risk_signals,
