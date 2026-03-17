@@ -906,8 +906,36 @@ const statusClass = s => {
 
 // ══ PERIOD PICKER ══
 function updatePeriod(days) {
-  const label = document.getElementById('periodLabel');
-  if (label) label.textContent = days + '-day window';
+  DATA.features = (DATA.periods && DATA.periods[String(days)]) || DATA.features;
+
+  // Destroy existing chart instances
+  Object.values(window._charts || {}).forEach(c => c.destroy());
+  window._charts = {};
+
+  // Reset built flags so pages re-render with new data
+  window._matrixBuilt   = false;
+  window._backlogBuilt  = false;
+  window._gapsBuilt     = false;
+  window._execBuilt     = false;
+  window._featuresBuilt = false;
+
+  // Re-render overview charts
+  const demandCanvas = document.getElementById('demandBar');
+  const scatterCanvas = document.getElementById('matrixScatter');
+  if (demandCanvas) { demandCanvas.replaceWith(demandCanvas.cloneNode()); }
+  if (scatterCanvas) { scatterCanvas.replaceWith(scatterCanvas.cloneNode()); }
+  buildOverviewCharts();
+
+  // Re-render whichever page is currently active
+  const active = document.querySelector('.page.active');
+  if (active) {
+    const id = active.id.replace('page-', '');
+    if (id === 'features') { document.getElementById('featureCardsContainer').innerHTML = ''; buildFeatureCards(); }
+    if (id === 'matrix')   buildMatrix();
+    if (id === 'backlog')  { document.getElementById('backlogTableBody').innerHTML = ''; buildBacklog(); }
+    if (id === 'gaps')     buildGaps();
+    if (id === 'exec')     buildExec();
+  }
 }
 
 // ══ NAV ══
@@ -924,9 +952,10 @@ function showPage(id) {
 }
 
 // ══ OVERVIEW CHARTS ══
-window.addEventListener('load', () => {
+function buildOverviewCharts() {
+  window._charts = window._charts || {};
   // Demand bar
-  new Chart(document.getElementById('demandBar'), {
+  window._charts.demandBar = new Chart(document.getElementById('demandBar'), {
     type: 'bar',
     data: {
       labels: DATA.features.map(f => f.theme.length > 28 ? f.theme.slice(0,26)+'…' : f.theme),
@@ -941,7 +970,7 @@ window.addEventListener('load', () => {
   });
 
   // Matrix scatter (overview)
-  new Chart(document.getElementById('matrixScatter'), {
+  window._charts.matrixScatter = new Chart(document.getElementById('matrixScatter'), {
     type: 'scatter',
     data: {
       datasets: [{
@@ -961,7 +990,8 @@ window.addEventListener('load', () => {
       maintainAspectRatio: false
     }
   });
-});
+}
+window.addEventListener('load', buildOverviewCharts);
 
 // ══ FEATURE CARDS ══
 function buildFeatureCards() {

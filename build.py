@@ -20,8 +20,24 @@ import json
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+PERIODS = [30, 60, 90, 180, 365]
+
+
+def _filter_by_days(
+    jira_issues: list[dict],
+    slack_messages: list[dict],
+    days: int,
+    now: datetime,
+) -> tuple[list[dict], list[dict]]:
+    cutoff_str = (now - timedelta(days=days)).strftime("%Y-%m-%d")
+    cutoff_ts = (now - timedelta(days=days)).timestamp()
+    return (
+        [i for i in jira_issues if i.get("updated", "")[:10] >= cutoff_str],
+        [m for m in slack_messages if float(m.get("ts", 0)) >= cutoff_ts],
+    )
 
 
 def _load_dotenv() -> None:
@@ -56,16 +72,22 @@ def main() -> None:
     slack_messages = fetch_slack_messages()
     print(f"[build] {len(slack_messages)} Slack messages fetched (theme-matched)")
 
-    # --- Score ---
+    # --- Score per time window ---
     print("[build] Scoring feature themes...")
     from score import score_features
-    features = score_features(jira_issues, slack_messages)
-    print(f"[build] {len(features)} features scored and ranked")
+    now = datetime.now(timezone.utc)
+    periods: dict[str, list] = {}
+    for days in PERIODS:
+        fj, fs = _filter_by_days(jira_issues, slack_messages, days, now)
+        periods[str(days)] = score_features(fj, fs)
+        print(f"[build]   {days}d window: {len(fj)} Jira, {len(fs)} Slack")
+    print(f"[build] {len(periods['180'])} features scored and ranked")
 
     # --- Build DATA object ---
     data = {
-        "last_updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "features": features,
+        "last_updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "features": periods["180"],
+        "periods": periods,
     }
 
     # --- Inject into index.html ---
