@@ -583,14 +583,16 @@ function checkConfluenceHint(el) {
   const isAtlassian = /https?:\/\/[^\s]+atlassian\.net\/[^\s]*/i.test(val);
   if (!isAtlassian) { hint.style.display = 'none'; return; }
 
-  const bm = `javascript:(function(){var el=document.querySelector('[data-testid="content-body"],#main-content,.wiki-content,article')||document.body;var content=el.innerText.replace(/\\s+/g,' ').trim().slice(0,12000);var title=document.title.replace(/\\s*[-|]\\s*Confluence.*/i,'').trim();window.open('https://product-demand-insights.vercel.app/?msg='+encodeURIComponent('[Page: "'+title+'"]\n\n'+content),'_blank');})()`;
-
   hint.style.display = 'block';
-  hint.innerHTML = `<strong>Atlassian link detected</strong> — UiPath's instance blocks external access. Two options:
-    <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">
-      <div>① <strong>Bookmarklet (recommended):</strong> drag this to your bookmarks bar, then click it on any Confluence page to send the content here automatically: <a href="${bm}" style="display:inline-block;margin-left:6px;padding:3px 10px;background:#2563eb;color:#fff;border-radius:5px;font-size:11px;text-decoration:none" onclick="return false;" ondragstart="">📋 Analyze in Dashboard</a></div>
-      <div>② <strong>Manual:</strong> open the page → Ctrl+A → Ctrl+C → paste here.</div>
-    </div>`;
+  hint.innerHTML = `<strong>Atlassian link detected</strong> — UiPath's instance blocks external access.<div style="margin-top:8px;display:flex;flex-direction:column;gap:6px"><div>① <strong>Bookmarklet:</strong> drag <span id="_bmSpan"></span> to your bookmarks bar, then click it on any Confluence page.</div><div>② <strong>Manual:</strong> open the page → Ctrl+A → Ctrl+C → paste here.</div></div>`;
+
+  // Build the bookmarklet link programmatically to avoid HTML-encoding issues with quotes
+  const bmCode = `javascript:(function(){var el=document.querySelector('[data-testid=content-body],#main-content,.wiki-content,article')||document.body;var c=el.innerText.replace(/\\s+/g,' ').trim().slice(0,6000);var t=document.title.replace(/\\s*[-|].*$/,'').trim();window.open('https://product-demand-insights.vercel.app/?msg='+encodeURIComponent('[Page: '+JSON.stringify(t)+']\\n\\n'+c),'_blank');})()`;
+  const a = document.createElement('a');
+  a.href = bmCode;
+  a.textContent = '📋 Analyze in Dashboard';
+  a.style.cssText = 'padding:3px 10px;background:#2563eb;color:#fff;border-radius:5px;font-size:11px;text-decoration:none;cursor:grab';
+  document.getElementById('_bmSpan').appendChild(a);
 }
 
 // ══ CHAT HISTORY ══
@@ -685,24 +687,9 @@ async function chatExplore() {
   }
 }
 
-// ══ BOOKMARKLET ?msg= HANDLER ══
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  const msg = params.get('msg');
-  if (!msg) return;
-  // Clean URL without reloading
-  window.history.replaceState({}, '', window.location.pathname);
-  // Wait for DOM + DATA to be ready, then switch to Query tab and auto-submit
-  window.addEventListener('load', function() {
-    showPage('query');
-    const input = document.getElementById('chatInput');
-    if (input) {
-      input.value = decodeURIComponent(msg);
-      autoGrow(input);
-      chatExplore();
-    }
-  });
-})();
+// ══ BOOKMARKLET ?msg= HANDLER — runs after DATA is defined ══
+window._bmMsg = new URLSearchParams(window.location.search).get('msg');
+if (window._bmMsg) window.history.replaceState({}, '', window.location.pathname);
 
 // ══ DATA ══
 const DATA = {
@@ -3288,6 +3275,15 @@ function buildExec() {
   document.getElementById('actionsContainer').innerHTML = actions.map(a => `
     <div class="alert-item ${a.cls}"><div class="alert-icon">${a.icon}</div><div>${a.text}</div></div>
   `).join('');
+}
+
+// ══ BOOKMARKLET AUTO-LOAD ══
+if (window._bmMsg) {
+  setTimeout(function() {
+    showPage('query');
+    const input = document.getElementById('chatInput');
+    if (input) { input.value = decodeURIComponent(window._bmMsg); autoGrow(input); chatExplore(); }
+  }, 50);
 }
 </script>
 </body>
