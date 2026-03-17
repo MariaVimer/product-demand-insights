@@ -23,7 +23,7 @@ async function fetchConfluencePage(url, email, token) {
     { headers }
   );
   console.log('[confluence] API status:', resp.status, 'pageId:', pageId);
-  if (!resp.ok) return null;
+  if (!resp.ok) throw new Error(`Confluence API returned HTTP ${resp.status} for page ${pageId}`);
 
   const data = await resp.json();
   const title = data.title || 'Confluence page';
