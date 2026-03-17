@@ -1,3 +1,64 @@
+// Fetch a Confluence page by URL and return plain text content + title.
+// Returns null if URL is not a Confluence page or fetch fails.
+async function fetchConfluencePage(url, email, token) {
+  const match = url.match(/atlassian\.net\/wiki\/(?:spaces\/[^/]+\/pages\/(\d+)|x\/([A-Za-z0-9_-]+))/);
+  if (!match) return null;
+
+  const auth = Buffer.from(`${email}:${token}`).toString('base64');
+  const headers = { Authorization: `Basic ${auth}`, Accept: 'application/json' };
+
+  let pageId = match[1];
+
+  // Short-link format (/wiki/x/XXXX) — resolve to page ID first
+  if (!pageId && match[2]) {
+    const tiny = await fetch(url, { method: 'HEAD', redirect: 'follow' });
+    const resolved = tiny.url;
+    const m2 = resolved.match(/pages\/(\d+)/);
+    if (!m2) return null;
+    pageId = m2[1];
+  }
+
+  const resp = await fetch(
+    `https://uipath.atlassian.net/wiki/rest/api/content/${pageId}?expand=body.storage,title`,
+    { headers }
+  );
+  if (!resp.ok) return null;
+
+  const data = await resp.json();
+  const title = data.title || 'Confluence page';
+  // Strip Confluence storage XML/HTML to plain text
+  const raw = (data.body?.storage?.value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  // Truncate to ~12 000 chars to stay within token budget
+  const content = raw.length > 12000 ? raw.slice(0, 12000) + '\n… [truncated]' : raw;
+  return { title, content };
+}
+
+// Replace any Confluence URLs in the last user message with fetched page content.
+async function resolveConfluenceUrls(messages) {
+  if (!process.env.JIRA_EMAIL || !process.env.JIRA_TOKEN) return messages;
+
+  const out = [...messages];
+  const last = out[out.length - 1];
+  if (!last || last.role !== 'user') return out;
+
+  const urlRe = /https:\/\/[^\s]+\.atlassian\.net\/wiki\/[^\s)">]*/g;
+  const urls = last.content.match(urlRe);
+  if (!urls) return out;
+
+  let content = last.content;
+  for (const url of urls) {
+    const page = await fetchConfluencePage(url, process.env.JIRA_EMAIL, process.env.JIRA_TOKEN);
+    if (page) {
+      content = content.replace(
+        url,
+        `[Confluence page: "${page.title}"]\n\n${page.content}`
+      );
+    }
+  }
+  out[out.length - 1] = { ...last, content };
+  return out;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -46,6 +107,8 @@ Guidelines:
 - Be concise but complete`;
 
   try {
+    const resolvedMessages = await resolveConfluenceUrls(messages);
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -57,7 +120,7 @@ Guidelines:
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1200,
         system: systemPrompt,
-        messages,
+        messages: resolvedMessages,
       }),
     });
 
