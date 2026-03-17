@@ -12,11 +12,7 @@ from requests.auth import HTTPBasicAuth
 from config import FEATURE_THEMES
 
 JIRA_BASE_URL = "https://uipath.atlassian.net"
-JQL = (
-    'project in (TIF, AE) AND '
-    '(labels = "ai-agents" OR component = "AI Agents") '
-    'ORDER BY updated DESC'
-)
+JQL = 'project in (TIF, AE) ORDER BY updated DESC'
 _PAGE_SIZE = 100
 
 
