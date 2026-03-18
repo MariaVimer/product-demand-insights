@@ -99,6 +99,8 @@ RENEWAL_KEYWORDS = [
 
 # Slack channel classification
 HIGH_CHANNELS = {
+    "help-orchestrator",
+    "product-support-escalations",
     "help-product-engagement",
     "customer-connect-emea",
 }
