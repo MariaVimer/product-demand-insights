@@ -102,9 +102,10 @@ def main() -> None:
     html = index_path.read_text(encoding="utf-8")
     replacement = "const DATA = " + json.dumps(data, indent=2, ensure_ascii=False) + ";"
 
+    # Use a lambda so re.subn doesn't interpret \n, \t etc. in the replacement string
     new_html, n = re.subn(
         r"const DATA = \{.*?\};",
-        replacement,
+        lambda _: replacement,
         html,
         flags=re.DOTALL,
     )
