@@ -318,12 +318,12 @@
     </div>
     <div class="stat-card">
       <div class="label">Unique Customers</div>
-      <div class="value">28</div>
+      <div class="value" id="statCustomers">–</div>
       <div class="sub">Identified by name</div>
     </div>
     <div class="stat-card">
       <div class="label">Feature Themes</div>
-      <div class="value">10</div>
+      <div class="value" id="statThemes">–</div>
       <div class="sub">Clustered &amp; scored</div>
     </div>
     <div class="stat-card">
@@ -333,7 +333,7 @@
     </div>
     <div class="stat-card">
       <div class="label">Backlog Gaps</div>
-      <div class="value" style="color:var(--orange)">4</div>
+      <div class="value" style="color:var(--orange)" id="statGaps">–</div>
       <div class="sub">High demand, no TIF</div>
     </div>
   </div>
@@ -2882,6 +2882,15 @@ function updatePeriod(days) {
   if (el) el.textContent = count != null ? count.toLocaleString() : '–';
   const lbl = document.getElementById('periodLabel');
   if (lbl) lbl.textContent = days + '-day window';
+  // Update stat cards from current period data
+  const maxCustomers = Math.max(...DATA.features.map(f => f.customers));
+  const gaps = DATA.features.filter(f => !f.jira || f.jira.length === 0).length;
+  const sc = document.getElementById('statCustomers');
+  if (sc) sc.textContent = maxCustomers.toLocaleString();
+  const st = document.getElementById('statThemes');
+  if (st) st.textContent = DATA.features.length;
+  const sg = document.getElementById('statGaps');
+  if (sg) sg.textContent = gaps;
   // Reset all page built flags so every tab re-renders with new data
   window._featuresBuilt = false;
   window._matrixBuilt   = false;
