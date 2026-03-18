@@ -2882,12 +2882,16 @@ function updatePeriod(days) {
   if (el) el.textContent = count != null ? count.toLocaleString() : '–';
   const lbl = document.getElementById('periodLabel');
   if (lbl) lbl.textContent = days + '-day window';
+  // Reset all page built flags so every tab re-renders with new data
+  window._featuresBuilt = false;
+  window._matrixBuilt   = false;
+  window._execBuilt     = false;
   // Rebuild overview charts
   Object.values(window._charts || {}).forEach(c => { try { c.destroy(); } catch(e){} });
   window._charts = {};
   document.getElementById('demandBar').replaceWith(document.getElementById('demandBar').cloneNode());
   buildOverviewCharts();
-  // Re-render active page
+  // Re-render active page if not overview
   renderActivePage(document.querySelector('.page.active')?.id?.replace('page-',''));
 }
 
