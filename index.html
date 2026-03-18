@@ -338,17 +338,12 @@
     </div>
   </div>
 
-  <div class="section-title">Top Feature Requests — Demand vs. Confidence <span>Hover for details</span></div>
-  <div class="chart-row">
+  <div class="section-title">Top Feature Requests — Demand Score <span>Hover for details</span></div>
+  <div class="chart-row" style="grid-template-columns:1fr;">
     <div class="chart-card">
       <h3>Demand Score by Feature Theme</h3>
-      <p>Higher score = stronger customer pull signal</p>
+      <p>Higher score = stronger customer pull indicator</p>
       <div class="chart-canvas-wrap"><canvas id="demandBar"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <h3>Demand vs. Confidence (Priority Matrix)</h3>
-      <p>Top-right quadrant = highest priority to act on</p>
-      <div class="chart-canvas-wrap"><canvas id="matrixScatter"></canvas></div>
     </div>
   </div>
 
@@ -2891,7 +2886,6 @@ function updatePeriod(days) {
   Object.values(window._charts || {}).forEach(c => { try { c.destroy(); } catch(e){} });
   window._charts = {};
   document.getElementById('demandBar').replaceWith(document.getElementById('demandBar').cloneNode());
-  document.getElementById('matrixScatter').replaceWith(document.getElementById('matrixScatter').cloneNode());
   buildOverviewCharts();
   // Re-render active page
   renderActivePage(document.querySelector('.page.active')?.id?.replace('page-',''));
@@ -2943,27 +2937,6 @@ function buildOverviewCharts() {
     options: { indexAxis:'y', plugins:{ legend:{display:false}, tooltip:{ callbacks:{ title: ctx => DATA.features[ctx[0].dataIndex].theme, label: ctx => `Demand: ${ctx.raw}` } } }, scales:{ x:{grid:{color:'#f1f5f9'}}, y:{grid:{display:false}, ticks:{font:{size:11}}} }, maintainAspectRatio:false }
   });
 
-  // Matrix scatter (overview)
-  window._charts.matrixScatter = new Chart(document.getElementById('matrixScatter'), {
-    type: 'scatter',
-    data: {
-      datasets: [{
-        label: 'Features',
-        data: DATA.features.map(f => ({ x: f.demand, y: f.confidence, label: f.id })),
-        backgroundColor: DATA.features.map(f => f.priority === 'critical' ? '#ef5350cc' : f.priority === 'high' ? '#ff9800cc' : f.priority === 'moderate' ? '#42a5f5cc' : '#90a4aecc'),
-        pointRadius: DATA.features.map(f => Math.max(6, f.customers * 1.8)),
-        pointHoverRadius: DATA.features.map(f => Math.max(8, f.customers * 2.2)),
-      }]
-    },
-    options: {
-      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => DATA.features[ctx.dataIndex].theme + ` (D:${ctx.raw.x} C:${ctx.raw.y})` } } },
-      scales: {
-        x: { min:0, max: Math.ceil(Math.max(...DATA.features.map(f=>f.demand)) * 1.1), title:{display:true, text:'Demand Score', font:{size:11}}, grid:{color:'#f1f5f9'} },
-        y: { min:0, max:100, title:{display:true, text:'Confidence Score', font:{size:11}}, grid:{color:'#f1f5f9'} }
-      },
-      maintainAspectRatio: false
-    }
-  });
 }
 window.addEventListener('load', () => {
   buildOverviewCharts();
