@@ -287,8 +287,7 @@
       <button class="active" onclick="showPage('overview')">Overview</button>
       <button onclick="showPage('features')">Feature Requests</button>
       <button onclick="showPage('matrix')">Priority Matrix</button>
-      <button onclick="showPage('backlog')">Backlog Validation</button>
-      <button onclick="showPage('gaps')">Feature Gaps</button>
+
       <button onclick="showPage('exec')">Executive Summary</button>
       <button onclick="showPage('methodology')">Methodology</button>
       <button onclick="showPage('query')" style="margin-top:12px;border-top:1px solid var(--border);padding-top:14px;">Query the database</button>
@@ -383,73 +382,6 @@
         </div>
       </div>
       <div id="matrixFeatureList" style="margin-top:14px;"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ BACKLOG VALIDATION ══════════════ -->
-<div class="page" id="page-backlog">
-  <div class="section-title">Backlog Validation <span>35 Jira tickets mapped to feature themes</span></div>
-  <div class="table-wrap">
-    <div class="table-toolbar">
-      <input id="searchBacklog" placeholder="🔍  Search tickets…" style="width:200px;" oninput="filterBacklog()" />
-      <select id="filterDemand" onchange="filterBacklog()">
-        <option value="">All Demand Levels</option>
-        <option value="HIGH">HIGH</option>
-        <option value="MODERATE">MODERATE</option>
-        <option value="LOW">LOW</option>
-        <option value="NO_DEMAND">NO DEMAND</option>
-        <option value="INTERNAL">INTERNAL</option>
-      </select>
-      <select id="filterTheme" onchange="filterBacklog()">
-        <option value="">All Themes</option>
-      </select>
-    </div>
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Jira Key</th>
-            <th>Summary</th>
-            <th>Status</th>
-            <th>Feature Theme</th>
-            <th>Demand</th>
-            <th>Confidence</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody id="backlogTbody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ FEATURE GAPS ══════════════ -->
-<div class="page" id="page-gaps">
-  <div class="section-title">High-Demand Gaps — Not in Backlog <span>Signals with no TIF ticket</span></div>
-  <div class="gaps-grid" id="gapsContainer"></div>
-
-  <div class="section-title" style="margin-top:8px;">Low-Demand Backlog Items <span>Candidates to deprioritize or close</span></div>
-  <div class="table-wrap">
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr><th>Jira Key</th><th>Summary</th><th>Demand Score</th><th>Recommendation</th><th>Rationale</th></tr>
-        </thead>
-        <tbody id="lowDemandTbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section-title" style="margin-top:24px;">Misaligned Backlog Items <span>Closed tickets with active underlying demand</span></div>
-  <div class="table-wrap">
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr><th>Jira Key</th><th>Summary</th><th>Status</th><th>Concern</th><th>Recommendation</th></tr>
-        </thead>
-        <tbody id="misalignTbody"></tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -652,8 +584,6 @@ function goToTab(id) {
   });
   const pg = document.getElementById('page-' + id);
   if (pg) pg.classList.add('active');
-  if (id === 'backlog' && !window._backlogBuilt) buildBacklog();
-  if (id === 'gaps'    && !window._gapsBuilt)    buildGaps();
   if (id === 'exec'    && !window._execBuilt)    buildExec();
   if (id === 'features'&& !window._featuresBuilt)buildFeatureCards();
   if (id === 'matrix'  && !window._matrixBuilt)  buildMatrix();
@@ -2930,6 +2860,7 @@ const DATA = {
 };
 
 // ══ UTILS ══
+const esc = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const confColor = l => ({ HIGH:"var(--teal)", MODERATE:"#f57c00", LOW:"#e53935" }[l] || "#999");
 const confTag   = l => ({ HIGH:"tag-conf-high", MODERATE:"tag-conf-mod", LOW:"tag-conf-low" }[l] || "");
 const demandLevelClass = d => ({ HIGH:"dl-high", MODERATE:"dl-moderate", LOW:"dl-low", NO_DEMAND:"dl-none", INTERNAL:"dl-internal" }[d] || "");
@@ -2944,40 +2875,6 @@ const statusClass = s => {
   if (sl.includes("review")) return "status-review";
   return "status-analyzing";
 };
-
-// ══ PERIOD PICKER ══
-function updatePeriod(days) {
-  DATA.features = (DATA.periods && DATA.periods[String(days)]) || DATA.features;
-
-  // Destroy existing chart instances
-  Object.values(window._charts || {}).forEach(c => c.destroy());
-  window._charts = {};
-
-  // Reset built flags so pages re-render with new data
-  window._matrixBuilt   = false;
-  window._backlogBuilt  = false;
-  window._gapsBuilt     = false;
-  window._execBuilt     = false;
-  window._featuresBuilt = false;
-
-  // Re-render overview charts
-  const demandCanvas = document.getElementById('demandBar');
-  const scatterCanvas = document.getElementById('matrixScatter');
-  if (demandCanvas) { demandCanvas.replaceWith(demandCanvas.cloneNode()); }
-  if (scatterCanvas) { scatterCanvas.replaceWith(scatterCanvas.cloneNode()); }
-  buildOverviewCharts();
-
-  // Re-render whichever page is currently active
-  const active = document.querySelector('.page.active');
-  if (active) {
-    const id = active.id.replace('page-', '');
-    if (id === 'features') { document.getElementById('featureCardsContainer').innerHTML = ''; buildFeatureCards(); }
-    if (id === 'matrix')   buildMatrix();
-    if (id === 'backlog')  { document.getElementById('backlogTableBody').innerHTML = ''; buildBacklog(); }
-    if (id === 'gaps')     buildGaps();
-    if (id === 'exec')     buildExec();
-  }
-}
 
 // ══ PERIOD STATE ══
 window._period = '180';
@@ -3012,8 +2909,6 @@ function renderActivePage(id) {
     window._matrixBuilt = false;
     buildMatrix();
   }
-  if (id === 'backlog') { document.getElementById('backlogTableBody').innerHTML = ''; window._backlogBuilt = false; buildBacklog(); }
-  if (id === 'gaps')    { window._gapsBuilt = false;  buildGaps(); }
   if (id === 'exec')    { window._execBuilt = false;  buildExec(); }
 }
 
@@ -3025,8 +2920,6 @@ function showPage(id) {
   event.target.classList.add('active');
   // Always sync to current period before rendering
   DATA.features = (DATA.periods && DATA.periods[window._period]) || DATA.features;
-  if (id === 'backlog' && !window._backlogBuilt) buildBacklog();
-  if (id === 'gaps'    && !window._gapsBuilt)    buildGaps();
   if (id === 'exec'    && !window._execBuilt)    buildExec();
   if (id === 'features'&& !window._featuresBuilt)buildFeatureCards();
   if (id === 'matrix'  && !window._matrixBuilt)  buildMatrix();
@@ -3093,7 +2986,7 @@ function buildFeatureCards() {
           <div class="score-pill confidence"><span class="s-value" style="color:${confColor(f.confLevel)}">${f.confidence}</span></div>
         </div>
       </div>
-      <div class="fc-quote">"${f.quote}"</div>
+      <div class="fc-quote">"${esc(f.quote)}"</div>
       <div class="fc-details" style="grid-template-columns:repeat(3,1fr);">
         <div class="fc-detail"><div class="d-val">${f.customers}</div><div class="d-lbl">Customers</div></div>
         <div class="fc-detail"><div class="d-val">${f.escalations}</div><div class="d-lbl">Escalations</div></div>
@@ -3123,7 +3016,7 @@ function buildMatrix() {
     data: {
       datasets: DATA.features.map(f => ({
         label: f.id,
-        data: [{ x: f.demand, y: f.confidence, r: Math.max(8, f.customers * 2.5) }],
+        data: [{ x: f.demand, y: f.confidence, r: Math.max(6, Math.min(24, Math.cbrt(f.customers + 1) * 4)) }],
         backgroundColor: (f.priority==='critical'?'#ef5350':f.priority==='high'?'#ff9800':f.priority==='moderate'?'#42a5f5':'#90a4ae') + 'bb',
         borderColor: f.priority==='critical'?'#c62828':f.priority==='high'?'#e65100':f.priority==='moderate'?'#1565c0':'#607d8b',
         borderWidth: 2,
@@ -3181,75 +3074,6 @@ function buildMatrix() {
       <span style="font-size:11px;font-weight:700;color:${f.priority==='critical'?'#c62828':f.priority==='high'?'#e65100':f.priority==='moderate'?'#1565c0':'#607d8b'};width:44px;">${f.id}</span>
       <span style="font-size:11px;flex:1;color:var(--muted);">${f.theme.length>28?f.theme.slice(0,26)+'…':f.theme}</span>
     </div>
-  `).join('');
-}
-
-// ══ BACKLOG ══
-function buildBacklog() {
-  window._backlogBuilt = true;
-  const themes = [...new Set(DATA.backlog.map(r => r.theme))].sort();
-  const sel = document.getElementById('filterTheme');
-  themes.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o); });
-  renderBacklog(DATA.backlog);
-}
-function renderBacklog(rows) {
-  document.getElementById('backlogTbody').innerHTML = rows.map(r => `
-    <tr>
-      <td><span class="jira-key">${r.key}</span></td>
-      <td>${r.summary}</td>
-      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
-      <td style="white-space:nowrap;font-size:11px;">${r.theme}</td>
-      <td><span class="${demandLevelClass(r.demand)}">${r.demand}</span></td>
-      <td><span style="font-size:12px;font-weight:700;color:${r.confScore>=80?'var(--teal)':r.confScore>=50?'#f57c00':'#e53935'}">${r.confScore || '—'}</span></td>
-      <td class="notes">${r.notes}</td>
-    </tr>
-  `).join('');
-}
-function filterBacklog() {
-  const q = document.getElementById('searchBacklog').value.toLowerCase();
-  const d = document.getElementById('filterDemand').value;
-  const t = document.getElementById('filterTheme').value;
-  renderBacklog(DATA.backlog.filter(r =>
-    (!q || r.key.toLowerCase().includes(q) || r.summary.toLowerCase().includes(q) || r.theme.toLowerCase().includes(q)) &&
-    (!d || r.demand === d) &&
-    (!t || r.theme === t)
-  ));
-}
-
-// ══ GAPS ══
-function buildGaps() {
-  window._gapsBuilt = true;
-  document.getElementById('gapsContainer').innerHTML = DATA.gaps.map(g => `
-    <div class="gap-card gap-${g.urgency.toLowerCase()}">
-      <div class="gap-header">
-        <div class="gap-title">${g.feature}</div>
-        <div class="urgency-badge ub-${g.urgency.toLowerCase()}">${g.urgency}</div>
-      </div>
-      <div class="gap-scores">
-        <span class="tag tag-${g.urgency==='URGENT'?'critical':g.urgency==='HIGH'?'high':'moderate'}">Demand ~${g.demand}</span>
-        <span class="tag ${confTag(g.confLevel)}">Confidence ${g.confidence} · ${g.confLevel}</span>
-      </div>
-      <div class="gap-evidence">${g.evidence}</div>
-      <div class="gap-action">→ ${g.action}</div>
-    </div>
-  `).join('');
-  document.getElementById('lowDemandTbody').innerHTML = DATA.lowDemand.map(r => `
-    <tr>
-      <td><span class="jira-key">${r.key}</span></td>
-      <td>${r.summary}</td>
-      <td style="font-weight:700;color:var(--muted);">${r.score}</td>
-      <td style="font-weight:700;color:var(--orange);white-space:nowrap;">${r.rec}</td>
-      <td class="notes">${r.rationale}</td>
-    </tr>
-  `).join('');
-  document.getElementById('misalignTbody').innerHTML = DATA.misalign.map(r => `
-    <tr>
-      <td><span class="jira-key">${r.key}</span></td>
-      <td>${r.summary}</td>
-      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
-      <td class="notes">${r.concern}</td>
-      <td class="notes" style="color:var(--red);font-weight:500;">${r.rec}</td>
-    </tr>
   `).join('');
 }
 
