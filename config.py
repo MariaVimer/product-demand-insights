@@ -99,12 +99,11 @@ RENEWAL_KEYWORDS = [
 
 # Slack channel classification
 HIGH_CHANNELS = {
-    "help-tif-voc",
-    "product-support-escalations",
-    "platform-customer-engagement",
+    "help-product-engagement",
+    "customer-connect-emea",
 }
 MEDIUM_CHANNELS = {
-    "help-agent-builder",
-    "help-orchestrator",
+    "product-feedback-integrations",
+    "help-productops",
 }
 TARGET_CHANNELS = HIGH_CHANNELS | MEDIUM_CHANNELS
