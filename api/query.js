@@ -1,4 +1,14 @@
-export default async function handler(req, res) {
+'use strict';
+
+const tracer = require('dd-trace').init({
+  llmobs: {
+    mlApp: 'test-maria-1',
+    agentlessEnabled: true,
+  },
+});
+const llmobs = tracer.llmobs;
+
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -45,30 +55,49 @@ Guidelines:
 - Call out competitive angles only when genuinely relevant to the question
 - Be concise but complete`;
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1200,
-        system: systemPrompt,
-        messages,
-      }),
-    });
+  return llmobs.trace(
+    { kind: 'llm', name: 'product-demand-query', modelName: 'claude-haiku-4-5-20251001', modelProvider: 'anthropic' },
+    async () => {
+      llmobs.annotate({ inputData: [{ role: 'system', content: systemPrompt }, ...messages] });
 
-    if (!response.ok) {
-      const err = await response.text();
-      return res.status(502).json({ error: `Claude API error: ${err}` });
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.ANTHROPIC_API_KEY,
+            'anthropic-version': '2023-06-01',
+          },
+          body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 1200,
+            system: systemPrompt,
+            messages,
+          }),
+        });
+
+        if (!response.ok) {
+          const err = await response.text();
+          res.status(502).json({ error: `Claude API error: ${err}` });
+          return;
+        }
+
+        const result = await response.json();
+        const answer = result.content[0].text;
+
+        llmobs.annotate({
+          outputData: [{ role: 'assistant', content: answer }],
+          metrics: {
+            inputTokens: result.usage?.input_tokens,
+            outputTokens: result.usage?.output_tokens,
+            totalTokens: (result.usage?.input_tokens ?? 0) + (result.usage?.output_tokens ?? 0),
+          },
+        });
+
+        res.status(200).json({ answer });
+      } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
     }
-
-    const result = await response.json();
-    return res.status(200).json({ answer: result.content[0].text });
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-}
+  );
+};
