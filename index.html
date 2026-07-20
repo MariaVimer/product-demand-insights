@@ -627,34 +627,42 @@ if (window._bmMsg) window.history.replaceState({}, '', window.location.pathname)
 
 // ══ DATA ══
 const DATA = {
-  "last_updated": "2026-07-13T11:18:57Z",
+  "last_updated": "2026-07-20T10:58:52Z",
   "features": [
     {
       "id": "FT-009",
       "rank": 1,
       "theme": "Advanced Testing & Simulation Framework",
       "priority": "critical",
-      "demand": 1142,
-      "confidence": 92,
+      "demand": 2621,
+      "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 2,
-      "escalations": 61,
-      "renewal": 0,
-      "quote": "Hello! I need to find out the license code for some alpha + staging + prod organizations that are used in our synthetic tests. How could I do that?",
-      "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 819 Jira issue(s) in backlog",
+      "customers": 86,
+      "escalations": 133,
+      "renewal": 17,
+      "quote": "Hi team,\n\nTest manager received a customer issue for un-triggered test executions (scheduled or manual) on Feb 5\nInvestigation shows this endpoint to fail with 400\n\n<http://istio-egressgateway.istio-system.svc.cluster.local/4c69d77d-188d-41ee-884a-e5",
+      "confRationale": "customer-validated (86 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 841 Jira issue(s) in backlog",
       "jira": [
-        "TIF-11253",
-        "AE-1715",
-        "AE-1911",
-        "TIF-9803",
-        "AE-1895",
-        "AE-1722",
-        "AE-1890",
+        "TIF-11341",
+        "AE-1964",
+        "AE-1948",
+        "AE-1930",
+        "AE-1979",
+        "AE-1978",
         "TIF-10893",
-        "TIF-11247",
-        "AE-1501"
+        "TIF-10764",
+        "TIF-10763",
+        "AE-1945"
       ],
       "slack": [
+        {
+          "label": "#help-orchestrator (Jul 16)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+        },
+        {
+          "label": "#product-support-escalations (Jul 15)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
+        },
         {
           "label": "#help-product-engagement (May 07)",
           "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1778163143240869"
@@ -662,63 +670,39 @@ const DATA = {
       ]
     },
     {
-      "id": "FT-003",
+      "id": "FT-004",
       "rank": 2,
-      "theme": "Licensing & Metering Flexibility",
+      "theme": "Multi-Agent Orchestration & Context Passing",
       "priority": "critical",
-      "demand": 330,
+      "demand": 2536,
       "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 13,
-      "escalations": 11,
-      "renewal": 3,
+      "customers": 155,
+      "escalations": 61,
+      "renewal": 12,
       "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-      "confRationale": "customer-validated (13 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 114 Jira issue(s) in backlog",
+      "confRationale": "customer-validated (155 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 211 Jira issue(s) in backlog",
       "jira": [
-        "TIF-11149",
-        "TIF-10879",
-        "TIF-11262",
-        "TIF-11258",
-        "TIF-9630",
-        "AE-1910",
-        "TIF-10147",
-        "TIF-10977",
-        "TIF-9895",
-        "TIF-11121"
+        "TIF-9606",
+        "TIF-9741",
+        "TIF-11288",
+        "TIF-11104",
+        "TIF-11336",
+        "TIF-11337",
+        "TIF-11226",
+        "TIF-11314",
+        "TIF-11298",
+        "TIF-11294"
       ],
       "slack": [
         {
-          "label": "#help-product-engagement (Jun 24)",
-          "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
-        }
-      ]
-    },
-    {
-      "id": "FT-004",
-      "rank": 3,
-      "theme": "Multi-Agent Orchestration & Context Passing",
-      "priority": "critical",
-      "demand": 287,
-      "confidence": 92,
-      "confLevel": "HIGH",
-      "customers": 2,
-      "escalations": 6,
-      "renewal": 2,
-      "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-      "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 212 Jira issue(s) in backlog",
-      "jira": [
-        "TIF-9655",
-        "TIF-9704",
-        "TIF-11267",
-        "TIF-10973",
-        "TIF-11260",
-        "TIF-11269",
-        "TIF-11122",
-        "TIF-9606",
-        "TIF-11274",
-        "TIF-9741"
-      ],
-      "slack": [
+          "label": "#help-orchestrator (Jul 17)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+        },
+        {
+          "label": "#product-support-escalations (Jul 13)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+        },
         {
           "label": "#help-product-engagement (May 22)",
           "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779456797555599"
@@ -726,63 +710,79 @@ const DATA = {
       ]
     },
     {
-      "id": "FT-002",
-      "rank": 4,
-      "theme": "Observability, Logging & Safety Controls",
+      "id": "FT-003",
+      "rank": 3,
+      "theme": "Licensing & Metering Flexibility",
       "priority": "critical",
-      "demand": 218,
+      "demand": 1206,
       "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 3,
-      "escalations": 10,
-      "renewal": 3,
+      "customers": 49,
+      "escalations": 60,
+      "renewal": 20,
       "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-      "confRationale": "customer-validated (3 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 115 Jira issue(s) in backlog",
+      "confRationale": "customer-validated (49 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 117 Jira issue(s) in backlog",
       "jira": [
-        "TIF-9704",
-        "TIF-10973",
-        "TIF-11274",
-        "AE-1831",
-        "AE-1890",
-        "TIF-11250",
-        "AE-1905",
-        "AE-1816",
-        "AE-1815",
-        "AE-1814"
+        "AE-1977",
+        "TIF-9789",
+        "TIF-9630",
+        "TIF-11328",
+        "TIF-11322",
+        "TIF-9785",
+        "AE-1369",
+        "TIF-11011",
+        "TIF-11294",
+        "TIF-11277"
       ],
       "slack": [
         {
-          "label": "#help-product-engagement (Apr 15)",
-          "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1776250728996589"
+          "label": "#product-support-escalations (Jul 16)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+        },
+        {
+          "label": "#help-orchestrator (Jul 16)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+        },
+        {
+          "label": "#help-product-engagement (Jul 15)",
+          "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
         }
       ]
     },
     {
       "id": "FT-010",
-      "rank": 5,
+      "rank": 4,
       "theme": "Enterprise Auth & RBAC for Agents",
       "priority": "critical",
-      "demand": 145,
-      "confidence": 92,
+      "demand": 888,
+      "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 1,
-      "escalations": 12,
-      "renewal": 0,
-      "quote": "Hello, Team.\nI don't have permission to view Power BI for Japan Geo. Can you grant me that?",
-      "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 78 Jira issue(s) in backlog",
+      "customers": 57,
+      "escalations": 36,
+      "renewal": 4,
+      "quote": "Hi Team, We are facing access issues with choice set in data fabric, its affecting critical processes in Production from Friday onwards. Could someone please look into this matter. Env: <https://staging.uipath.com/uipathcoeattend/Attended>\nWe don't s",
+      "confRationale": "customer-validated (57 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
       "jira": [
-        "TIF-10973",
         "TIF-9705",
-        "TIF-11274",
-        "TIF-9803",
-        "TIF-11117",
-        "TIF-11243",
-        "TIF-9902",
-        "TIF-10387",
-        "TIF-11069",
-        "TIF-11231"
+        "TIF-11231",
+        "AE-1945",
+        "TIF-11330",
+        "TIF-11334",
+        "TIF-11329",
+        "TIF-11323",
+        "AE-1903",
+        "TIF-11287",
+        "TIF-11062"
       ],
       "slack": [
+        {
+          "label": "#help-orchestrator (Jul 16)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+        },
+        {
+          "label": "#product-support-escalations (Jun 18)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781797558375649"
+        },
         {
           "label": "#help-product-engagement (Feb 13)",
           "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1770949735168399"
@@ -790,31 +790,115 @@ const DATA = {
       ]
     },
     {
-      "id": "FT-007",
-      "rank": 6,
-      "theme": "Enhanced Agent Memory & State Management",
+      "id": "FT-002",
+      "rank": 5,
+      "theme": "Observability, Logging & Safety Controls",
       "priority": "critical",
-      "demand": 101,
-      "confidence": 70,
+      "demand": 797,
+      "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 0,
-      "escalations": 3,
-      "renewal": 0,
-      "quote": "Hello team,\n\nWe’ve consolidated all consumable units reporting into a single *Units Consumption* dashboard, refreshed daily. _<https://app.powerbi.com/Redirect?action=OpenReport&amp;appId=9da85d42-1bac-4398-aa6d-b1b9de207e28&amp;reportObjectId=8de220",
-      "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
+      "customers": 41,
+      "escalations": 27,
+      "renewal": 9,
+      "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
+      "confRationale": "customer-validated (41 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 119 Jira issue(s) in backlog",
       "jira": [
-        "TIF-11009",
-        "TIF-11246",
-        "TIF-11032",
-        "AE-1836",
-        "AE-1808",
-        "AE-1878",
-        "AE-1850",
-        "AE-1856",
-        "AE-1849",
-        "TIF-9683"
+        "TIF-11154",
+        "TIF-9892",
+        "TIF-9862",
+        "TIF-10763",
+        "TIF-11330",
+        "TIF-11332",
+        "TIF-11323",
+        "TIF-11325",
+        "TIF-11250",
+        "TIF-10792"
       ],
       "slack": [
+        {
+          "label": "#help-orchestrator (Jul 17)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+        },
+        {
+          "label": "#help-product-engagement (Jul 13)",
+          "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+        },
+        {
+          "label": "#product-support-escalations (Jun 15)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781547668748929"
+        }
+      ]
+    },
+    {
+      "id": "FT-005",
+      "rank": 6,
+      "theme": "Long-Running / Async Agent Execution",
+      "priority": "critical",
+      "demand": 675,
+      "confidence": 95,
+      "confLevel": "HIGH",
+      "customers": 38,
+      "escalations": 20,
+      "renewal": 9,
+      "quote": "Hi team\n\nI'd like to share some feedback from an enterprise customer regarding a specific background behavior in *HAA On-Prem* that triggered their internal security alarms.\nThe customer's SecOps team had to intervene recently due to a cron job assoc",
+      "confRationale": "customer-validated (38 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 50 Jira issue(s) in backlog",
+      "jira": [
+        "TIF-11104",
+        "TIF-11298",
+        "TIF-11009",
+        "TIF-11292",
+        "TIF-11105",
+        "TIF-10932",
+        "TIF-9607",
+        "TIF-10976",
+        "TIF-10336",
+        "TIF-10168"
+      ],
+      "slack": [
+        {
+          "label": "#help-orchestrator (Jul 16)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+        },
+        {
+          "label": "#product-support-escalations (Jul 13)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+        }
+      ]
+    },
+    {
+      "id": "FT-007",
+      "rank": 7,
+      "theme": "Enhanced Agent Memory & State Management",
+      "priority": "critical",
+      "demand": 535,
+      "confidence": 95,
+      "confLevel": "HIGH",
+      "customers": 30,
+      "escalations": 18,
+      "renewal": 3,
+      "quote": "Can someone take a look at this feedback?\n1. Even after the user creates the connection and resolves the validation errors, the errors persist (red dot) until they click *Validate* again. (0-2:00) - any reason we don't auto-detect?\n2. On successful d",
+      "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
+      "jira": [
+        "AE-1972",
+        "TIF-11246",
+        "TIF-11311",
+        "AE-1582",
+        "TIF-11009",
+        "TIF-11032",
+        "AE-1458",
+        "AE-1808",
+        "AE-1490",
+        "AE-1489"
+      ],
+      "slack": [
+        {
+          "label": "#help-orchestrator (Jul 16)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+        },
+        {
+          "label": "#product-support-escalations (Jul 10)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+        },
         {
           "label": "#help-product-engagement (May 25)",
           "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
@@ -822,107 +906,61 @@ const DATA = {
       ]
     },
     {
-      "id": "FT-005",
-      "rank": 7,
-      "theme": "Long-Running / Async Agent Execution",
-      "priority": "high",
-      "demand": 60,
-      "confidence": 40,
-      "confLevel": "MODERATE",
-      "customers": 0,
-      "escalations": 2,
-      "renewal": 0,
-      "quote": "[Orchestrator – Queues] Ability to Sort Queue Transactions by Creation / Added Time",
-      "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 50 Jira issue(s) in backlog",
-      "jira": [
-        "TIF-9655",
-        "TIF-11269",
-        "TIF-11238",
-        "TIF-10540",
-        "TIF-10541",
-        "TIF-11105",
-        "TIF-10932",
-        "TIF-11009",
-        "TIF-9607",
-        "TIF-11104"
-      ],
-      "slack": []
-    },
-    {
       "id": "FT-001",
       "rank": 8,
       "theme": "On-Premises / Air-Gap Deployment",
-      "priority": "high",
-      "demand": 58,
-      "confidence": 92,
+      "priority": "critical",
+      "demand": 480,
+      "confidence": 95,
       "confLevel": "HIGH",
-      "customers": 1,
-      "escalations": 1,
-      "renewal": 0,
-      "quote": "Hi all, can anyone please advise where the version info is pulled from in the Licence Activity section of this dashboard?  <https://app.powerbi.com/groups/me/apps/9da85d42-1bac-4398-aa6d-b1b9de207e28/reports/8568293a-651e-4264-9841-7b0f8cd41191/3a852",
-      "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 39 Jira issue(s) in backlog",
+      "customers": 30,
+      "escalations": 13,
+      "renewal": 1,
+      "quote": "hi team, customer is interested in implementing <https://uipath-customer-ops.slack.com/archives/CLX06JD17/p1756438776884309|validation controls in APPs> for a few DU use cases.  Can you please help with a couple of questions?  Thanks!\n1. They have th",
+      "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 41 Jira issue(s) in backlog",
       "jira": [
-        "TIF-11274",
-        "TIF-11273",
-        "TIF-11117",
+        "TIF-11316",
+        "TIF-11320",
         "TIF-11193",
-        "TIF-10886",
         "TIF-11192",
         "TIF-11036",
         "TIF-11031",
         "TIF-9728",
-        "AE-1313"
+        "TIF-11274",
+        "TIF-11273",
+        "TIF-11117"
       ],
       "slack": [
         {
+          "label": "#help-orchestrator (Jul 17)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+        },
+        {
           "label": "#help-product-engagement (May 27)",
           "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779888209050979"
+        },
+        {
+          "label": "#product-support-escalations (May 27)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1779878652200539"
         }
       ]
     },
     {
-      "id": "FT-008",
-      "rank": 9,
-      "theme": "Common Agent Templates & Accelerators",
-      "priority": "low",
-      "demand": 15,
-      "confidence": 30,
-      "confLevel": "LOW",
-      "customers": 0,
-      "escalations": 0,
-      "renewal": 0,
-      "quote": "Limited Job Queue Priority options OOTB - Currently only done by API",
-      "confRationale": "internal discussion only; 1 signal source(s); 15 Jira issue(s) in backlog",
-      "jira": [
-        "TIF-11220",
-        "TIF-11016",
-        "TIF-10666",
-        "TIF-10228",
-        "TIF-10545",
-        "TIF-10490",
-        "TIF-10431",
-        "TIF-9762",
-        "AE-1703",
-        "TIF-10427"
-      ],
-      "slack": []
-    },
-    {
       "id": "FT-006",
-      "rank": 10,
+      "rank": 9,
       "theme": "IVR & Voice Channel Integration",
-      "priority": "low",
-      "demand": 12,
-      "confidence": 30,
-      "confLevel": "LOW",
-      "customers": 0,
-      "escalations": 0,
-      "renewal": 0,
-      "quote": "Exented invoice process solution",
-      "confRationale": "internal discussion only; 1 signal source(s); 12 Jira issue(s) in backlog",
+      "priority": "critical",
+      "demand": 188,
+      "confidence": 95,
+      "confLevel": "HIGH",
+      "customers": 8,
+      "escalations": 13,
+      "renewal": 3,
+      "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: US Silica Company\nAccount type: Premium Plus\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa0000172SLSIA2/vi",
+      "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 12 Jira issue(s) in backlog",
       "jira": [
-        "TIF-11165",
         "TIF-10039",
+        "TIF-11165",
         "TIF-10617",
         "TIF-10351",
         "TIF-10279",
@@ -932,7 +970,48 @@ const DATA = {
         "TIF-10740",
         "TIF-10752"
       ],
-      "slack": []
+      "slack": [
+        {
+          "label": "#product-support-escalations (Jul 13)",
+          "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+        },
+        {
+          "label": "#help-orchestrator (Jun 15)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1781487000304979"
+        }
+      ]
+    },
+    {
+      "id": "FT-008",
+      "rank": 10,
+      "theme": "Common Agent Templates & Accelerators",
+      "priority": "critical",
+      "demand": 156,
+      "confidence": 95,
+      "confLevel": "HIGH",
+      "customers": 9,
+      "escalations": 3,
+      "renewal": 0,
+      "quote": "Danone asking how can they achieve the following: configure two unattended licenses *on the same server* in such a way that one license is fully dedicated and restricted to a single critical process, while the second license remains available for all",
+      "confRationale": "customer-validated (9 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 16 Jira issue(s) in backlog",
+      "jira": [
+        "TIF-11288",
+        "TIF-11220",
+        "TIF-11016",
+        "TIF-10666",
+        "TIF-10228",
+        "TIF-10545",
+        "TIF-10490",
+        "TIF-10431",
+        "TIF-9762",
+        "AE-1703"
+      ],
+      "slack": [
+        {
+          "label": "#help-orchestrator (Jul 15)",
+          "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+        }
+      ]
     }
   ],
   "periods": {
@@ -942,253 +1021,328 @@ const DATA = {
         "rank": 1,
         "theme": "Advanced Testing & Simulation Framework",
         "priority": "critical",
-        "demand": 144,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 9,
-        "renewal": 0,
-        "quote": "Add support for comparing multiple model versions in Communications Mining to simplify model evaluation and selection.",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 99 Jira issue(s) in backlog",
+        "demand": 491,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 18,
+        "escalations": 23,
+        "renewal": 6,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (18 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 122 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11253",
-          "AE-1911",
-          "AE-1895",
-          "AE-1890",
-          "TIF-11247",
-          "AE-1906",
-          "AE-1905",
-          "AE-1904",
-          "AE-1814",
-          "TIF-11245"
+          "TIF-11341",
+          "AE-1964",
+          "AE-1948",
+          "AE-1930",
+          "AE-1979",
+          "AE-1978",
+          "AE-1945",
+          "AE-1946",
+          "AE-1967",
+          "AE-1968"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jul 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
+          }
+        ]
       },
       {
         "id": "FT-004",
         "rank": 2,
         "theme": "Multi-Agent Orchestration & Context Passing",
-        "priority": "moderate",
-        "demand": 30,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Option to sort by next run time column in orchestrator trigger",
-        "confRationale": "internal discussion only; 1 signal source(s); 30 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11267",
-          "TIF-11260",
-          "TIF-11269",
-          "TIF-11122",
-          "TIF-11274",
-          "TIF-11221",
-          "TIF-11261",
-          "TIF-11243",
-          "TIF-11151",
-          "TIF-11105"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-002",
-        "rank": 3,
-        "theme": "Observability, Logging & Safety Controls",
-        "priority": "low",
-        "demand": 24,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Improve logging behavior for Orchestrator authentication check in standalone/offline Assistant environments",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 19 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11274",
-          "AE-1831",
-          "AE-1890",
-          "TIF-11250",
-          "AE-1905",
-          "AE-1816",
-          "AE-1815",
-          "AE-1814",
-          "TIF-11191",
-          "TIF-11106"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-007",
-        "rank": 4,
-        "theme": "Enhanced Agent Memory & State Management",
-        "priority": "low",
-        "demand": 24,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 2,
-        "renewal": 0,
-        "quote": "IXP GenEx - Add Author to Taxonomy Change History",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 14 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11246",
-          "AE-1836",
-          "AE-1808",
-          "AE-1878",
-          "AE-1850",
-          "AE-1856",
-          "AE-1849",
-          "AE-1884",
-          "AE-1864",
-          "AE-1868"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-003",
-        "rank": 5,
-        "theme": "Licensing & Metering Flexibility",
-        "priority": "low",
-        "demand": 20,
-        "confidence": 70,
+        "priority": "critical",
+        "demand": 351,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Hi All;\nI would kindly ask for you support for me to be able to produce the report in the format below..\nUnfortunately, in the new Units Consumptions dashboard, I am not able to download any raw data to be able to generate a pivot table, Or the Subsi",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 9 Jira issue(s) in backlog",
+        "customers": 25,
+        "escalations": 7,
+        "renewal": 2,
+        "quote": "Hey Team\nQuestion on Orchestrator permissions for Optus.\n\nHow do we get their support team provisioning unattended robots without granting Create on Users?\n\nTheir support team sits on a role scoped below admin, and Create/Edit on Users has been delib",
+        "confRationale": "customer-validated (25 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 31 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11149",
-          "TIF-11262",
-          "TIF-11258",
-          "AE-1910",
-          "TIF-11121",
-          "TIF-11103",
-          "TIF-11187",
-          "TIF-11228",
-          "TIF-11090"
+          "TIF-11288",
+          "TIF-11336",
+          "TIF-11337",
+          "TIF-11226",
+          "TIF-11314",
+          "TIF-11298",
+          "TIF-11294",
+          "TIF-11285",
+          "TIF-11292",
+          "TIF-11184"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Jun 24)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
+      },
+      {
+        "id": "FT-003",
+        "rank": 3,
+        "theme": "Licensing & Metering Flexibility",
+        "priority": "critical",
+        "demand": 178,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 8,
+        "escalations": 8,
+        "renewal": 2,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: Department of Health Care Services\nAccount type: Enterprise\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa0",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 13 Jira issue(s) in backlog",
+        "jira": [
+          "AE-1977",
+          "TIF-11328",
+          "TIF-11322",
+          "TIF-11294",
+          "TIF-11277",
+          "TIF-11262",
+          "TIF-11121",
+          "AE-1918",
+          "TIF-11149",
+          "TIF-11258"
+        ],
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 16)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+          },
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#help-product-engagement (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
           }
         ]
       },
       {
         "id": "FT-010",
-        "rank": 6,
+        "rank": 4,
         "theme": "Enterprise Auth & RBAC for Agents",
-        "priority": "low",
-        "demand": 17,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Improve logging behavior for Orchestrator authentication check in standalone/offline Assistant environments",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 12 Jira issue(s) in backlog",
+        "priority": "critical",
+        "demand": 116,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 9,
+        "escalations": 2,
+        "renewal": 1,
+        "quote": "Hey Team\nQuestion on Orchestrator permissions for Optus.\n\nHow do we get their support team provisioning unattended robots without granting Create on Users?\n\nTheir support team sits on a role scoped below admin, and Create/Edit on Users has been delib",
+        "confRationale": "customer-validated (9 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 16 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11117",
-          "TIF-11243",
           "TIF-11231",
-          "TIF-11230",
-          "TIF-11124",
-          "TIF-11225",
+          "AE-1945",
+          "TIF-11330",
+          "TIF-11334",
+          "TIF-11329",
+          "TIF-11323",
           "AE-1903",
-          "AE-1900",
-          "TIF-11181"
+          "TIF-11287",
+          "TIF-11230",
+          "TIF-11124"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          }
+        ]
       },
       {
         "id": "FT-005",
-        "rank": 7,
+        "rank": 5,
         "theme": "Long-Running / Async Agent Execution",
-        "priority": "low",
-        "demand": 12,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Orchestrator Event Triggers — \"Maximum number of pending and running jobs allowed simultaneously\" setting not available (Queue Triggers only)",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 7 Jira issue(s) in backlog",
+        "priority": "critical",
+        "demand": 108,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 7,
+        "escalations": 4,
+        "renewal": 2,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (7 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 6 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11269",
+          "TIF-11298",
+          "TIF-11292",
           "TIF-11238",
-          "TIF-11105",
-          "TIF-11104",
+          "TIF-11269",
           "TIF-11220",
-          "AE-1784",
-          "TIF-11097"
+          "AE-1784"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
+      },
+      {
+        "id": "FT-007",
+        "rank": 6,
+        "theme": "Enhanced Agent Memory & State Management",
+        "priority": "critical",
+        "demand": 106,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 5,
+        "escalations": 4,
+        "renewal": 2,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: Deutsche Post IT Services GmbH\nAccount type: Enterprise\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa00001",
+        "confRationale": "customer-validated (5 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 16 Jira issue(s) in backlog",
+        "jira": [
+          "AE-1972",
+          "TIF-11246",
+          "TIF-11311",
+          "AE-1808",
+          "AE-1836",
+          "AE-1878",
+          "AE-1850",
+          "AE-1856",
+          "AE-1849",
+          "AE-1884"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 10)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+          }
+        ]
+      },
+      {
+        "id": "FT-002",
+        "rank": 7,
+        "theme": "Observability, Logging & Safety Controls",
+        "priority": "critical",
+        "demand": 97,
+        "confidence": 85,
+        "confLevel": "HIGH",
+        "customers": 5,
+        "escalations": 0,
+        "renewal": 2,
+        "quote": "Hi team, with the new unit consumption dashboard, for Flex, units like API Calls that are bundled with other SKUs are not shown, how can we monitor this consumption?",
+        "confRationale": "customer-validated (5 named customers); 2 signal source(s); signals from HIGH-quality channels; 20 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11154",
+          "TIF-11330",
+          "TIF-11332",
+          "TIF-11323",
+          "TIF-11325",
+          "TIF-11250",
+          "TIF-11191",
+          "AE-1831",
+          "AE-1822",
+          "AE-1819"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+          },
+          {
+            "label": "#help-product-engagement (Jul 13)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+          }
+        ]
       },
       {
         "id": "FT-001",
         "rank": 8,
         "theme": "On-Premises / Air-Gap Deployment",
-        "priority": "low",
-        "demand": 9,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
+        "priority": "critical",
+        "demand": 84,
+        "confidence": 85,
+        "confLevel": "HIGH",
+        "customers": 8,
         "escalations": 0,
         "renewal": 0,
-        "quote": "Improve logging behavior for Orchestrator authentication check in standalone/offline Assistant environments",
-        "confRationale": "internal discussion only; 1 signal source(s); 9 Jira issue(s) in backlog",
+        "quote": "Hi guys,\n\nI am helping the migration to the cloud of Health First.\n\nWe have just migrated using cloud migration tool.\n\nStorages buckets are not migrated automatically, but they have 100+ storage buckets with files to be uploaded to the cloud.\n\n*Q: Is",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; 10 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11273",
-          "TIF-11117",
+          "TIF-11316",
+          "TIF-11320",
           "TIF-11193",
           "TIF-11192",
+          "TIF-11274",
+          "TIF-11273",
           "TIF-11204",
           "TIF-11199",
           "TIF-11197",
           "TIF-11177"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+          }
+        ]
       },
       {
-        "id": "FT-006",
+        "id": "FT-008",
         "rank": 9,
-        "theme": "IVR & Voice Channel Integration",
+        "theme": "Common Agent Templates & Accelerators",
         "priority": "low",
-        "demand": 2,
-        "confidence": 30,
-        "confLevel": "LOW",
+        "demand": 12,
+        "confidence": 60,
+        "confLevel": "MODERATE",
         "customers": 0,
         "escalations": 0,
         "renewal": 0,
-        "quote": "Exented invoice process solution",
-        "confRationale": "internal discussion only; 1 signal source(s); 2 Jira issue(s) in backlog",
+        "quote": "Hi Team,\nWhen using Orchestrator's “Automatically Update Components” feature in manual mode, if I log in using the machine key in the machine template and then perform an interactive sign-in, which policy takes precedence: the user's automation polic",
+        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; 2 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11288",
+          "TIF-11220"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+          }
+        ]
+      },
+      {
+        "id": "FT-006",
+        "rank": 10,
+        "theme": "IVR & Voice Channel Integration",
+        "priority": "low",
+        "demand": 9,
+        "confidence": 70,
+        "confLevel": "HIGH",
+        "customers": 0,
+        "escalations": 1,
+        "renewal": 0,
+        "quote": "*New Escalation Request*\nUrgency: High Impact\nTicket Number: 02912550\nFrom: <@U02EED3A76G>\nEscalation Reason: Dissatisfied with Response Time\nBusiness Justification: The current Orchestrator Queue Trigger behavior is causing unnecessary Maestro execu",
+        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 2 Jira issue(s) in backlog",
         "jira": [
           "TIF-11165",
           "TIF-11166"
         ],
-        "slack": []
-      },
-      {
-        "id": "FT-008",
-        "rank": 10,
-        "theme": "Common Agent Templates & Accelerators",
-        "priority": "low",
-        "demand": 1,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Limited Job Queue Priority options OOTB - Currently only done by API",
-        "confRationale": "internal discussion only; 1 signal source(s); 1 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11220"
-        ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
       }
     ],
     "60": [
@@ -1197,86 +1351,71 @@ const DATA = {
         "rank": 1,
         "theme": "Advanced Testing & Simulation Framework",
         "priority": "critical",
-        "demand": 396,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 21,
-        "renewal": 0,
-        "quote": "Add support for comparing multiple model versions in Communications Mining to simplify model evaluation and selection.",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 291 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11253",
-          "AE-1715",
-          "AE-1911",
-          "AE-1895",
-          "AE-1722",
-          "AE-1890",
-          "TIF-11247",
-          "AE-1501",
-          "AE-1906",
-          "AE-1599"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-007",
-        "rank": 2,
-        "theme": "Enhanced Agent Memory & State Management",
-        "priority": "high",
-        "demand": 68,
-        "confidence": 70,
+        "demand": 975,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 2,
-        "renewal": 0,
-        "quote": "Hello team,\n\nWe’ve consolidated all consumable units reporting into a single *Units Consumption* dashboard, refreshed daily. _<https://app.powerbi.com/Redirect?action=OpenReport&amp;appId=9da85d42-1bac-4398-aa6d-b1b9de207e28&amp;reportObjectId=8de220",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 56 Jira issue(s) in backlog",
+        "customers": 34,
+        "escalations": 54,
+        "renewal": 6,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (34 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 275 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11009",
-          "TIF-11246",
-          "TIF-11032",
-          "AE-1836",
-          "AE-1808",
-          "AE-1878",
-          "AE-1850",
-          "AE-1856",
-          "AE-1849",
-          "AE-1884"
+          "TIF-11341",
+          "AE-1964",
+          "AE-1948",
+          "AE-1930",
+          "AE-1979",
+          "AE-1978",
+          "AE-1945",
+          "AE-1946",
+          "AE-1967",
+          "AE-1968"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (May 25)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jul 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
           }
         ]
       },
       {
         "id": "FT-004",
-        "rank": 3,
+        "rank": 2,
         "theme": "Multi-Agent Orchestration & Context Passing",
-        "priority": "high",
-        "demand": 64,
-        "confidence": 70,
+        "priority": "critical",
+        "demand": 644,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Hi team, United Airlines was wondering if there was any data dump or telemetry we can provide to them from our end beyond the logs in their orchestrator. We wanted everything in the Dev environment - we're trying to find out what machine and bot is o",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 57 Jira issue(s) in backlog",
+        "customers": 45,
+        "escalations": 14,
+        "renewal": 2,
+        "quote": "Hello Team,\nI have a question between AS, Orchestrator and Pricing :sweat_smile:. AS team redirected me to here :slightly_smiling_face:\nIs external credential vault functionnality (<https://docs.uipath.com/orchestrator/automation-suite/2.2510/user-gu",
+        "confRationale": "customer-validated (45 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 55 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11267",
-          "TIF-10973",
-          "TIF-11260",
-          "TIF-11269",
-          "TIF-11122",
-          "TIF-11274",
-          "TIF-11070",
-          "TIF-11221",
-          "TIF-11261",
-          "TIF-11243"
+          "TIF-11288",
+          "TIF-11104",
+          "TIF-11336",
+          "TIF-11337",
+          "TIF-11226",
+          "TIF-11314",
+          "TIF-11298",
+          "TIF-11294",
+          "TIF-11285",
+          "TIF-11009"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
           {
             "label": "#help-product-engagement (May 22)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779456797555599"
@@ -1284,147 +1423,234 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-010",
-        "rank": 4,
-        "theme": "Enterprise Auth & RBAC for Agents",
-        "priority": "high",
-        "demand": 54,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 5,
-        "renewal": 0,
-        "quote": "set  Robot logging permissions at a group level ( AAD or local ) ",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 29 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-10973",
-          "TIF-11274",
-          "TIF-11117",
-          "TIF-11243",
-          "TIF-11069",
-          "TIF-11231",
-          "TIF-11230",
-          "TIF-10950",
-          "TIF-11124",
-          "TIF-11045"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-003",
-        "rank": 5,
+        "rank": 3,
         "theme": "Licensing & Metering Flexibility",
-        "priority": "moderate",
-        "demand": 48,
-        "confidence": 92,
+        "priority": "critical",
+        "demand": 339,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Hi All;\nI would kindly ask for you support for me to be able to produce the report in the format below..\nUnfortunately, in the new Units Consumptions dashboard, I am not able to download any raw data to be able to generate a pivot table, Or the Subsi",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 22 Jira issue(s) in backlog",
+        "customers": 16,
+        "escalations": 16,
+        "renewal": 3,
+        "quote": "Hello Team,\nI have a question between AS, Orchestrator and Pricing :sweat_smile:. AS team redirected me to here :slightly_smiling_face:\nIs external credential vault functionnality (<https://docs.uipath.com/orchestrator/automation-suite/2.2510/user-gu",
+        "confRationale": "customer-validated (16 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 26 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11149",
+          "AE-1977",
+          "TIF-11328",
+          "TIF-11322",
+          "TIF-11011",
+          "TIF-11294",
+          "TIF-11277",
           "TIF-11262",
-          "TIF-11258",
-          "AE-1910",
           "TIF-10977",
           "TIF-11121",
-          "TIF-11103",
-          "TIF-10978",
-          "TIF-11006",
-          "TIF-11026"
+          "TIF-11103"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Jun 24)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
+            "label": "#product-support-escalations (Jul 16)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+          },
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#help-product-engagement (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
+          }
+        ]
+      },
+      {
+        "id": "FT-010",
+        "rank": 4,
+        "theme": "Enterprise Auth & RBAC for Agents",
+        "priority": "critical",
+        "demand": 247,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 16,
+        "escalations": 10,
+        "renewal": 2,
+        "quote": "Hey Team\nQuestion on Orchestrator permissions for Optus.\n\nHow do we get their support team provisioning unattended robots without granting Create on Users?\n\nTheir support team sits on a role scoped below admin, and Create/Edit on Users has been delib",
+        "confRationale": "customer-validated (16 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 31 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11231",
+          "AE-1945",
+          "TIF-11330",
+          "TIF-11334",
+          "TIF-11329",
+          "TIF-11323",
+          "AE-1903",
+          "TIF-11287",
+          "TIF-11062",
+          "TIF-11230"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jun 18)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781797558375649"
+          }
+        ]
+      },
+      {
+        "id": "FT-005",
+        "rank": 5,
+        "theme": "Long-Running / Async Agent Execution",
+        "priority": "critical",
+        "demand": 211,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 14,
+        "escalations": 6,
+        "renewal": 3,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (14 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 18 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11104",
+          "TIF-11298",
+          "TIF-11009",
+          "TIF-11292",
+          "TIF-11105",
+          "TIF-10976",
+          "TIF-11012",
+          "TIF-11238",
+          "TIF-11269",
+          "TIF-10983"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
+      },
+      {
+        "id": "FT-007",
+        "rank": 6,
+        "theme": "Enhanced Agent Memory & State Management",
+        "priority": "critical",
+        "demand": 196,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 8,
+        "escalations": 6,
+        "renewal": 2,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: Far East Management Pte Ltd\nAccount type: Bronze\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa00001FrAbEIA",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 47 Jira issue(s) in backlog",
+        "jira": [
+          "AE-1972",
+          "TIF-11246",
+          "TIF-11311",
+          "AE-1582",
+          "TIF-11009",
+          "TIF-11032",
+          "AE-1808",
+          "AE-1836",
+          "AE-1724",
+          "AE-1878"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 10)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+          },
+          {
+            "label": "#help-product-engagement (May 25)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
           }
         ]
       },
       {
         "id": "FT-002",
-        "rank": 6,
-        "theme": "Observability, Logging & Safety Controls",
-        "priority": "moderate",
-        "demand": 40,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "set  Robot logging permissions at a group level ( AAD or local ) ",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 35 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-10973",
-          "TIF-11274",
-          "AE-1831",
-          "AE-1890",
-          "TIF-11250",
-          "AE-1905",
-          "AE-1816",
-          "AE-1815",
-          "AE-1814",
-          "TIF-11191"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-005",
         "rank": 7,
-        "theme": "Long-Running / Async Agent Execution",
-        "priority": "low",
-        "demand": 24,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Orchestrator Event Triggers — \"Maximum number of pending and running jobs allowed simultaneously\" setting not available (Queue Triggers only)",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 19 Jira issue(s) in backlog",
+        "theme": "Observability, Logging & Safety Controls",
+        "priority": "critical",
+        "demand": 173,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 8,
+        "escalations": 3,
+        "renewal": 3,
+        "quote": "Hi <!subteam^S08T5N3FPNJ> - We are hitting a CSP `frame-src` block on Orchestrator gov-cloud that's blocking the Insights Looker iframe — flagging urgently, *PGOV production is affected*.\n\nFiled: <https://uipath.atlassian.net/browse/OR-93550|OR-93550",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 35 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11269",
-          "TIF-11238",
-          "TIF-11105",
-          "TIF-10932",
-          "TIF-11009",
-          "TIF-11104",
-          "TIF-10976",
-          "TIF-11012",
-          "TIF-10983",
-          "TIF-11030"
+          "TIF-11154",
+          "TIF-11330",
+          "TIF-11332",
+          "TIF-11323",
+          "TIF-11325",
+          "TIF-11250",
+          "TIF-11191",
+          "TIF-10986",
+          "TIF-11106",
+          "TIF-11025"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+          },
+          {
+            "label": "#help-product-engagement (Jul 13)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+          },
+          {
+            "label": "#product-support-escalations (Jun 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781547668748929"
+          }
+        ]
       },
       {
         "id": "FT-001",
         "rank": 8,
         "theme": "On-Premises / Air-Gap Deployment",
-        "priority": "low",
-        "demand": 19,
-        "confidence": 70,
+        "priority": "critical",
+        "demand": 131,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 1,
+        "customers": 9,
+        "escalations": 4,
         "renewal": 0,
-        "quote": "Hi all, can anyone please advise where the version info is pulled from in the Licence Activity section of this dashboard?  <https://app.powerbi.com/groups/me/apps/9da85d42-1bac-4398-aa6d-b1b9de207e28/reports/8568293a-651e-4264-9841-7b0f8cd41191/3a852",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 12 Jira issue(s) in backlog",
+        "quote": "Hi team,\nfor one of our customers - Unicredit - in order to move to cloud - they have performed with our help some performance testing (create queue items, get queue items, set transaction status, get asset). the performance was measured against an o",
+        "confRationale": "customer-validated (9 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 14 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11273",
-          "TIF-11117",
+          "TIF-11316",
+          "TIF-11320",
           "TIF-11193",
           "TIF-11192",
           "TIF-11036",
           "TIF-11031",
-          "TIF-11204",
-          "TIF-10996",
-          "TIF-11199"
+          "TIF-11274",
+          "TIF-11273",
+          "TIF-11117",
+          "TIF-11204"
         ],
         "slack": [
           {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+          },
+          {
             "label": "#help-product-engagement (May 27)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779888209050979"
+          },
+          {
+            "label": "#product-support-escalations (May 27)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1779878652200539"
           }
         ]
       },
@@ -1432,40 +1658,55 @@ const DATA = {
         "id": "FT-008",
         "rank": 9,
         "theme": "Common Agent Templates & Accelerators",
-        "priority": "low",
-        "demand": 3,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
+        "priority": "moderate",
+        "demand": 31,
+        "confidence": 92,
+        "confLevel": "HIGH",
+        "customers": 1,
+        "escalations": 1,
         "renewal": 0,
-        "quote": "Limited Job Queue Priority options OOTB - Currently only done by API",
-        "confRationale": "internal discussion only; 1 signal source(s); 3 Jira issue(s) in backlog",
+        "quote": "Hi <!subteam^S08T5N3FPNJ> - We are hitting a CSP `frame-src` block on Orchestrator gov-cloud that's blocking the Insights Looker iframe — flagging urgently, *PGOV production is affected*.\n\nFiled: <https://uipath.atlassian.net/browse/OR-93550|OR-93550",
+        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 4 Jira issue(s) in backlog",
         "jira": [
+          "TIF-11288",
           "TIF-11220",
           "TIF-11016",
           "AE-1703"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+          }
+        ]
       },
       {
         "id": "FT-006",
         "rank": 10,
         "theme": "IVR & Voice Channel Integration",
         "priority": "low",
-        "demand": 2,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
+        "demand": 16,
+        "confidence": 92,
+        "confLevel": "HIGH",
+        "customers": 1,
+        "escalations": 1,
         "renewal": 0,
-        "quote": "Exented invoice process solution",
-        "confRationale": "internal discussion only; 1 signal source(s); 2 Jira issue(s) in backlog",
+        "quote": "*New Escalation Request*\nUrgency: High Impact\nTicket Number: 02912550\nFrom: <@U02EED3A76G>\nEscalation Reason: Dissatisfied with Response Time\nBusiness Justification: The current Orchestrator Queue Trigger behavior is causing unnecessary Maestro execu",
+        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 2 Jira issue(s) in backlog",
         "jira": [
           "TIF-11165",
           "TIF-11166"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
+          {
+            "label": "#help-orchestrator (Jun 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1781487000304979"
+          }
+        ]
       }
     ],
     "90": [
@@ -1474,27 +1715,35 @@ const DATA = {
         "rank": 1,
         "theme": "Advanced Testing & Simulation Framework",
         "priority": "critical",
-        "demand": 647,
-        "confidence": 92,
+        "demand": 1428,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 40,
-        "renewal": 0,
-        "quote": "Hello! I need to find out the license code for some alpha + staging + prod organizations that are used in our synthetic tests. How could I do that?",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 438 Jira issue(s) in backlog",
+        "customers": 43,
+        "escalations": 79,
+        "renewal": 8,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (43 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 459 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11253",
-          "AE-1715",
-          "AE-1911",
-          "AE-1895",
-          "AE-1722",
-          "AE-1890",
+          "TIF-11341",
+          "AE-1964",
+          "AE-1948",
+          "AE-1930",
+          "AE-1979",
+          "AE-1978",
           "TIF-10893",
-          "TIF-11247",
-          "AE-1501",
-          "AE-1906"
+          "TIF-10764",
+          "TIF-10763",
+          "AE-1945"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jul 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
+          },
           {
             "label": "#help-product-engagement (May 07)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1778163143240869"
@@ -1506,27 +1755,35 @@ const DATA = {
         "rank": 2,
         "theme": "Multi-Agent Orchestration & Context Passing",
         "priority": "critical",
-        "demand": 157,
-        "confidence": 92,
+        "demand": 1052,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 2,
-        "renewal": 1,
-        "quote": "Hi team, United Airlines was wondering if there was any data dump or telemetry we can provide to them from our end beyond the logs in their orchestrator. We wanted everything in the Dev environment - we're trying to find out what machine and bot is o",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 128 Jira issue(s) in backlog",
+        "customers": 72,
+        "escalations": 24,
+        "renewal": 3,
+        "quote": "Hi all,\nWe’re working on designing an alarm/monitoring mechanism for Orchestrator.\nPreviously, the customer was only checking whether the login page was accessible. However, in a recent incident (related to Identity Server), the login page was reacha",
+        "confRationale": "customer-validated (72 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 83 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11267",
-          "TIF-10973",
-          "TIF-11260",
-          "TIF-11269",
-          "TIF-11122",
-          "TIF-11274",
-          "TIF-11070",
-          "TIF-11221",
-          "TIF-11261",
-          "TIF-11243"
+          "TIF-11288",
+          "TIF-11104",
+          "TIF-11336",
+          "TIF-11337",
+          "TIF-11226",
+          "TIF-11314",
+          "TIF-11298",
+          "TIF-11294",
+          "TIF-11285",
+          "TIF-11009"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
           {
             "label": "#help-product-engagement (May 22)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779456797555599"
@@ -1534,95 +1791,191 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-002",
+        "id": "FT-003",
         "rank": 3,
-        "theme": "Observability, Logging & Safety Controls",
+        "theme": "Licensing & Metering Flexibility",
         "priority": "critical",
-        "demand": 109,
-        "confidence": 92,
+        "demand": 518,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 6,
-        "renewal": 1,
-        "quote": "Hi team,\nI’m working on improving our renewal prioritization and would like to understand what data/dashboard is currently available.\nSpecifically, I’m looking for visibility into the following metrics at the customer/account level:\n• *Usage metrics*",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 62 Jira issue(s) in backlog",
+        "customers": 23,
+        "escalations": 23,
+        "renewal": 6,
+        "quote": "Hi Team,\nour customer Unicredit has an issue with accessing the orchestrator service on the production tenant now - (I have reported this morning for the dev one.(<https://uipath-product.slack.com/archives/CMBFRH7HA/p1776932584564959>)\nis it possible",
+        "confRationale": "customer-validated (23 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 38 Jira issue(s) in backlog",
         "jira": [
-          "TIF-10973",
-          "TIF-11274",
-          "AE-1831",
-          "AE-1890",
-          "TIF-11250",
-          "AE-1905",
-          "AE-1816",
-          "AE-1815",
-          "AE-1814",
-          "TIF-10792"
+          "AE-1977",
+          "TIF-11328",
+          "TIF-11322",
+          "TIF-11011",
+          "TIF-11294",
+          "TIF-11277",
+          "TIF-11262",
+          "TIF-10977",
+          "TIF-11121",
+          "TIF-11103"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Apr 15)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1776250728996589"
+            "label": "#product-support-escalations (Jul 16)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+          },
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#help-product-engagement (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
           }
         ]
       },
       {
-        "id": "FT-003",
+        "id": "FT-002",
         "rank": 4,
-        "theme": "Licensing & Metering Flexibility",
+        "theme": "Observability, Logging & Safety Controls",
         "priority": "critical",
-        "demand": 107,
+        "demand": 371,
         "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 4,
-        "escalations": 2,
-        "renewal": 1,
-        "quote": "Hi All;\nI would kindly ask for you support for me to be able to produce the report in the format below..\nUnfortunately, in the new Units Consumptions dashboard, I am not able to download any raw data to be able to generate a pivot table, Or the Subsi",
-        "confRationale": "customer-validated (4 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 39 Jira issue(s) in backlog",
+        "customers": 20,
+        "escalations": 11,
+        "renewal": 4,
+        "quote": "Hi all,\nWe’re working on designing an alarm/monitoring mechanism for Orchestrator.\nPreviously, the customer was only checking whether the login page was accessible. However, in a recent incident (related to Identity Server), the login page was reacha",
+        "confRationale": "customer-validated (20 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 56 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11149",
-          "TIF-10879",
-          "TIF-11262",
-          "TIF-11258",
-          "AE-1910",
-          "TIF-10977",
-          "TIF-11121",
-          "TIF-11103",
-          "TIF-10978",
-          "TIF-11006"
+          "TIF-11154",
+          "TIF-10763",
+          "TIF-11330",
+          "TIF-11332",
+          "TIF-11323",
+          "TIF-11325",
+          "TIF-11250",
+          "TIF-10792",
+          "TIF-11191",
+          "TIF-10818"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Jun 24)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+          },
+          {
+            "label": "#help-product-engagement (Jul 13)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+          },
+          {
+            "label": "#product-support-escalations (Jun 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781547668748929"
+          }
+        ]
+      },
+      {
+        "id": "FT-010",
+        "rank": 5,
+        "theme": "Enterprise Auth & RBAC for Agents",
+        "priority": "critical",
+        "demand": 364,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 22,
+        "escalations": 14,
+        "renewal": 3,
+        "quote": "Hi all,\nWe’re working on designing an alarm/monitoring mechanism for Orchestrator.\nPreviously, the customer was only checking whether the login page was accessible. However, in a recent incident (related to Identity Server), the login page was reacha",
+        "confRationale": "customer-validated (22 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 44 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11231",
+          "AE-1945",
+          "TIF-11330",
+          "TIF-11334",
+          "TIF-11329",
+          "TIF-11323",
+          "AE-1903",
+          "TIF-11287",
+          "TIF-11062",
+          "TIF-10675"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jun 18)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781797558375649"
+          }
+        ]
+      },
+      {
+        "id": "FT-005",
+        "rank": 6,
+        "theme": "Long-Running / Async Agent Execution",
+        "priority": "critical",
+        "demand": 292,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 19,
+        "escalations": 7,
+        "renewal": 4,
+        "quote": "Hi team, quick question about <https://docs.uipath.com/ja/activities/other/latest/workflow/get-queue-items|Get Queue Items> timestamp behavior.\nWe are filtering completed queue items with: `EndProcessing` &gt; previously saved timestamp\n\n In customer",
+        "confRationale": "customer-validated (19 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 24 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11104",
+          "TIF-11298",
+          "TIF-11009",
+          "TIF-11292",
+          "TIF-11105",
+          "TIF-10932",
+          "TIF-10976",
+          "TIF-11012",
+          "TIF-11238",
+          "TIF-11269"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
           }
         ]
       },
       {
         "id": "FT-007",
-        "rank": 5,
+        "rank": 7,
         "theme": "Enhanced Agent Memory & State Management",
-        "priority": "high",
-        "demand": 75,
-        "confidence": 70,
+        "priority": "critical",
+        "demand": 284,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 2,
-        "renewal": 0,
-        "quote": "Hello team,\n\nWe’ve consolidated all consumable units reporting into a single *Units Consumption* dashboard, refreshed daily. _<https://app.powerbi.com/Redirect?action=OpenReport&amp;appId=9da85d42-1bac-4398-aa6d-b1b9de207e28&amp;reportObjectId=8de220",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 63 Jira issue(s) in backlog",
+        "customers": 13,
+        "escalations": 10,
+        "renewal": 2,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: Far East Management Pte Ltd\nAccount type: Bronze\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa00001FrAbEIA",
+        "confRationale": "customer-validated (13 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 63 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11009",
+          "AE-1972",
           "TIF-11246",
+          "TIF-11311",
+          "AE-1582",
+          "TIF-11009",
           "TIF-11032",
-          "AE-1836",
+          "AE-1458",
           "AE-1808",
-          "AE-1878",
-          "AE-1850",
-          "AE-1856",
-          "AE-1849",
-          "AE-1884"
+          "AE-1490",
+          "AE-1489"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 10)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+          },
           {
             "label": "#help-product-engagement (May 25)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
@@ -1630,139 +1983,103 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-010",
-        "rank": 6,
-        "theme": "Enterprise Auth & RBAC for Agents",
-        "priority": "high",
-        "demand": 68,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 5,
-        "renewal": 0,
-        "quote": "set  Robot logging permissions at a group level ( AAD or local ) ",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 43 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-10973",
-          "TIF-11274",
-          "TIF-11117",
-          "TIF-11243",
-          "TIF-10387",
-          "TIF-11069",
-          "TIF-11231",
-          "TIF-10675",
-          "TIF-11230",
-          "TIF-10950"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-005",
-        "rank": 7,
-        "theme": "Long-Running / Async Agent Execution",
-        "priority": "moderate",
-        "demand": 40,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Orchestrator Event Triggers — \"Maximum number of pending and running jobs allowed simultaneously\" setting not available (Queue Triggers only)",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 35 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11269",
-          "TIF-11238",
-          "TIF-10540",
-          "TIF-10541",
-          "TIF-11105",
-          "TIF-10932",
-          "TIF-11009",
-          "TIF-11104",
-          "TIF-10976",
-          "TIF-11012"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-001",
         "rank": 8,
         "theme": "On-Premises / Air-Gap Deployment",
-        "priority": "moderate",
-        "demand": 27,
-        "confidence": 70,
+        "priority": "critical",
+        "demand": 230,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 1,
+        "customers": 16,
+        "escalations": 6,
         "renewal": 0,
-        "quote": "Hi all, can anyone please advise where the version info is pulled from in the Licence Activity section of this dashboard?  <https://app.powerbi.com/groups/me/apps/9da85d42-1bac-4398-aa6d-b1b9de207e28/reports/8568293a-651e-4264-9841-7b0f8cd41191/3a852",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 20 Jira issue(s) in backlog",
+        "quote": "Hi team,\nfor one of our customers - Unicredit - in order to move to cloud - they have performed with our help some performance testing (create queue items, get queue items, set transaction status, get asset). the performance was measured against an o",
+        "confRationale": "customer-validated (16 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 19 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11273",
-          "TIF-11117",
+          "TIF-11316",
+          "TIF-11320",
           "TIF-11193",
-          "TIF-10886",
           "TIF-11192",
           "TIF-11036",
           "TIF-11031",
-          "TIF-11204",
-          "TIF-10996"
+          "TIF-11274",
+          "TIF-11273",
+          "TIF-11117",
+          "TIF-10886"
         ],
         "slack": [
           {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+          },
+          {
             "label": "#help-product-engagement (May 27)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779888209050979"
+          },
+          {
+            "label": "#product-support-escalations (May 27)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1779878652200539"
           }
         ]
       },
       {
-        "id": "FT-008",
-        "rank": 9,
-        "theme": "Common Agent Templates & Accelerators",
-        "priority": "low",
-        "demand": 8,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Limited Job Queue Priority options OOTB - Currently only done by API",
-        "confRationale": "internal discussion only; 1 signal source(s); 8 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11220",
-          "TIF-11016",
-          "TIF-10666",
-          "TIF-10545",
-          "TIF-10490",
-          "TIF-10431",
-          "AE-1703",
-          "TIF-10427"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-006",
-        "rank": 10,
+        "rank": 9,
         "theme": "IVR & Voice Channel Integration",
-        "priority": "low",
-        "demand": 7,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Exented invoice process solution",
-        "confRationale": "internal discussion only; 1 signal source(s); 7 Jira issue(s) in backlog",
+        "priority": "high",
+        "demand": 68,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 3,
+        "escalations": 5,
+        "renewal": 1,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: Agthia Group PJSC\nAccount type: Bronze\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa00001HnIcdIAF/view|028",
+        "confRationale": "customer-validated (3 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 6 Jira issue(s) in backlog",
         "jira": [
           "TIF-11165",
-          "TIF-10617",
           "TIF-11166",
           "TIF-10727",
           "TIF-10711",
           "TIF-10740",
           "TIF-10752"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
+          {
+            "label": "#help-orchestrator (Jun 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1781487000304979"
+          }
+        ]
+      },
+      {
+        "id": "FT-008",
+        "rank": 10,
+        "theme": "Common Agent Templates & Accelerators",
+        "priority": "high",
+        "demand": 64,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 3,
+        "escalations": 2,
+        "renewal": 0,
+        "quote": "Sorry for the late reply.\nI built similar functionality using a different approach, and it's publicly available on the PowerShell Gallery. Please see the attached video.\n<https://uipath-japan.slack.com/archives/C065YJM2J4R/p1750048698032929?thread_ts",
+        "confRationale": "customer-validated (3 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 5 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11288",
+          "TIF-11220",
+          "TIF-11016",
+          "TIF-10666",
+          "AE-1703"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+          }
+        ]
       }
     ],
     "180": [
@@ -1771,27 +2088,35 @@ const DATA = {
         "rank": 1,
         "theme": "Advanced Testing & Simulation Framework",
         "priority": "critical",
-        "demand": 1142,
-        "confidence": 92,
+        "demand": 2621,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 2,
-        "escalations": 61,
-        "renewal": 0,
-        "quote": "Hello! I need to find out the license code for some alpha + staging + prod organizations that are used in our synthetic tests. How could I do that?",
-        "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 819 Jira issue(s) in backlog",
+        "customers": 86,
+        "escalations": 133,
+        "renewal": 17,
+        "quote": "Hi team,\n\nTest manager received a customer issue for un-triggered test executions (scheduled or manual) on Feb 5\nInvestigation shows this endpoint to fail with 400\n\n<http://istio-egressgateway.istio-system.svc.cluster.local/4c69d77d-188d-41ee-884a-e5",
+        "confRationale": "customer-validated (86 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 841 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11253",
-          "AE-1715",
-          "AE-1911",
-          "TIF-9803",
-          "AE-1895",
-          "AE-1722",
-          "AE-1890",
+          "TIF-11341",
+          "AE-1964",
+          "AE-1948",
+          "AE-1930",
+          "AE-1979",
+          "AE-1978",
           "TIF-10893",
-          "TIF-11247",
-          "AE-1501"
+          "TIF-10764",
+          "TIF-10763",
+          "AE-1945"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jul 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
+          },
           {
             "label": "#help-product-engagement (May 07)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1778163143240869"
@@ -1799,63 +2124,39 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-003",
+        "id": "FT-004",
         "rank": 2,
-        "theme": "Licensing & Metering Flexibility",
+        "theme": "Multi-Agent Orchestration & Context Passing",
         "priority": "critical",
-        "demand": 330,
+        "demand": 2536,
         "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 13,
-        "escalations": 11,
-        "renewal": 3,
+        "customers": 155,
+        "escalations": 61,
+        "renewal": 12,
         "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (13 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 114 Jira issue(s) in backlog",
+        "confRationale": "customer-validated (155 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 211 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11149",
-          "TIF-10879",
-          "TIF-11262",
-          "TIF-11258",
-          "TIF-9630",
-          "AE-1910",
-          "TIF-10147",
-          "TIF-10977",
-          "TIF-9895",
-          "TIF-11121"
+          "TIF-9606",
+          "TIF-9741",
+          "TIF-11288",
+          "TIF-11104",
+          "TIF-11336",
+          "TIF-11337",
+          "TIF-11226",
+          "TIF-11314",
+          "TIF-11298",
+          "TIF-11294"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Jun 24)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
-          }
-        ]
-      },
-      {
-        "id": "FT-004",
-        "rank": 3,
-        "theme": "Multi-Agent Orchestration & Context Passing",
-        "priority": "critical",
-        "demand": 287,
-        "confidence": 92,
-        "confLevel": "HIGH",
-        "customers": 2,
-        "escalations": 6,
-        "renewal": 2,
-        "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 212 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-9655",
-          "TIF-9704",
-          "TIF-11267",
-          "TIF-10973",
-          "TIF-11260",
-          "TIF-11269",
-          "TIF-11122",
-          "TIF-9606",
-          "TIF-11274",
-          "TIF-9741"
-        ],
-        "slack": [
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
           {
             "label": "#help-product-engagement (May 22)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779456797555599"
@@ -1863,63 +2164,79 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-002",
-        "rank": 4,
-        "theme": "Observability, Logging & Safety Controls",
+        "id": "FT-003",
+        "rank": 3,
+        "theme": "Licensing & Metering Flexibility",
         "priority": "critical",
-        "demand": 218,
+        "demand": 1206,
         "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 3,
-        "escalations": 10,
-        "renewal": 3,
+        "customers": 49,
+        "escalations": 60,
+        "renewal": 20,
         "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (3 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 115 Jira issue(s) in backlog",
+        "confRationale": "customer-validated (49 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 117 Jira issue(s) in backlog",
         "jira": [
-          "TIF-9704",
-          "TIF-10973",
-          "TIF-11274",
-          "AE-1831",
-          "AE-1890",
-          "TIF-11250",
-          "AE-1905",
-          "AE-1816",
-          "AE-1815",
-          "AE-1814"
+          "AE-1977",
+          "TIF-9789",
+          "TIF-9630",
+          "TIF-11328",
+          "TIF-11322",
+          "TIF-9785",
+          "AE-1369",
+          "TIF-11011",
+          "TIF-11294",
+          "TIF-11277"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Apr 15)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1776250728996589"
+            "label": "#product-support-escalations (Jul 16)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+          },
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#help-product-engagement (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
           }
         ]
       },
       {
         "id": "FT-010",
-        "rank": 5,
+        "rank": 4,
         "theme": "Enterprise Auth & RBAC for Agents",
         "priority": "critical",
-        "demand": 145,
-        "confidence": 92,
+        "demand": 888,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 12,
-        "renewal": 0,
-        "quote": "Hello, Team.\nI don't have permission to view Power BI for Japan Geo. Can you grant me that?",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 78 Jira issue(s) in backlog",
+        "customers": 57,
+        "escalations": 36,
+        "renewal": 4,
+        "quote": "Hi Team, We are facing access issues with choice set in data fabric, its affecting critical processes in Production from Friday onwards. Could someone please look into this matter. Env: <https://staging.uipath.com/uipathcoeattend/Attended>\nWe don't s",
+        "confRationale": "customer-validated (57 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
         "jira": [
-          "TIF-10973",
           "TIF-9705",
-          "TIF-11274",
-          "TIF-9803",
-          "TIF-11117",
-          "TIF-11243",
-          "TIF-9902",
-          "TIF-10387",
-          "TIF-11069",
-          "TIF-11231"
+          "TIF-11231",
+          "AE-1945",
+          "TIF-11330",
+          "TIF-11334",
+          "TIF-11329",
+          "TIF-11323",
+          "AE-1903",
+          "TIF-11287",
+          "TIF-11062"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jun 18)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781797558375649"
+          },
           {
             "label": "#help-product-engagement (Feb 13)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1770949735168399"
@@ -1927,31 +2244,115 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-007",
-        "rank": 6,
-        "theme": "Enhanced Agent Memory & State Management",
+        "id": "FT-002",
+        "rank": 5,
+        "theme": "Observability, Logging & Safety Controls",
         "priority": "critical",
-        "demand": 101,
-        "confidence": 70,
+        "demand": 797,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 3,
-        "renewal": 0,
-        "quote": "Hello team,\n\nWe’ve consolidated all consumable units reporting into a single *Units Consumption* dashboard, refreshed daily. _<https://app.powerbi.com/Redirect?action=OpenReport&amp;appId=9da85d42-1bac-4398-aa6d-b1b9de207e28&amp;reportObjectId=8de220",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
+        "customers": 41,
+        "escalations": 27,
+        "renewal": 9,
+        "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
+        "confRationale": "customer-validated (41 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 119 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11009",
-          "TIF-11246",
-          "TIF-11032",
-          "AE-1836",
-          "AE-1808",
-          "AE-1878",
-          "AE-1850",
-          "AE-1856",
-          "AE-1849",
-          "TIF-9683"
+          "TIF-11154",
+          "TIF-9892",
+          "TIF-9862",
+          "TIF-10763",
+          "TIF-11330",
+          "TIF-11332",
+          "TIF-11323",
+          "TIF-11325",
+          "TIF-11250",
+          "TIF-10792"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+          },
+          {
+            "label": "#help-product-engagement (Jul 13)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+          },
+          {
+            "label": "#product-support-escalations (Jun 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781547668748929"
+          }
+        ]
+      },
+      {
+        "id": "FT-005",
+        "rank": 6,
+        "theme": "Long-Running / Async Agent Execution",
+        "priority": "critical",
+        "demand": 675,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 38,
+        "escalations": 20,
+        "renewal": 9,
+        "quote": "Hi team\n\nI'd like to share some feedback from an enterprise customer regarding a specific background behavior in *HAA On-Prem* that triggered their internal security alarms.\nThe customer's SecOps team had to intervene recently due to a cron job assoc",
+        "confRationale": "customer-validated (38 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 50 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11104",
+          "TIF-11298",
+          "TIF-11009",
+          "TIF-11292",
+          "TIF-11105",
+          "TIF-10932",
+          "TIF-9607",
+          "TIF-10976",
+          "TIF-10336",
+          "TIF-10168"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
+      },
+      {
+        "id": "FT-007",
+        "rank": 7,
+        "theme": "Enhanced Agent Memory & State Management",
+        "priority": "critical",
+        "demand": 535,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 30,
+        "escalations": 18,
+        "renewal": 3,
+        "quote": "Can someone take a look at this feedback?\n1. Even after the user creates the connection and resolves the validation errors, the errors persist (red dot) until they click *Validate* again. (0-2:00) - any reason we don't auto-detect?\n2. On successful d",
+        "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 84 Jira issue(s) in backlog",
+        "jira": [
+          "AE-1972",
+          "TIF-11246",
+          "TIF-11311",
+          "AE-1582",
+          "TIF-11009",
+          "TIF-11032",
+          "AE-1458",
+          "AE-1808",
+          "AE-1490",
+          "AE-1489"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 10)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+          },
           {
             "label": "#help-product-engagement (May 25)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
@@ -1959,107 +2360,61 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-005",
-        "rank": 7,
-        "theme": "Long-Running / Async Agent Execution",
-        "priority": "high",
-        "demand": 60,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 2,
-        "renewal": 0,
-        "quote": "[Orchestrator – Queues] Ability to Sort Queue Transactions by Creation / Added Time",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 50 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-9655",
-          "TIF-11269",
-          "TIF-11238",
-          "TIF-10540",
-          "TIF-10541",
-          "TIF-11105",
-          "TIF-10932",
-          "TIF-11009",
-          "TIF-9607",
-          "TIF-11104"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-001",
         "rank": 8,
         "theme": "On-Premises / Air-Gap Deployment",
-        "priority": "high",
-        "demand": 58,
-        "confidence": 92,
+        "priority": "critical",
+        "demand": 480,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Hi all, can anyone please advise where the version info is pulled from in the Licence Activity section of this dashboard?  <https://app.powerbi.com/groups/me/apps/9da85d42-1bac-4398-aa6d-b1b9de207e28/reports/8568293a-651e-4264-9841-7b0f8cd41191/3a852",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 39 Jira issue(s) in backlog",
+        "customers": 30,
+        "escalations": 13,
+        "renewal": 1,
+        "quote": "hi team, customer is interested in implementing <https://uipath-customer-ops.slack.com/archives/CLX06JD17/p1756438776884309|validation controls in APPs> for a few DU use cases.  Can you please help with a couple of questions?  Thanks!\n1. They have th",
+        "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 41 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11273",
-          "TIF-11117",
+          "TIF-11316",
+          "TIF-11320",
           "TIF-11193",
-          "TIF-10886",
           "TIF-11192",
           "TIF-11036",
           "TIF-11031",
           "TIF-9728",
-          "AE-1313"
+          "TIF-11274",
+          "TIF-11273",
+          "TIF-11117"
         ],
         "slack": [
           {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+          },
+          {
             "label": "#help-product-engagement (May 27)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779888209050979"
+          },
+          {
+            "label": "#product-support-escalations (May 27)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1779878652200539"
           }
         ]
       },
       {
-        "id": "FT-008",
-        "rank": 9,
-        "theme": "Common Agent Templates & Accelerators",
-        "priority": "low",
-        "demand": 15,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Limited Job Queue Priority options OOTB - Currently only done by API",
-        "confRationale": "internal discussion only; 1 signal source(s); 15 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-11220",
-          "TIF-11016",
-          "TIF-10666",
-          "TIF-10228",
-          "TIF-10545",
-          "TIF-10490",
-          "TIF-10431",
-          "TIF-9762",
-          "AE-1703",
-          "TIF-10427"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-006",
-        "rank": 10,
+        "rank": 9,
         "theme": "IVR & Voice Channel Integration",
-        "priority": "low",
-        "demand": 12,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Exented invoice process solution",
-        "confRationale": "internal discussion only; 1 signal source(s); 12 Jira issue(s) in backlog",
+        "priority": "critical",
+        "demand": 188,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 8,
+        "escalations": 13,
+        "renewal": 3,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: US Silica Company\nAccount type: Premium Plus\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa0000172SLSIA2/vi",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 12 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11165",
           "TIF-10039",
+          "TIF-11165",
           "TIF-10617",
           "TIF-10351",
           "TIF-10279",
@@ -2069,7 +2424,48 @@ const DATA = {
           "TIF-10740",
           "TIF-10752"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
+          {
+            "label": "#help-orchestrator (Jun 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1781487000304979"
+          }
+        ]
+      },
+      {
+        "id": "FT-008",
+        "rank": 10,
+        "theme": "Common Agent Templates & Accelerators",
+        "priority": "critical",
+        "demand": 156,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 9,
+        "escalations": 3,
+        "renewal": 0,
+        "quote": "Danone asking how can they achieve the following: configure two unattended licenses *on the same server* in such a way that one license is fully dedicated and restricted to a single critical process, while the second license remains available for all",
+        "confRationale": "customer-validated (9 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 16 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11288",
+          "TIF-11220",
+          "TIF-11016",
+          "TIF-10666",
+          "TIF-10228",
+          "TIF-10545",
+          "TIF-10490",
+          "TIF-10431",
+          "TIF-9762",
+          "AE-1703"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+          }
+        ]
       }
     ],
     "365": [
@@ -2078,27 +2474,35 @@ const DATA = {
         "rank": 1,
         "theme": "Advanced Testing & Simulation Framework",
         "priority": "critical",
-        "demand": 1780,
-        "confidence": 92,
+        "demand": 3257,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 2,
-        "escalations": 110,
-        "renewal": 0,
-        "quote": "Hello! I need to find out the license code for some alpha + staging + prod organizations that are used in our synthetic tests. How could I do that?",
-        "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 1212 Jira issue(s) in backlog",
+        "customers": 86,
+        "escalations": 181,
+        "renewal": 17,
+        "quote": "Hi team,\n\nTest manager received a customer issue for un-triggered test executions (scheduled or manual) on Feb 5\nInvestigation shows this endpoint to fail with 400\n\n<http://istio-egressgateway.istio-system.svc.cluster.local/4c69d77d-188d-41ee-884a-e5",
+        "confRationale": "customer-validated (86 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 1237 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11253",
-          "AE-1715",
-          "AE-1911",
-          "TIF-9803",
-          "AE-1895",
-          "AE-1722",
-          "TIF-8784",
-          "TIF-9445",
-          "AE-1890",
-          "AE-722"
+          "TIF-11341",
+          "AE-1964",
+          "AE-1948",
+          "AE-1930",
+          "AE-1979",
+          "AE-1978",
+          "TIF-10893",
+          "TIF-10764",
+          "TIF-10763",
+          "AE-1945"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jul 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784128223932159"
+          },
           {
             "label": "#help-product-engagement (May 07)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1778163143240869"
@@ -2110,27 +2514,35 @@ const DATA = {
         "rank": 2,
         "theme": "Multi-Agent Orchestration & Context Passing",
         "priority": "critical",
-        "demand": 509,
-        "confidence": 92,
+        "demand": 2768,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 2,
-        "escalations": 17,
-        "renewal": 2,
+        "customers": 155,
+        "escalations": 73,
+        "renewal": 12,
         "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (2 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 379 Jira issue(s) in backlog",
+        "confRationale": "customer-validated (155 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 383 Jira issue(s) in backlog",
         "jira": [
-          "TIF-8899",
-          "TIF-8941",
-          "TIF-8948",
-          "TIF-8985",
-          "TIF-9145",
-          "TIF-9233",
-          "TIF-9655",
-          "TIF-9704",
-          "TIF-11267",
-          "TIF-10973"
+          "TIF-9034",
+          "TIF-9606",
+          "TIF-9741",
+          "TIF-9056",
+          "TIF-11288",
+          "TIF-11104",
+          "TIF-11336",
+          "TIF-11337",
+          "TIF-11226",
+          "TIF-11314"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784305493966549"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
           {
             "label": "#help-product-engagement (May 22)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779456797555599"
@@ -2142,91 +2554,75 @@ const DATA = {
         "rank": 3,
         "theme": "Licensing & Metering Flexibility",
         "priority": "critical",
-        "demand": 482,
+        "demand": 1363,
         "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 13,
-        "escalations": 25,
-        "renewal": 3,
+        "customers": 49,
+        "escalations": 75,
+        "renewal": 20,
         "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (13 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 196 Jira issue(s) in backlog",
+        "confRationale": "customer-validated (49 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 199 Jira issue(s) in backlog",
         "jira": [
-          "TIF-9370",
-          "TIF-11149",
-          "TIF-10879",
-          "TIF-11262",
-          "TIF-11258",
+          "TIF-9385",
+          "AE-1977",
+          "TIF-9789",
           "TIF-9630",
-          "TIF-8254",
-          "AE-1910",
-          "TIF-10147",
-          "TIF-10977"
+          "TIF-9542",
+          "TIF-11328",
+          "TIF-11322",
+          "TIF-9785",
+          "AE-1369",
+          "TIF-11011"
         ],
         "slack": [
           {
-            "label": "#help-product-engagement (Jun 24)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1782299689781129"
-          }
-        ]
-      },
-      {
-        "id": "FT-002",
-        "rank": 4,
-        "theme": "Observability, Logging & Safety Controls",
-        "priority": "critical",
-        "demand": 308,
-        "confidence": 95,
-        "confLevel": "HIGH",
-        "customers": 3,
-        "escalations": 13,
-        "renewal": 3,
-        "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
-        "confRationale": "customer-validated (3 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 190 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-8941",
-          "TIF-8985",
-          "TIF-9704",
-          "TIF-10973",
-          "TIF-11274",
-          "AE-1831",
-          "TIF-8254",
-          "AE-1890",
-          "TIF-11250",
-          "AE-1905"
-        ],
-        "slack": [
+            "label": "#product-support-escalations (Jul 16)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1784232648671949"
+          },
           {
-            "label": "#help-product-engagement (Apr 15)",
-            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1776250728996589"
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#help-product-engagement (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1784090398050769"
           }
         ]
       },
       {
         "id": "FT-010",
-        "rank": 5,
+        "rank": 4,
         "theme": "Enterprise Auth & RBAC for Agents",
         "priority": "critical",
-        "demand": 214,
-        "confidence": 92,
+        "demand": 950,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 15,
-        "renewal": 0,
-        "quote": "Hello, Team.\nI don't have permission to view Power BI for Japan Geo. Can you grant me that?",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 132 Jira issue(s) in backlog",
+        "customers": 57,
+        "escalations": 38,
+        "renewal": 4,
+        "quote": "Hi Team, We are facing access issues with choice set in data fabric, its affecting critical processes in Production from Friday onwards. Could someone please look into this matter. Env: <https://staging.uipath.com/uipathcoeattend/Attended>\nWe don't s",
+        "confRationale": "customer-validated (57 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 136 Jira issue(s) in backlog",
         "jira": [
-          "TIF-10973",
           "TIF-9705",
-          "TIF-11274",
-          "TIF-9803",
-          "TIF-11117",
-          "TIF-11243",
-          "TIF-9902",
-          "TIF-10387",
-          "TIF-11069",
-          "TIF-11231"
+          "TIF-11231",
+          "TIF-8697",
+          "AE-1945",
+          "TIF-11330",
+          "TIF-11334",
+          "TIF-11329",
+          "TIF-11323",
+          "TIF-8371",
+          "AE-1903"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784212670005049"
+          },
+          {
+            "label": "#product-support-escalations (Jun 18)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781797558375649"
+          },
           {
             "label": "#help-product-engagement (Feb 13)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1770949735168399"
@@ -2234,31 +2630,115 @@ const DATA = {
         ]
       },
       {
-        "id": "FT-007",
-        "rank": 6,
-        "theme": "Enhanced Agent Memory & State Management",
+        "id": "FT-002",
+        "rank": 5,
+        "theme": "Observability, Logging & Safety Controls",
         "priority": "critical",
-        "demand": 162,
-        "confidence": 70,
+        "demand": 885,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 0,
-        "escalations": 9,
-        "renewal": 0,
-        "quote": "Hello team,\n\nWe’ve consolidated all consumable units reporting into a single *Units Consumption* dashboard, refreshed daily. _<https://app.powerbi.com/Redirect?action=OpenReport&amp;appId=9da85d42-1bac-4398-aa6d-b1b9de207e28&amp;reportObjectId=8de220",
-        "confRationale": "field observation via customer-facing channels; 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 115 Jira issue(s) in backlog",
+        "customers": 41,
+        "escalations": 30,
+        "renewal": 9,
+        "quote": "Hey team, need help with the below discrepancy that's affecting renewal. (Urgent)\nOur Telemetry shows *7–9 Monthly Active Users* for *Action Center* (last 6 months) but they only have 5 licenses*.* They checked all *3 tenants* and reports *no logins*",
+        "confRationale": "customer-validated (41 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 192 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11009",
-          "TIF-11246",
-          "TIF-9401",
-          "TIF-11032",
-          "AE-1836",
-          "AE-1808",
-          "AE-1878",
-          "AE-1850",
-          "AE-1856",
-          "AE-1849"
+          "TIF-11154",
+          "TIF-9892",
+          "TIF-8207",
+          "TIF-9862",
+          "TIF-10763",
+          "TIF-11330",
+          "TIF-11332",
+          "TIF-11323",
+          "TIF-11325",
+          "TIF-11250"
         ],
         "slack": [
+          {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784280082109209"
+          },
+          {
+            "label": "#help-product-engagement (Jul 13)",
+            "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1783976528341659"
+          },
+          {
+            "label": "#product-support-escalations (Jun 15)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1781547668748929"
+          }
+        ]
+      },
+      {
+        "id": "FT-005",
+        "rank": 6,
+        "theme": "Long-Running / Async Agent Execution",
+        "priority": "critical",
+        "demand": 712,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 38,
+        "escalations": 21,
+        "renewal": 9,
+        "quote": "Hi team\n\nI'd like to share some feedback from an enterprise customer regarding a specific background behavior in *HAA On-Prem* that triggered their internal security alarms.\nThe customer's SecOps team had to intervene recently due to a cron job assoc",
+        "confRationale": "customer-validated (38 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 82 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11104",
+          "TIF-11298",
+          "TIF-11009",
+          "TIF-11292",
+          "TIF-11105",
+          "TIF-10932",
+          "TIF-9607",
+          "TIF-10976",
+          "TIF-8174",
+          "TIF-10336"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          }
+        ]
+      },
+      {
+        "id": "FT-007",
+        "rank": 7,
+        "theme": "Enhanced Agent Memory & State Management",
+        "priority": "critical",
+        "demand": 597,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 30,
+        "escalations": 24,
+        "renewal": 3,
+        "quote": "Can someone take a look at this feedback?\n1. Even after the user creates the connection and resolves the validation errors, the errors persist (red dot) until they click *Validate* again. (0-2:00) - any reason we don't auto-detect?\n2. On successful d",
+        "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 116 Jira issue(s) in backlog",
+        "jira": [
+          "AE-1972",
+          "TIF-11246",
+          "TIF-11311",
+          "AE-1582",
+          "TIF-11009",
+          "TIF-9401",
+          "TIF-11032",
+          "AE-1458",
+          "AE-1808",
+          "AE-1490"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 16)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784182793187579"
+          },
+          {
+            "label": "#product-support-escalations (Jul 10)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783679748524369"
+          },
           {
             "label": "#help-product-engagement (May 25)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779704328018639"
@@ -2267,106 +2747,60 @@ const DATA = {
       },
       {
         "id": "FT-001",
-        "rank": 7,
+        "rank": 8,
         "theme": "On-Premises / Air-Gap Deployment",
         "priority": "critical",
-        "demand": 113,
-        "confidence": 92,
+        "demand": 535,
+        "confidence": 95,
         "confLevel": "HIGH",
-        "customers": 1,
-        "escalations": 5,
-        "renewal": 0,
-        "quote": "Hi all, can anyone please advise where the version info is pulled from in the Licence Activity section of this dashboard?  <https://app.powerbi.com/groups/me/apps/9da85d42-1bac-4398-aa6d-b1b9de207e28/reports/8568293a-651e-4264-9841-7b0f8cd41191/3a852",
-        "confRationale": "customer-validated (1 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 74 Jira issue(s) in backlog",
+        "customers": 30,
+        "escalations": 17,
+        "renewal": 1,
+        "quote": "hi team, customer is interested in implementing <https://uipath-customer-ops.slack.com/archives/CLX06JD17/p1756438776884309|validation controls in APPs> for a few DU use cases.  Can you please help with a couple of questions?  Thanks!\n1. They have th",
+        "confRationale": "customer-validated (30 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 76 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11274",
-          "TIF-11273",
-          "TIF-11117",
+          "TIF-9053",
+          "TIF-11316",
+          "TIF-11320",
           "TIF-11193",
-          "TIF-10886",
           "TIF-11192",
           "TIF-11036",
           "TIF-9390",
           "TIF-11031",
-          "TIF-9728"
+          "TIF-9728",
+          "TIF-11274"
         ],
         "slack": [
           {
+            "label": "#help-orchestrator (Jul 17)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784263126199109"
+          },
+          {
             "label": "#help-product-engagement (May 27)",
             "url": "https://uipath.slack.com/archives/CMJSPS8DU/p1779888209050979"
+          },
+          {
+            "label": "#product-support-escalations (May 27)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1779878652200539"
           }
         ]
       },
       {
-        "id": "FT-005",
-        "rank": 8,
-        "theme": "Long-Running / Async Agent Execution",
-        "priority": "critical",
-        "demand": 97,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 3,
-        "renewal": 0,
-        "quote": "[Orchestrator – Queues] Ability to Sort Queue Transactions by Creation / Added Time",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 82 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-9655",
-          "TIF-11269",
-          "TIF-11238",
-          "TIF-10540",
-          "TIF-10541",
-          "TIF-11105",
-          "TIF-10932",
-          "TIF-11009",
-          "TIF-9607",
-          "TIF-11104"
-        ],
-        "slack": []
-      },
-      {
-        "id": "FT-008",
-        "rank": 9,
-        "theme": "Common Agent Templates & Accelerators",
-        "priority": "moderate",
-        "demand": 32,
-        "confidence": 40,
-        "confLevel": "MODERATE",
-        "customers": 0,
-        "escalations": 1,
-        "renewal": 0,
-        "quote": "Package name created from Solution Template does not reflect the Solution name",
-        "confRationale": "internal discussion only; 1 signal source(s); escalation confirmed; 27 Jira issue(s) in backlog",
-        "jira": [
-          "TIF-9276",
-          "TIF-8666",
-          "TIF-11220",
-          "TIF-9346",
-          "TIF-11016",
-          "TIF-10666",
-          "TIF-10228",
-          "TIF-10545",
-          "TIF-10490",
-          "TIF-10431"
-        ],
-        "slack": []
-      },
-      {
         "id": "FT-006",
-        "rank": 10,
+        "rank": 9,
         "theme": "IVR & Voice Channel Integration",
-        "priority": "low",
-        "demand": 14,
-        "confidence": 30,
-        "confLevel": "LOW",
-        "customers": 0,
-        "escalations": 0,
-        "renewal": 0,
-        "quote": "Exented invoice process solution",
-        "confRationale": "internal discussion only; 1 signal source(s); 14 Jira issue(s) in backlog",
+        "priority": "critical",
+        "demand": 190,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 8,
+        "escalations": 13,
+        "renewal": 3,
+        "quote": "*Customer Initiated Escalation Task* has been created and will be assigned to an escalation manager soon:\nAccount Name: US Silica Company\nAccount type: Premium Plus\nCase Link: <https://uipath.lightning.force.com/lightning/r/Case/500Pa0000172SLSIA2/vi",
+        "confRationale": "customer-validated (8 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 14 Jira issue(s) in backlog",
         "jira": [
-          "TIF-11165",
           "TIF-10039",
+          "TIF-11165",
           "TIF-10617",
           "TIF-10351",
           "TIF-10279",
@@ -2376,16 +2810,57 @@ const DATA = {
           "TIF-8554",
           "TIF-10740"
         ],
-        "slack": []
+        "slack": [
+          {
+            "label": "#product-support-escalations (Jul 13)",
+            "url": "https://uipath.slack.com/archives/C03631EBQQJ/p1783958878690499"
+          },
+          {
+            "label": "#help-orchestrator (Jun 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1781487000304979"
+          }
+        ]
+      },
+      {
+        "id": "FT-008",
+        "rank": 10,
+        "theme": "Common Agent Templates & Accelerators",
+        "priority": "critical",
+        "demand": 173,
+        "confidence": 95,
+        "confLevel": "HIGH",
+        "customers": 9,
+        "escalations": 4,
+        "renewal": 0,
+        "quote": "Danone asking how can they achieve the following: configure two unattended licenses *on the same server* in such a way that one license is fully dedicated and restricted to a single critical process, while the second license remains available for all",
+        "confRationale": "customer-validated (9 named customers); 2 signal source(s); signals from HIGH-quality channels; escalation confirmed; 28 Jira issue(s) in backlog",
+        "jira": [
+          "TIF-11288",
+          "TIF-8666",
+          "TIF-9276",
+          "TIF-11220",
+          "TIF-9346",
+          "TIF-11016",
+          "TIF-10666",
+          "TIF-10228",
+          "TIF-10545",
+          "TIF-10490"
+        ],
+        "slack": [
+          {
+            "label": "#help-orchestrator (Jul 15)",
+            "url": "https://uipath.slack.com/archives/CMBFRH7HA/p1784131594053889"
+          }
+        ]
       }
     ]
   },
   "period_counts": {
-    "30": 323,
-    "60": 779,
-    "90": 1424,
-    "180": 2620,
-    "365": 4339
+    "30": 518,
+    "60": 1020,
+    "90": 1595,
+    "180": 3491,
+    "365": 5197
   }
 };
 
