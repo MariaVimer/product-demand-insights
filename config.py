@@ -66,11 +66,11 @@ FEATURE_THEMES: dict[str, dict] = {
         ],
     },
     "FT-009": {
-        "theme": "Advanced Testing & Simulation Framework",
+        "theme": "Agent Testing & Simulation",
         "keywords": [
-            "test", "simulation", "simulat", "mock", "replay", "debug",
+            "simulation", "simulat", "mock", "replay", "debug",
             "unit test", "testing framework", "agent testing", "test harness",
-            "eval", "evaluation framework",
+            "regression test", "synthetic test", "test case", "test suite",
         ],
     },
     "FT-010": {
@@ -79,6 +79,20 @@ FEATURE_THEMES: dict[str, dict] = {
             "rbac", "role-based", "role based", "permission", "sso", "saml",
             "oauth", "access control", "enterprise auth", "authorization",
             "authentication", "identity", "ad integration",
+        ],
+    },
+    "FT-011": {
+        "theme": "Agent Evaluators & Output Quality Assessment",
+        "keywords": [
+            "evaluat", "evaluator", "eval", "rubric", "judge", "llm judge",
+            "ai judge", "scoring criteria", "quality assessment", "output quality",
+            "response quality", "answer quality", "quality score", "quality metric",
+            "hallucination", "faithfulness", "relevance", "completeness", "groundedness",
+            "accuracy score", "test set", "golden dataset", "ground truth",
+            "evaluation dataset", "eval dataset", "benchmark dataset",
+            "human review", "human evaluation", "hitl evaluation",
+            "online evaluation", "offline evaluation", "batch evaluation",
+            "evaluation report", "eval report", "eval pipeline",
         ],
     },
 }
